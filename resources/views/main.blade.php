@@ -70,15 +70,15 @@
                                     <a class="nav-link active" data-toggle="tab" href="#secondGraph">Volume</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#value">Value</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#value">Value</a>
                                   </li>
                                 </ul>
 
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                   <div class="tab-pane container active" id="secondGraph"></div>
-                                  <div class="tab-pane container fade" id="value"></div>
-</div>
+                                  <div class="tab-pane container active" id="value"></div>
+                                </div>
 
                                 <!-- <div class="row">
                                     <div class="col-md-12">
@@ -161,16 +161,16 @@
         //     toChangePie2(radioValue);
         // });
 
-        $(document).on("click", "#what1", function(){
-            var radioValue = $('#what1').val();
-            console.log(radioValue);
-            toChangePie2(radioValue);
-        });
+        // $(document).on("click", "#what1", function(){
+        //     var radioValue = $('#what1').val();
+        //     console.log(radioValue);
+        //     toChangePie2(radioValue);
+        // });
 
-        $(document).on("click", "#what2", function(){
-            var radioValue = $('#what2').val();
-            toChangePie2(radioValue);
-        });
+        // $(document).on("click", "#what2", function(){
+        //     var radioValue = $('#what2').val();
+        //     toChangePie2(radioValue);
+        // });
 
     });
 
@@ -300,13 +300,6 @@
 
             document.getElementById("drillDownContent").innerHTML =
                 "<center><h5 style='height:400px'>Loading..." + column + "</h5></center>";
-            // document.getElementById("drillDownLabel").innerHTML =
-            //     "<h4 style='float:left'>" + column +
-            //     "</h4><input type=button value='X' id='x_dvpr' class=xbutton>";
-            // document.getElementById("drillDownLabel").onclick = function () {
-            //     document.getElementById("drillDownLabel").innerHTML = "";
-            //     document.getElementById("drillDownContent").innerHTML = "";
-            // }
 
             getKPIPivotedOnClick("Sales_per_MedRep_Volume||[Manager Name]='" + column + "'", {
                 isStacked: false,
@@ -352,13 +345,6 @@
 
                 document.getElementById("drillDownContent").innerHTML =
                     "<center><h5 style='height:400px'>Loading..." + column + "</h5></center>";
-                // document.getElementById("drillDownLabel").innerHTML =
-                //     "<h4 style='float:left'>" + column +
-                //     "</h4><input type=button value='X' id='x_dvpr' class=xbutton>";
-                // document.getElementById("drillDownLabel").onclick = function () {
-                //     document.getElementById("drillDownLabel").innerHTML = "";
-                //     document.getElementById("drillDownContent").innerHTML = "";
-                // }
 
                 getKPIPivotedOnClick("Sales_per_MedRep_Value||[Manager Name]='" + column + "'", {
                     isStacked: false,
@@ -402,13 +388,6 @@
 
                 document.getElementById("drillDownContent").innerHTML =
                     "<center><h5 style='height:400px'>Loading..." + column + "</h5></center>";
-                // document.getElementById("drillDownLabel").innerHTML =
-                //     "<h4 style='float:left'>" + column +
-                //     "</h4><input type=button value='X' id='x_dvpr' class=xbutton>";
-                // document.getElementById("drillDownLabel").onclick = function () {
-                //     document.getElementById("drillDownLabel").innerHTML = "";
-                //     document.getElementById("drillDownContent").innerHTML = "";
-                // }
 
                 getKPIPivotedOnClick("Sales_per_MedRep_Volume||[Manager Name]='" + column + "'", {
                     isStacked: false,
@@ -831,7 +810,7 @@
             kpi = kp[0];
         }
 
-        // console.log(`requesting PIVOTED ${kpi}`)
+        console.log(`requesting PIVOTED ${kpi}`)
         var request = $.ajax({
             url: "{{ url('api/getJsonData') }}",
             method: "GET",
@@ -855,7 +834,8 @@
 
             success: function (jsonData) {
                 var data;
-                // console.log(`RECEIVED PIVOTED ${kpi}`)
+                // console.log("value");
+                console.log(`RECEIVED PIVOTED product value ${kpi}`);
                 // console.log(jsonData);
                 data = new google.visualization.DataTable(jsonData, 0.6);
                 var toShowIn = document.getElementById("value");
