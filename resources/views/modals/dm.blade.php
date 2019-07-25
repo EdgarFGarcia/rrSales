@@ -17,10 +17,10 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link active" data-toggle="tab" href="#graph">Graph</a>
           </li>
           <li class="nav-item">
@@ -31,13 +31,13 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div class="col-md-12">
-            <div class="tab-pane container active" id="graph" style="width: 100%;">test</div>
+            <div class="tab-pane container active" id="graph" style="width: 100%; height: 400px;"></div>
           </div>
           <div class="col-md-12">
-            <div class="tab-pane container active" id="drillDownContent" style="width: 100%;"></div>
+            <div class="tab-pane container fade" id="drillDownContent" style="width: 100%; height: 400px;"></div>
           </div>
-          <!-- <div class="tab-pane container active" id="value"></div> -->
-        </div>
+        <div class="tab-pane container active" id="value"></div>
+        <!-- </div> -->
         <!-- <div id="drillDownContent" style="width: 100%;"></div> -->
         <!-- <div id="drillDownLabel" style="width: 100%;"></div> -->
         <!-- <div id="drillDownContent" style="width: 100%; background-color: #cccs"></div> -->

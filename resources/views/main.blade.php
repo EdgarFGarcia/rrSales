@@ -47,6 +47,7 @@
                                         <option value="3">Specialty Sales</option>
                                         <option value="4">Sales Per Doctor Frequency</option>
                                         <option value="5">Sales Per Doctor Class</option>
+                                        <option value="6">Sales Per Location</option>
                                     </select>
                                 </div>
 
@@ -66,18 +67,18 @@
 
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs">
-                                  <li class="nav-item">
+                                  <li class="nav-item active">
                                     <a class="nav-link active" data-toggle="tab" href="#secondGraph">Volume</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#value">Value</a>
+                                    <a class="nav-link" data-toggle="tab" href="#value">Value</a>
                                   </li>
                                 </ul>
 
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                   <div class="tab-pane container active" id="secondGraph"></div>
-                                  <div class="tab-pane container active" id="value"></div>
+                                  <div class="tab-pane container" id="value"></div>
                                 </div>
 
                                 <!-- <div class="row">
@@ -144,7 +145,7 @@
 
     google.setOnLoadCallback(loadChart);
     google.setOnLoadCallback(loadSecond);
-    google.setOnLoadCallback(loadSecond2);
+    // google.setOnLoadCallback(loadSecond2);
 
     $(document).ready(function(){
 
@@ -156,21 +157,10 @@
             toChangePieMain(series2);
         });
 
-        // $(document).on("click", "input[name='what']", function(){
-        //     var radioValue = $("input[name='what']:checked").val();
-        //     toChangePie2(radioValue);
-        // });
-
-        // $(document).on("click", "#what1", function(){
-        //     var radioValue = $('#what1').val();
-        //     console.log(radioValue);
-        //     toChangePie2(radioValue);
-        // });
-
-        // $(document).on("click", "#what2", function(){
-        //     var radioValue = $('#what2').val();
-        //     toChangePie2(radioValue);
-        // });
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(){
+            loadSecond();
+            loadSecond2();
+        });
 
     });
 
@@ -245,16 +235,10 @@
             var sel = charts['Sales_per_DistrictManager_Volume'].chart.getSelection();
             var data = charts['Sales_per_DistrictManager_Volume'].data;
             var column = data.getValue(sel[0].row, 0);
+            var volVal = sel[0].column == 1 ? "Volume" : "Value";
 
             document.getElementById("drillDownContent").innerHTML =
                 "<center><h5 style='height:400px'>Loading..." + column + "</h5></center>";
-            // document.getElementById("drillDownLabel").innerHTML =
-            //     "<h4 style='float:left'>" + column +
-            //     "</h4><input type=button value='X' id='x_dvpr' class=xbutton>";
-            // document.getElementById("drillDownLabel").onclick = function () {
-            //     document.getElementById("drillDownLabel").innerHTML = "";
-            //     document.getElementById("drillDownContent").innerHTML = "";
-            // }
 
             getKPIPivotedOnClick("Sales_per_MedRep_Volume||[Manager Name]='" + column + "'", {
                 isStacked: false,
@@ -267,6 +251,27 @@
                 }
             },
             "Table");
+
+            getKPI2Axis2('sales_per_Medrep', 
+                {
+                    pieSliceText: 'value-and-percentage', 
+                    chartArea: {
+                        // left: 10,
+                        // top: 20,
+                        // width: '75%',
+                        height: '40%'
+                    }
+                },
+                "ColumnChart",
+                {
+                    view : 'sales_all',
+                    pivotColumn : 'Frequency',
+                    pivotRow : '[Medrep Name]',
+                    pivotSourceCol : volVal,
+                    filter : "[Manager Name]='" + column + "'"
+                }
+            
+            ) 
 
             $('#exampleModal').modal("toggle");
 
@@ -297,11 +302,12 @@
             var sel = charts['Sales_per_DistrictManager_Value'].chart.getSelection();
             var data = charts['Sales_per_DistrictManager_Value'].data;
             var column = data.getValue(sel[0].row, 0);
+            var volVal = sel[0].column == 1 ? "Volume" : "Value";
 
             document.getElementById("drillDownContent").innerHTML =
                 "<center><h5 style='height:400px'>Loading..." + column + "</h5></center>";
 
-            getKPIPivotedOnClick("Sales_per_MedRep_Volume||[Manager Name]='" + column + "'", {
+            getKPIPivotedOnClick("Sales_per_MedRep_Value||[Manager Name]='" + column + "'", {
                 isStacked: false,
                 width: "100%",
                 height: 400,
@@ -312,6 +318,27 @@
                 }
             },
             "Table");
+
+            getKPI2Axis2('sales_per_Medrep', 
+                    {
+                        pieSliceText: 'value-and-percentage', 
+                        chartArea: {
+                            // left: 10,
+                            // top: 20,
+                            // width: '75%',
+                            height: '40%'
+                        }
+                    },
+                    "ColumnChart",
+                    {
+                        view : 'sales_all',
+                        pivotColumn : 'Frequency',
+                        pivotRow : '[Medrep Name]',
+                        pivotSourceCol : volVal,
+                        filter : "[Manager Name]='" + column + "'"
+                    }
+                
+                ) 
 
             $('#exampleModal').modal("toggle");
 
@@ -358,6 +385,27 @@
                 },
                 "Table", null, null, null);
 
+                getKPI2Axis2('sales_per_Medrep', 
+                    {
+                        pieSliceText: 'value-and-percentage', 
+                        chartArea: {
+                            // left: 10,
+                            // top: 20,
+                            // width: '75%',
+                            height: '40%'
+                        }
+                    },
+                    "ColumnChart",
+                    {
+                        view : 'sales_all',
+                        pivotColumn : 'Frequency',
+                        pivotRow : '[Medrep Name]',
+                        pivotSourceCol : volVal,
+                        filter : "[Manager Name]='" + column + "'"
+                    }
+                
+                ) 
+
                 $('#exampleModal').modal("toggle");
 
             });
@@ -400,6 +448,27 @@
                     }
                 },
                 "Table");
+
+                getKPI2Axis2('sales_per_Medrep', 
+                    {
+                        pieSliceText: 'value-and-percentage', 
+                        chartArea: {
+                            // left: 10,
+                            // top: 20,
+                            // width: '75%',
+                            height: '40%'
+                        }
+                    },
+                    "ColumnChart",
+                    {
+                        view : 'sales_all',
+                        pivotColumn : 'Frequency',
+                        pivotRow : '[Medrep Name]',
+                        pivotSourceCol : volVal,
+                        filter : "[Manager Name]='" + column + "'"
+                    }
+                
+                ) 
 
                 $('#exampleModal').modal("toggle");
 
@@ -643,7 +712,64 @@
                 ]
             },
             "ColumnChart");
+        }else if(series == 6){
+
         }
+    }
+
+    function getKPI2Axis2(kpi, options, chartType, params, listener) {
+
+        console.log(`requesting KPIÍ getKPI2Axis2 ${kpi}`)
+        var request = $.ajax({
+            url: "http://oxford.doccsonline.com/DataViewer/iDoXsInsightGetJSONChartData.php",
+            method: "POST",
+            data: params || {
+                view: kpi,
+                key: "pie",
+                client: client
+            },
+            dataType: "json",
+            async: true
+        });
+
+        request.done(function (jsonData) {
+
+            console.log(`RECEIVED KPI ${kpi}`)
+            console.dir(jsonData);
+
+            if (chartType == 'Pie') {
+
+                var toShowIn = document.getElementById("graph");
+                var chart = new google.visualization.LineChart(toShowIn);
+                var data = new google.visualization.DataTable(jsonData, 0.6);
+                chart.draw(data, options);
+
+            } else {
+
+                var toShowIn = document.getElementById("graph");
+                var data = new google.visualization.DataTable(jsonData, 0.6);
+                var wrapper = new google.visualization.ChartWrapper({
+                    chartType: chartType,
+                    dataTable: data,
+                    options: options,
+                    containerId: toShowIn,
+
+                });
+
+                wrapper.draw();
+                if (listener) {
+                    google.visualization.events.addListener(wrapper.getChart(), 'select', listener);
+                }
+
+
+            }
+            charts[kpi] = {
+                    chart: wrapper.getChart(),
+                    data: data
+                }
+            
+        })
+
     }
 
     // function getKPIPivotedOnClick(kpi, options, chartType, pivotColumn, pivotRow, pivotSourceCol, listener){
@@ -680,8 +806,8 @@
 
             success: function (jsonData) {
                 var data;
-                console.log(`RECEIVED PIVOTED ${kpi}`)
-                console.log(jsonData);
+                // console.log(`RECEIVED PIVOTED ${kpi}`)
+                // console.log(jsonData);
                 data = new google.visualization.DataTable(jsonData, 0.6);
                 var toShowIn = document.getElementById("drillDownContent");
                 var wrapper = new google.visualization.ChartWrapper({

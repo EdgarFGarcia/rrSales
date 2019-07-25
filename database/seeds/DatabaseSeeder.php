@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
-    	$user = DB::table('users')->insertGetId([
+    	$user = DB::table('users')->insert([
     		"username" => "admin",
     		"password" => "$2y$10$Tpz.GKin4Y2SwKqzVmGBRuNLIaVL4Sfwz1f1fFhs0ZoCvi7LQX4EC",
     		"fullname" => "Admin Admin",
