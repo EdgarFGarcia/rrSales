@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +17,7 @@ class DatabaseSeeder extends Seeder
     		"username" => "admin",
     		"password" => "$2y$10$Tpz.GKin4Y2SwKqzVmGBRuNLIaVL4Sfwz1f1fFhs0ZoCvi7LQX4EC",
     		"fullname" => "Admin Admin",
-    		"mobile_number" => "012345678901",
-    		"created_at" => DB::raw("NOW()")
+    		"mobile_number" => "012345678901"
     	]);
 
     }
