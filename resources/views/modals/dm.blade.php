@@ -1,6 +1,14 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+<style type="text/css">
+  @media (min-width: 768px) {
+    .modal-xl {
+      width: 100%;
+      max-width:1200px;
+    }
+  }
+</style>
+<div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"></h5>
@@ -9,7 +17,28 @@
         </button>
       </div>
       <div class="modal-body">
-        <div id="drillDownContent" style="width: 100%;"></div>
+        
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#graph">Graph</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#drillDownContent">Table</a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="col-md-12">
+            <div class="tab-pane container active" id="graph" style="width: 100%;">test</div>
+          </div>
+          <div class="col-md-12">
+            <div class="tab-pane container active" id="drillDownContent" style="width: 100%;"></div>
+          </div>
+          <!-- <div class="tab-pane container active" id="value"></div> -->
+        </div>
+        <!-- <div id="drillDownContent" style="width: 100%;"></div> -->
         <!-- <div id="drillDownLabel" style="width: 100%;"></div> -->
         <!-- <div id="drillDownContent" style="width: 100%; background-color: #cccs"></div> -->
       </div>
