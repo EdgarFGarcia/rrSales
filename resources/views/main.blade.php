@@ -734,8 +734,10 @@
 
         request.done(function (jsonData) {
 
-            console.log(`RECEIVED KPI ${kpi}`)
-            console.dir(jsonData);
+            console.log(jsonData);
+
+            // console.log(`RECEIVED KPI ${kpi}`)
+            // console.dir(jsonData);
 
             if (chartType == 'Pie') {
 
@@ -882,6 +884,7 @@
             },
 
             success: function (jsonData) {
+                console.log(jsonData);
                 var data;
                 // console.log(`RECEIVED PIVOTED ${kpi}`)
                 // console.log(jsonData);

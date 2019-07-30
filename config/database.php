@@ -43,6 +43,29 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'raging' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            // 'host' => env('DB_HOST', 'localhost'),
+            'host' => '127.0.0.1',
+            'port' => env('DB_PORT', '3306'),
+            'database' => 'RSalesAnalytics',
+            // 'username' => env('DB_USERNAME', 'forge'),
+            'username' => 'root',
+            // 'password' => env('DB_PASSWORD', ''),
+            'password' => 'root',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

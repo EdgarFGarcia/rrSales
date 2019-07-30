@@ -29,6 +29,7 @@
 		<link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}" />
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="{{ asset('css/chart.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}" />
 
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="{{ asset('stylesheets/theme.css') }}" />
@@ -239,8 +240,8 @@
 							<figure class="profile-picture">
 								<!-- <img src="assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" /> -->
 							</figure>
-							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-								<span class="name">{{ Auth::user()->fullname }}</span>
+							<div class="profile-info" data-lock-name="John Doe" data-lock-email="">
+
 								<!-- <span class="role">administrator</span> -->
 							</div>
 			
@@ -396,7 +397,21 @@
 		<script src="{{ asset('vendor/jqvmap/maps/continents/jquery.vmap.south-america.js') }}"></script>
 		<script src="{{ asset('vendor/toastr/toastr.min.js') }}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
-		<script src="{{ asset('js/chart.js') }}"></script>
+		<!-- <script src="{{ asset('js/chart.js') }}"></script> -->
+		<script src="{{ asset('js/amcharts-core.js') }}"></script>
+		<script src="{{ asset('js/amcharts-charts.js') }}"></script>
+		<script src="{{ asset('js/amcharts-material.js') }}"></script>
+		<script src="{{ asset('js/amchart-de.js') }}"></script>
+		<script src="{{ asset('js/amcharts-animation.js') }}"></script>
+
+		<script src="{{ asset('js/datatables.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.buttons.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.buttons.flash.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.jszip.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.pdfmake.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.vfs_fonts.js') }}"></script>
+		<script src="{{ asset('js/datatables.html5.min.js') }}"></script>
+		<script src="{{ asset('js/datatables.buttons.print.min.js') }}"></script>
 
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
     	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

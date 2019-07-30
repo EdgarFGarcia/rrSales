@@ -14,4 +14,8 @@ class pageController extends Controller
     public function updateMDC(){
     	return view('dmUpdatemdc');
     }
+
+    public function index(){
+    	return view('pages.dashboard');
+    }
 }

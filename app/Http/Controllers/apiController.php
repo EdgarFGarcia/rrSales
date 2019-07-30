@@ -33,6 +33,8 @@ class apiController extends Controller
         return view('login');
     }
 
+    
+
     public function login(Request $r){
         // return bcrypt('password');
         // return $r->all();
