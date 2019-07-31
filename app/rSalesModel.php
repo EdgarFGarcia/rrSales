@@ -305,46 +305,134 @@ class rSalesModel extends Model
     }
 
     public static function ValVol($data){
-        return $query = DB::connection('raging')
-        ->table('sales_all as a')
-        ->select(
-            'a.'.$data->row.' as item_name',
-            DB::raw("SUM(a.Volume) as volume"),
-            DB::raw("SUM(a.Value) as value"),
-            'a.'.$data->column.' as name'
-        )
-        ->limit(500)
-        ->groupBy($data->row, $data->column)
+
+        $query = DB::connection('raging')
+        ->table('sales_all')
+        ->limit(1000)
         ->get();
+
+        $collection = collect($query);
+
+        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            return [
+                'medrepName' => $row->unique($data->column),
+                'Volume' => $row->sum('Volume'),
+                'Value' => $row->sum('Value')
+            ];
+        });
+
+        $dataToPassColumn = $data->column;
+        $dataToPassRow = $data->row;
+
+        $data2 = [];
+
+        foreach($final as $out){
+            $data2[] = [
+                'row'       => $out['medrepName'][0]->$dataToPassRow,
+                'column'    => $out['medrepName'][0]->$dataToPassColumn,
+                'volume'    => $out['Volume'],
+                'value'     => $out['Value']
+            ];
+        }
+
+        return $data2;
+
     }
 
     public static function volume($data){
-        return $query = DB::connection('raging')
-        ->table('sales_all as a')
-        ->select(
-            'a.'.$data->row.' as item_name',
-            DB::raw("SUM(a.Volume) as volume"),
-            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END as value"),
-            'a.'.$data->column.' as name'
-        )
-        ->limit(500)
-        ->groupBy($data->row, $data->column)
+
+        // return $query = DB::connection('raging')
+        // ->table('sales_all as a')
+        // ->select(
+        //     'a.'.$data->row.' as item_name',
+        //     DB::raw("SUM(a.Volume) as volume"),
+        //     DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END as value"),
+        //     'a.'.$data->column.' as name'
+        // )
+        // ->limit(500)
+        // ->groupBy($data->row, $data->column)
+        // ->get();
+
+        // return $data->row;
+
+
+        $query = DB::connection('raging')
+        ->table('sales_all')
+        ->limit(1000)
         ->get();
+
+        $collection = collect($query);
+
+        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            return [
+                'medrepName' => $row->unique($data->column),
+                'Volume' => $row->sum('Volume'),
+                'Value' => 0
+            ];
+        });
+
+        $dataToPassColumn = $data->column;
+        $dataToPassRow = $data->row;
+
+        $data2 = [];
+
+        foreach($final as $out){
+            $data2[] = [
+                'row'       => $out['medrepName'][0]->$dataToPassRow,
+                'column'    => $out['medrepName'][0]->$dataToPassColumn,
+                'volume'    => $out['Volume'],
+                'value'     => $out['Value']
+            ];
+        }
+
+        return $data2;
 
     } 
 
     public static function value($data){
-        return $query = DB::connection('raging')
-        ->table('sales_all as a')
-        ->select(
-            'a.'.$data->row.' as item_name',
-            DB::raw("SUM(a.Value) as value"),
-            DB::raw("CASE WHEN a.Volume > 0 THEN 0 ELSE 0 END as volume"),
-            'a.'.$data->column.' as name'
-        )
-        ->limit(500)
-        ->groupBy($data->row, $data->column)
+        // return $query = DB::connection('raging')
+        // ->table('sales_all as a')
+        // ->select(
+        //     'a.'.$data->row.' as item_name',
+        //     DB::raw("SUM(a.Value) as value"),
+        //     DB::raw("CASE WHEN a.Volume > 0 THEN 0 ELSE 0 END as volume"),
+        //     'a.'.$data->column.' as name'
+        // )
+        // ->limit(500)
+        // ->groupBy($data->row, $data->column)
+        // ->get();
+
+        $query = DB::connection('raging')
+        ->table('sales_all')
+        ->limit(1000)
         ->get();
+
+        $collection = collect($query);
+
+        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            return [
+                'medrepName' => $row->unique($data->column),
+                'Volume' => 0,
+                'Value' => $row->sum('Value')
+            ];
+        });
+
+        $dataToPassColumn = $data->column;
+        $dataToPassRow = $data->row;
+
+        $data2 = [];
+
+        foreach($final as $out){
+            $data2[] = [
+                'row'       => $out['medrepName'][0]->$dataToPassRow,
+                'column'    => $out['medrepName'][0]->$dataToPassColumn,
+                'volume'    => $out['Volume'],
+                'value'     => $out['Value']
+            ];
+        }
+
+        return $data2;
+
     }
 
 }
