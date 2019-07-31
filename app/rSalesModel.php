@@ -330,6 +330,7 @@ class rSalesModel extends Model
         ->limit(500)
         ->groupBy($data->row, $data->column)
         ->get();
+
     } 
 
     public static function value($data){

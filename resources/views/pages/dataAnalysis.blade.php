@@ -36,7 +36,8 @@
                 <div class="panel-body">
 
                     <center><h3 id="labelWarning" class="hidden">Loading Please Wait...This can take from 5 to 10 minutes (Please be patient)</h3></center>
-                    <center><img src="{{ asset('images/loading2.gif') }}" class="hidden" id="loading"/></center> 
+                    <center><h3 id="query" class="hidden"></h3></center>
+                    <center><img src="{{ asset('images/loading2.gif') }}" class="hidden" id="loading"/></center>
 
                     <div class="col-lg-12 col-md-12" id="contentbody">
 
@@ -67,8 +68,11 @@
                                 <label for="column">Column</label>
                                 <select name="column" id="column" class="form-control">
                                     <option value="0">SELECT</option>
-                                    <option value="Manager Name">Manager</option>
-                                    <option value="Medrep Name">Medrep Name</option>
+                                    <option value="Product">Product SKU</option>
+                                    <option value="TC">Therapeutic Category</option>
+                                    <option value="specialty">Specialty Sales</option>
+                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="MD Class">Sales Per Doctor Class</option>
                                 </select>
                             </div>
 
@@ -165,6 +169,8 @@
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
                 $('#divTable').addClass("hidden");
+                $('#query').removeClass("hidden");
+                $('#query').text("SELECT `as`.`Product` as `item_name`, SUM(a.Volume) as volume, CASE WHEN a.Value > 0 THEN 0 ELSE 0 END as value, `a`.`Product` as `name` from `sales_all` as `a` group by `Product`, `Product` limit 500)");
             }
         }).done(function(response){
             if(response.response){
