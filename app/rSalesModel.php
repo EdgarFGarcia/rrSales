@@ -324,12 +324,10 @@ class rSalesModel extends Model
         ->select(
             'a.'.$data->row.' as item_name',
             DB::raw("SUM(a.Volume) as volume"),
-            // DB::raw("CASE WHEN a.Value > 0 THEN '0' ELSE '0' END"),
-            'a.Value as value',
-            DB::raw("CASE WHEN value > 0 THEN '0' ELSE '0' END as Value"),
+            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END as value"),
             'a.'.$data->column.' as name'
         )
-        ->limit(1)
+        ->limit(500)
         ->groupBy($data->row, $data->column)
         ->get();
     } 
@@ -340,11 +338,10 @@ class rSalesModel extends Model
         ->select(
             'a.'.$data->row.' as item_name',
             DB::raw("SUM(a.Value) as value"),
-            'a.Value as value',
-            DB::raw("CASE WHEN value > 0 THEN '0' ELSE '0' END  as Value"),
+            DB::raw("CASE WHEN a.Volume > 0 THEN 0 ELSE 0 END as volume"),
             'a.'.$data->column.' as name'
         )
-        ->limit(1)
+        ->limit(500)
         ->groupBy($data->row, $data->column)
         ->get();
     }
