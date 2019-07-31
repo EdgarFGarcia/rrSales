@@ -35,6 +35,17 @@ class rSalesModel extends Model
 
     public static function getSpecialtySales(){
 
+        // return $query = DB::connection('raging')
+        // ->table('SalesByRep as a')
+        // ->select(
+        //     DB::raw("IFNULL(Specialty, 'NOT MAPPED') as item_name"),
+        //     DB::raw("SUM(a.Qty) as Volume"),
+        //     DB::raw("SUM(a.Amount) as Value")
+        // )
+        // ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
+        // ->groupBy('b.Specialty')
+        // ->get();
+
     	$query = DB::connection('raging')
     	->table('sales_all')
     	->select(
@@ -275,6 +286,64 @@ class rSalesModel extends Model
 
     public static function loadSelection($data){
         return "true";
+    }
+
+    public static function dataAnalysisQuery($data){
+
+        $dataArray = array($data->valvol);
+
+        if(in_array(array("1", "2"), $dataArray)){
+            return static::ValVol($data);
+        }else{
+            if(in_array("1", $data->valvol)){
+                return static::volume($data);
+            }else if(in_array("2", $data->valvol)){
+                return static::value($data);
+            }
+        }
+
+    }
+
+    public static function ValVol($data){
+        return $query = DB::connection('raging')
+        ->table('sales_all as a')
+        ->select(
+            'a.'.$data->row.' as item_name',
+            DB::raw("SUM(a.Volume) as volume"),
+            DB::raw("SUM(a.Value) as value"),
+            'a.'.$data->column.' as name'
+        )
+        ->limit(1000)
+        ->groupBy($data->row, $data->column)
+        ->get();
+    }
+
+    public static function volume($data){
+        return $query = DB::connection('raging')
+        ->table('sales_all as a')
+        ->select(
+            'a.'.$data->row.' as item_name',
+            DB::raw("SUM(a.Volume) as volume"),
+            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END"),
+            'a.'.$data->column.' as name'
+        )
+        ->limit(1000)
+        ->groupBy($data->row, $data->column)
+        ->get();
+    } 
+
+    public static function value($data){
+        return $query = DB::connection('raging')
+        ->table('sales_all as a')
+        ->select(
+            'a.'.$data->row.' as item_name',
+            DB::raw("SUM(a.Value) as value"),
+            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END"),,
+            'a.'.$data->column.' as name'
+        )
+        ->limit(1000)
+        ->groupBy($data->row, $data->column)
+        ->get();
     }
 
 }

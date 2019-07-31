@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\rSalesModel;
-
 use DB;
 
 class rSalesController extends Controller
@@ -56,7 +55,100 @@ class rSalesController extends Controller
         }
     }
 
-    // public function test(){
-    // 	return $query = rSalesModel::test();
-    // }
+    public function dataAnalysisQuery(Request $request){
+        $query = rSalesModel::dataAnalysisQuery($request);
+        if($query){
+            return response()->json([
+                'response' => true,
+                'data' => $query
+            ]);
+        }
+    }
+
+    public function test(){
+
+        // return $query = DB::connection('raging')
+        // ->table("SalesByRep as a")
+        // ->select(
+        //     'a.Qty as volume',
+        //     'a.Amount as value',
+        //     // 'a.doctor_id as doctorId',
+        //     DB::raw("IFNULL(a.doctor_id, 0) as doctorId"),
+        //     'a.item_code as itemCode'
+        // )
+        // ->get();
+
+        // $query2 = DB::connection('raging')
+        // ->table('Doctor as a')
+        // ->select(
+        //     'a.medrep_id as medrepId',
+        //     'a.manager_id as managerId',
+        //     // 'a.doctor_id as doctorId'
+        //     DB::raw("IFNULL(a.doctor_id, 0) as doctorId")
+        // )
+        // ->get();
+
+        // $getManagerId = DB::connection('raging')
+        // ->table('doctorId')
+        // ->select(
+        //     // DB::raw("DISTINCT(MD_ID) as mdId")
+        //     'id as Id',
+        //     'MD_ID as mdId'
+        // )
+        // ->get();
+
+        // $test = $this->fixData($getManagerId);
+
+        // foreach($getManagerId as $out){
+        //     DB::connection('raging')
+        //     ->table('Doctor')
+        //     ->where('MD_ID', $out->mdId)
+        //     ->update([
+        //         'doctor_id' => $out->Id
+        //     ]);
+        // }
+
+        // DB::connection('raging')
+        // ->table('doctorId')
+        // ->update(
+        //     $test
+        // );
+
+        $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            'a.MD_ID as mdId',
+            'a.Specialty as specialty',
+            DB::raw("CONCAT(a.Last_Name, ', ', First_Name, ' ', Middle_Name) as doctorName"),
+            'a.Frequency as frequency',
+            'a.MD_Class as mdClass'
+        )
+        ->get();
+
+        $test = $this->fixData($query);
+
+        DB::connection('raging')
+        ->table('doctorId')
+        ->insert(
+            $test
+        );        
+
+        return "vape on";
+    }
+
+    public function fixData($data){
+        // return $data;
+        $fix = array();
+        foreach($data as $out){
+            array_push($fix, array(
+                'MD_ID' => $out->mdId,
+                // 'doctorName' => $out->doctorName,
+                'specialty' => $out->specialty,
+                // 'frequency' => $out->frequency,
+                // 'md_class' => $out->mdClass
+            ));
+        }
+
+        return $fix;
+    }
 }

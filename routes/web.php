@@ -23,6 +23,7 @@ Route::group(['middleware' => ['preventbackhistory']], function () {
         Route::get('/main2', 'pageController@home');
         // Route::get('/dataManager', 'pageController@dataManager');
         Route::get('/updateMDC', 'pageController@updateMDC');
+        Route::get('/dataAnalysis', 'pageController@dataAnalysis');
         Route::get('/getProducts', 'rSalesController@getProducts');
         Route::get('/gettherapeutic', 'rSalesController@gettherapeutic');
         Route::get('/getSpecialtySales', 'rSalesController@getSpecialtySales');
@@ -33,6 +34,8 @@ Route::group(['middleware' => ['preventbackhistory']], function () {
         Route::get('/getResultOnClick', 'rSalesController@getResultOnClick');
         Route::get('/getResultOnClick2', 'rSalesController@getResultOnClick2');
         Route::get('/loadSelection', 'rSalesController@loadSelection');
+        Route::get('/dataAnalysisQuery', 'rSalesController@dataAnalysisQuery');
+        Route::get('/test', 'rSalesController@test');
     });
 
 });

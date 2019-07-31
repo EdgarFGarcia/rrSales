@@ -18,4 +18,8 @@ class pageController extends Controller
     public function index(){
     	return view('pages.dashboard');
     }
+
+    public function dataAnalysis(){
+        return view('pages.dataAnalysis');
+    }
 }

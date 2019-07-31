@@ -14,7 +14,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
 		<!-- Web Fonts  -->
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+		<!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css"> -->
 
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" />
@@ -27,7 +27,8 @@
 		<link rel="stylesheet" href="{{ asset('vendor/bootstrap-multiselect/bootstrap-multiselect.css') }}" />
 		<link rel="stylesheet" href="{{ asset('vendor/morris/morris.css') }}" />
 		<link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}" />
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
+		<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" rel="stylesheet" /> -->
 		<link rel="stylesheet" href="{{ asset('css/chart.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}" />
 
@@ -46,7 +47,7 @@
 	</head>
 	<body>
 		<section class="body">
-
+			<img src="{{ asset('images/loading2.gif') }}" id="loadingMain" class="hidden"/>
 			<!-- start: header -->
 			<header class="header">
 				<div class="logo-container">
@@ -241,7 +242,7 @@
 								<!-- <img src="assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" /> -->
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="">
-
+								{{ Auth::user()->fullname }}
 								<!-- <span class="role">administrator</span> -->
 							</div>
 			
@@ -428,6 +429,15 @@
 
 		<!-- Examples -->
 		<script src="{{ asset('javascripts/dashboard/examples.dashboard.js') }}"></script>
+
+		<script type="text/javascript">
+			$(document).on("load", function(){
+				$('#loadingMain').removeClass("hidden");
+			});
+			$(document).ready(function(){
+				$('#loadingMain').addClass("hidden");
+			});
+		</script>
 
 		@yield('scripts')
 	</body>
