@@ -338,7 +338,7 @@ class rSalesModel extends Model
         ->select(
             'a.'.$data->row.' as item_name',
             DB::raw("SUM(a.Value) as value"),
-            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END"),,
+            DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END"),
             'a.'.$data->column.' as name'
         )
         ->limit(1000)
