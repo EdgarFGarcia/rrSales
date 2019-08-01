@@ -394,6 +394,7 @@ class rSalesModel extends Model
             return [
                 'key' => $row->unique($data->column),
                 'Volume' => $row->sum('Volume'),
+                'column' => $row->pluck($data->column),
                 'Value' => 0
             ];
         });
@@ -406,8 +407,12 @@ class rSalesModel extends Model
         foreach($final as $out){
 
             $data2[] = [
+                // 'row'       => $out['key'][0]->$dataToPassRow,
+                // 'column'    => $out['key'][0]->$dataToPassColumn,
+                // 'volume'    => $out['Volume'],
+                // 'value'     => $out['Value']
                 'row'       => $out['key'][0]->$dataToPassRow,
-                'column'    => $out['key'][0]->$dataToPassColumn,
+                'column'    => $out['column'],
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
             ];
@@ -431,6 +436,7 @@ class rSalesModel extends Model
             return [
                 'key' => $row->unique($data->column),
                 'Volume' => 0,
+                'column' => $row->pluck($data->column),
                 'Value' => $row->sum('Value')
             ];
         });
@@ -444,7 +450,7 @@ class rSalesModel extends Model
 
             $data2[] = [
                 'row'       => $out['key'][0]->$dataToPassRow,
-                'column'    => $out['key'][0]->$dataToPassColumn,
+                'column'    => $out['column'],
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
             ];
