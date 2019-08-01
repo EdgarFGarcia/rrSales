@@ -86,6 +86,7 @@
                                 <tr>
                                     <th>Row</th>
                                     <th>Column</th>
+                                    <!-- <th>Doctor Name</th> -->
                                     <th>Volume</th>
                                     <th>Value</th>
                                 </tr>
@@ -178,6 +179,7 @@
                 $('#tableOut').DataTable({
                     destroy : true,
                     dom: 'Bfrtip',
+                    scrollX: true,
                     lengthMenu: [
                         [ 10, 25, 50, -1 ],
                         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
@@ -189,6 +191,7 @@
                     aoColumns:[
                         { "mDataProp": "row" },
                         { "mDataProp": "column" },
+                        // { "mDataProp": "doctor" },
                         { "mDataProp": "volume" },
                         { "mDataProp": "value" }
                     ]

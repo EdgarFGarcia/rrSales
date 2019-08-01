@@ -314,8 +314,19 @@ class rSalesModel extends Model
         $collection = collect($query);
 
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            // return $data->column;
             return [
-                'medrepName' => $row->unique($data->column),
+                // 'toCount' => $row->count($data->column),
+                // 'row' => $row->unique($data->row),
+                // 'key' => $row->pluck($data->column),
+                // 'Volume' => $row->pluck('Volume'),
+                // 'Value' => $row->pluck('Value'),
+                // 'Doctor' => $row->pluck('MD Name')
+                // 'Volume' => $row->sum('Volume'),
+                // 'Value' => $row->sum('Value')
+                'toCount' => $row->count($data->column),
+                'key' => $row->unique($data->column),
+                'column' => $row->pluck($data->column),
                 'Volume' => $row->sum('Volume'),
                 'Value' => $row->sum('Value')
             ];
@@ -327,12 +338,43 @@ class rSalesModel extends Model
         $data2 = [];
 
         foreach($final as $out){
-            $data2[] = [
-                'row'       => $out['medrepName'][0]->$dataToPassRow,
-                'column'    => $out['medrepName'][0]->$dataToPassColumn,
-                'volume'    => $out['Volume'],
-                'value'     => $out['Value']
-            ];
+
+            // if($out['toCount'] > 0){
+
+            //     for($i = 0; $i < $out['toCount']; $i++){
+            //         $data2[] = [
+            //             // 'row'       => $out['row'][0]->$dataToPassRow,
+            //             // 'column'    => $out['key'][$i],
+            //             // // 'column'    => $out['row'][$i]->$dataToPassColumn,
+            //             // 'volume'    => $out['Volume'][$i],
+            //             // 'value'     => $out['Value'][$i],
+            //             // 'doctor'    => $out['Doctor'][$i]
+            //             'row'       => $out['key'][0]->$dataToPassRow,
+            //             'column'    => $out['column'][$i],
+            //             'volume'    => $out['Volume'],
+            //             'value'     => $out['Value']
+            //         ];
+            //     }
+
+            // }else{
+
+                $data2[] = [
+                    // 'row'       => $out['key'][0]->$dataToPassRow,
+                    // 'column'    => $out['key'][0]->$dataToPassColumn,
+                    // 'row'       => $out['key'][0]->$dataToPassRow,
+                    // 'column'    => $out['key'][0]->$dataToPassColumn,
+                    // 'volume'    => $out['Volume'],
+                    // 'value'     => $out['Value']
+                    'row'       => $out['key'][0]->$dataToPassRow,
+                    'column'    => $out['column'],
+                    'volume'    => $out['Volume'],
+                    'value'     => $out['Value']
+                ];
+
+            // }
+
+            
+
         }
 
         return $data2;
@@ -341,31 +383,16 @@ class rSalesModel extends Model
 
     public static function volume($data){
 
-        // return $query = DB::connection('raging')
-        // ->table('sales_all as a')
-        // ->select(
-        //     'a.'.$data->row.' as item_name',
-        //     DB::raw("SUM(a.Volume) as volume"),
-        //     DB::raw("CASE WHEN a.Value > 0 THEN 0 ELSE 0 END as value"),
-        //     'a.'.$data->column.' as name'
-        // )
-        // ->limit(500)
-        // ->groupBy($data->row, $data->column)
-        // ->get();
-
-        // return $data->row;
-
-
         $query = DB::connection('raging')
         ->table('sales_all')
-        ->limit(1000)
+        ->limit(100)
         ->get();
 
         $collection = collect($query);
 
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
             return [
-                'medrepName' => $row->unique($data->column),
+                'key' => $row->unique($data->column),
                 'Volume' => $row->sum('Volume'),
                 'Value' => 0
             ];
@@ -377,12 +404,14 @@ class rSalesModel extends Model
         $data2 = [];
 
         foreach($final as $out){
+
             $data2[] = [
-                'row'       => $out['medrepName'][0]->$dataToPassRow,
-                'column'    => $out['medrepName'][0]->$dataToPassColumn,
+                'row'       => $out['key'][0]->$dataToPassRow,
+                'column'    => $out['key'][0]->$dataToPassColumn,
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
             ];
+
         }
 
         return $data2;
@@ -390,28 +419,17 @@ class rSalesModel extends Model
     } 
 
     public static function value($data){
-        // return $query = DB::connection('raging')
-        // ->table('sales_all as a')
-        // ->select(
-        //     'a.'.$data->row.' as item_name',
-        //     DB::raw("SUM(a.Value) as value"),
-        //     DB::raw("CASE WHEN a.Volume > 0 THEN 0 ELSE 0 END as volume"),
-        //     'a.'.$data->column.' as name'
-        // )
-        // ->limit(500)
-        // ->groupBy($data->row, $data->column)
-        // ->get();
 
         $query = DB::connection('raging')
         ->table('sales_all')
-        ->limit(1000)
+        ->limit(100)
         ->get();
 
         $collection = collect($query);
 
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
             return [
-                'medrepName' => $row->unique($data->column),
+                'key' => $row->unique($data->column),
                 'Volume' => 0,
                 'Value' => $row->sum('Value')
             ];
@@ -423,12 +441,14 @@ class rSalesModel extends Model
         $data2 = [];
 
         foreach($final as $out){
+
             $data2[] = [
-                'row'       => $out['medrepName'][0]->$dataToPassRow,
-                'column'    => $out['medrepName'][0]->$dataToPassColumn,
+                'row'       => $out['key'][0]->$dataToPassRow,
+                'column'    => $out['key'][0]->$dataToPassColumn,
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
             ];
+
         }
 
         return $data2;
