@@ -60,6 +60,7 @@
                                     <option value="specialty">Specialty Sales</option>
                                     <option value="frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="MD Name">Doctor Name</option>
                                 </select>
                             </div>
 

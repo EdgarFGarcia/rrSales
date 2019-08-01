@@ -44,6 +44,7 @@ class rSalesModel extends Model
         // )
         // ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
         // ->groupBy('b.Specialty')
+        // ->limit(3000)
         // ->get();
 
     	$query = DB::connection('raging')
@@ -188,6 +189,7 @@ class rSalesModel extends Model
     }
 
     public static function getManager2(){
+
         $query = DB::connection('raging')
         ->table('sales_all')
         ->select(
@@ -218,6 +220,7 @@ class rSalesModel extends Model
         }
 
         return $data;
+
     }
 
     public static function getResultOnClick($data){
@@ -316,19 +319,12 @@ class rSalesModel extends Model
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
             // return $data->column;
             return [
-                // 'toCount' => $row->count($data->column),
-                // 'row' => $row->unique($data->row),
-                // 'key' => $row->pluck($data->column),
-                // 'Volume' => $row->pluck('Volume'),
-                // 'Value' => $row->pluck('Value'),
-                // 'Doctor' => $row->pluck('MD Name')
-                // 'Volume' => $row->sum('Volume'),
-                // 'Value' => $row->sum('Value')
                 'toCount' => $row->count($data->column),
                 'key' => $row->unique($data->column),
                 'column' => $row->pluck($data->column),
                 'Volume' => $row->sum('Volume'),
-                'Value' => $row->sum('Value')
+                'Value' => $row->sum('Value'),
+                'doctor' => $row->pluck('MD Name'),
             ];
         });
 
@@ -361,12 +357,8 @@ class rSalesModel extends Model
                 $data2[] = [
                     // 'row'       => $out['key'][0]->$dataToPassRow,
                     // 'column'    => $out['key'][0]->$dataToPassColumn,
-                    // 'row'       => $out['key'][0]->$dataToPassRow,
-                    // 'column'    => $out['key'][0]->$dataToPassColumn,
-                    // 'volume'    => $out['Volume'],
-                    // 'value'     => $out['Value']
                     'row'       => $out['key'][0]->$dataToPassRow,
-                    'column'    => $out['column'],
+                    'column'    => $out['key'][0]->$dataToPassColumn,
                     'volume'    => $out['Volume'],
                     'value'     => $out['Value']
                 ];
@@ -394,8 +386,9 @@ class rSalesModel extends Model
             return [
                 'key' => $row->unique($data->column),
                 'Volume' => $row->sum('Volume'),
+                'Value' => 0,
                 'column' => $row->pluck($data->column),
-                'Value' => 0
+                'doctor' => $row->pluck('MD Name'),
             ];
         });
 
@@ -412,7 +405,7 @@ class rSalesModel extends Model
                 // 'volume'    => $out['Volume'],
                 // 'value'     => $out['Value']
                 'row'       => $out['key'][0]->$dataToPassRow,
-                'column'    => $out['column'],
+                'column'    => $out['key'][0]->$dataToPassColumn,
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
             ];
@@ -436,8 +429,9 @@ class rSalesModel extends Model
             return [
                 'key' => $row->unique($data->column),
                 'Volume' => 0,
+                'Value' => $row->sum('Value'),
                 'column' => $row->pluck($data->column),
-                'Value' => $row->sum('Value')
+                'doctor' => $row->pluck('MD Name'),
             ];
         });
 
@@ -450,9 +444,14 @@ class rSalesModel extends Model
 
             $data2[] = [
                 'row'       => $out['key'][0]->$dataToPassRow,
-                'column'    => $out['column'],
+                'column'    => $out['key'][0]->$dataToPassColumn,
                 'volume'    => $out['Volume'],
                 'value'     => $out['Value']
+                // 'row'       => $out['key'][0]->$dataToPassRow,
+                // 'column'    => $out['column'],
+                // 'volume'    => $out['Volume'],
+                // 'value'     => $out['Value'],
+                // 'doctor'    => $out['doctor']
             ];
 
         }
