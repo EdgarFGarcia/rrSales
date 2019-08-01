@@ -291,40 +291,55 @@ class rSalesModel extends Model
         return "true";
     }
 
+    // public static function dataAnalysisQuery($data){
+
+        // $dataArray = array($data->valvol);
+
+        // if(in_array(array("1", "2"), $dataArray)){
+        //     return static::ValVol($data);
+        // }else{
+        //     if(in_array("1", $data->valvol)){
+        //         return static::volume($data);
+        //     }else if(in_array("2", $data->valvol)){
+        //         return static::value($data);
+        //     }
+        // }
+
+    // }
+
     public static function dataAnalysisQuery($data){
+        // return $data->row;
+        $query = DB::connection('raging')
+        ->table('doctor')
+        ->select(
+            $data->row,
+            $data->column
+        )
+        ->limit(1000)
+        ->groupBy($data->row)
+        ->distinct($data->row)
+        ->get();
 
-        $dataArray = array($data->valvol);
-
-        if(in_array(array("1", "2"), $dataArray)){
-            return static::ValVol($data);
-        }else{
-            if(in_array("1", $data->valvol)){
-                return static::volume($data);
-            }else if(in_array("2", $data->valvol)){
-                return static::value($data);
-            }
+        $data3[] = [];
+        return $toShow = $data->row;
+        // return count($data->row); // 4
+        foreach($query as $out){
+            $data3[] = [
+                'row' => $out->Specialty,
+                'row2' => $out->Frequency
+            ];
         }
 
-    }
-
-    public static function ValVol($data){
-
-        $query = DB::connection('raging')
-        ->table('sales_all')
-        ->limit(1000)
-        ->get();
+        return $data3;
 
         $collection = collect($query);
 
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            // return $row;
             // return $data->column;
             return [
-                'toCount' => $row->count($data->column),
-                'key' => $row->unique($data->column),
-                'column' => $row->pluck($data->column),
-                'Volume' => $row->sum('Volume'),
-                'Value' => $row->sum('Value'),
-                'doctor' => $row->pluck('MD Name'),
+                // 'key' => $row->unique($data->row)
+                'key'   => $row->where($data->row, 'like',  '%' . '$row' . '%')
             ];
         });
 

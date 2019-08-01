@@ -42,25 +42,25 @@
 
                         <div class="row">
                             
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <label>Value</label>
                                 <select name="valvol" class="form-control" id="valvol" multiple="multiple">
                                     <option value="0">SELECT</option>
                                     <option value="1">Volume</option>
                                     <option value="2">Value</option>
                                 </select>
-                            </div>
+                            </div> -->
                             
                             <div class="col-md-4">
                                 <label for="row">Row</label>
-                                <select name="row" id="row" class="form-control">
+                                <select name="row" id="row" class="form-control" multiple="multiple">
                                     <option value="0">SELECT</option>
-                                    <option value="Product">Product SKU</option>
-                                    <option value="TC">Therapeutic Category</option>
-                                    <option value="specialty">Specialty Sales</option>
-                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                 </select>
@@ -70,15 +70,20 @@
                                 <label for="column">Column</label>
                                 <select name="column" id="column" class="form-control">
                                     <option value="0">SELECT</option>
-                                    <option value="Product">Product SKU</option>
-                                    <option value="TC">Therapeutic Category</option>
-                                    <option value="specialty">Specialty Sales</option>
-                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                 </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="submit">Submit</label><br/>
+                                <button type="button" id="submit" class="form-control btn btn-info">Submit</button>
                             </div>
 
                         </div>
@@ -120,67 +125,74 @@
         $('#column').select2();
         $('#valvol').select2();
 
-        $(document).on('change', '#valvol', function(){
+        // $(document).on('change', '#valvol', function(){
 
-            var valvol = $('#valvol').val();
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((row != 0) && (column != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        // $(document).on('change', '#row', function(){
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((valvol != 0) && (column != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        // $(document).on('change', '#column', function(){
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((valvol != 0) && (row != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        $(document).on('click', '#submit', function(){
             var row = $('#row').val();
             var column = $('#column').val();
-
-            if((row != 0) && (column != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
-        });
-
-        $(document).on('change', '#row', function(){
-            var valvol = $('#valvol').val();
-            var row = $('#row').val();
-            var column = $('#column').val();
-
-            if((valvol != 0) && (column != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
-        });
-
-        $(document).on('change', '#column', function(){
-            var valvol = $('#valvol').val();
-            var row = $('#row').val();
-            var column = $('#column').val();
-
-            if((valvol != 0) && (row != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
+            toQuery(row, column);
         });
 
     });
 
     // event listeners
-    function toQuery(valvol, row, column){
+    // function toQuery(valvol, row, column){
+    function toQuery(row, column){
 
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
             data : {
-                valvol : valvol,
+                // valvol : valvol,
                 row : row,
                 column : column
             },
             beforeSend : function(){
-                $('#contentbody').fadeOut(500);
-                $('#labelWarning').removeClass("hidden");
-                $('#loading').removeClass("hidden");
+                // $('#contentbody').fadeOut(500);
+                // $('#labelWarning').removeClass("hidden");
+                // $('#loading').removeClass("hidden");
                 $('#divTable').addClass("hidden");
             }
         }).done(function(response){
             if(response.response){
-                $('#contentbody').fadeIn(500);
-                $('#labelWarning').addClass("hidden");
-                $('#loading').addClass("hidden");
+                // $('#contentbody').fadeIn(500);
+                // $('#labelWarning').addClass("hidden");
+                // $('#loading').addClass("hidden");
                 $('#divTable').removeClass("hidden");
                 $('#tableOut').DataTable({
                     destroy : true,
