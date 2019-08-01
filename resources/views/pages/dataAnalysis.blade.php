@@ -61,6 +61,8 @@
                                     <option value="frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
                                     <option value="MD Name">Doctor Name</option>
+                                    <option value="Manager Name">Manager Name</option>
+                                    <option value="Medrep Name">Medrep Name</option>
                                 </select>
                             </div>
 
@@ -73,6 +75,9 @@
                                     <option value="specialty">Specialty Sales</option>
                                     <option value="frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Manager Name">Manager Name</option>
+                                    <option value="Medrep Name">Medrep Name</option>
                                 </select>
                             </div>
 
