@@ -192,7 +192,7 @@ class rSalesModel extends Model
 
             $content .= "
                 <tr>
-                    <td>".$out->MD_Class."</td>
+                    <td>".$out->Key Product."</td>
                     <td>".$out->MD_Class."</td>
                     <td>".$out->Specialty."</td>
                     <td>".$out->TxCount."</td>

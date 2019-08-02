@@ -54,14 +54,14 @@
                                     <option value="Manager_Name">Manager Name</option>
                                     <option value="Medrep_Name">Medrep Name</option> -->
 
-                                    <option value="MD_Class">Product SKU</option>
-                                    <option value="MD_Class">Therapeutic Category</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
                                     <option value="MD_Class">Specialty Sales</option>
                                     <option value="MD_Class">Sales Per Frequency</option>
                                     <option value="MD_Class">Sales Per Doctor Class</option>
-                                    <option value="MD_Class">Doctor Name</option>
+                                    <option value="Key Product">Doctor Name</option>
                                     <option value="MD_Class">Manager Name</option>
-                                    <option value="MD_Class">Medrep Name</option>
+                                    <option value="Key Product">Medrep Name</option>
 
                                 </select>
                             </div>
@@ -80,13 +80,13 @@
                                     <option value="Medrep_Name">Medrep Name</option> -->
 
                                     <option value="0">SELECT</option>
-                                    <option value="Specialty">Product SKU</option>
-                                    <option value="Specialty">Therapeutic Category</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
                                     <option value="Specialty">Specialty Sales</option>
                                     <option value="Specialty">Sales Per Frequency</option>
                                     <option value="Specialty">Sales Per Doctor Class</option>
                                     <option value="Specialty">Doctor Name</option>
-                                    <option value="Specialty">Manager Name</option>
+                                    <option value="MD_Class">Manager Name</option>
                                     <option value="Specialty">Medrep Name</option>
 
                                 </select>
