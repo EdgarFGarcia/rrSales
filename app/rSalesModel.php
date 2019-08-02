@@ -187,12 +187,12 @@ class rSalesModel extends Model
 
         $content = "";
         $header = "";
-
+        $test = "Key Product";
         foreach($query as $out){
 
             $content .= "
                 <tr>
-                    <td>".$out->Key Product."</td>
+                    <td>".$out->$test."</td>
                     <td>".$out->MD_Class."</td>
                     <td>".$out->Specialty."</td>
                     <td>".$out->TxCount."</td>
