@@ -45,21 +45,31 @@
                             <div class="col-md-4">
                                 <label for="row">Row</label>
                                 <select name="row" id="row" class="form-control" multiple="multiple">
-                                    <option value="Key Product">Product SKU</option>
+                                    <!-- <option value="Key Product">Product SKU</option>
                                     <option value="Key Product">Therapeutic Category</option>
                                     <option value="Specialty">Specialty Sales</option>
                                     <option value="Frequency">Sales Per Frequency</option>
                                     <option value="MD_Class">Sales Per Doctor Class</option>
                                     <option value="Last_Name">Doctor Name</option>
                                     <option value="Manager_Name">Manager Name</option>
-                                    <option value="Medrep_Name">Medrep Name</option>
+                                    <option value="Medrep_Name">Medrep Name</option> -->
+
+                                    <option value="MD_Class">Product SKU</option>
+                                    <option value="MD_Class">Therapeutic Category</option>
+                                    <option value="MD_Class">Specialty Sales</option>
+                                    <option value="MD_Class">Sales Per Frequency</option>
+                                    <option value="MD_Class">Sales Per Doctor Class</option>
+                                    <option value="MD_Class">Doctor Name</option>
+                                    <option value="MD_Class">Manager Name</option>
+                                    <option value="MD_Class">Medrep Name</option>
+
                                 </select>
                             </div>
 
                             <div class="col-md-4">
                                 <label for="column">Column</label>
                                 <select name="column" id="column" class="form-control">
-                                    <option value="0">SELECT</option>
+                                    <!-- <option value="0">SELECT</option>
                                     <option value="Key Product">Product SKU</option>
                                     <option value="Key Product">Therapeutic Category</option>
                                     <option value="Specialty">Specialty Sales</option>
@@ -67,7 +77,18 @@
                                     <option value="MD_Class">Sales Per Doctor Class</option>
                                     <option value="Last_Name">Doctor Name</option>
                                     <option value="Manager_Name">Manager Name</option>
-                                    <option value="Medrep_Name">Medrep Name</option>
+                                    <option value="Medrep_Name">Medrep Name</option> -->
+
+                                    <option value="0">SELECT</option>
+                                    <option value="Specialty">Product SKU</option>
+                                    <option value="Specialty">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Specialty">Sales Per Frequency</option>
+                                    <option value="Specialty">Sales Per Doctor Class</option>
+                                    <option value="Specialty">Doctor Name</option>
+                                    <option value="Specialty">Manager Name</option>
+                                    <option value="Specialty">Medrep Name</option>
+
                                 </select>
                             </div>
 
@@ -82,15 +103,15 @@
 
                     </div>
                     
-                    <div class="col-lg-12 col-md-12 hidden" id="divTable">
-                    	<!-- <table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                    <div class="col-lg-12 col-md-12" id="divTable">
+                    	<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                     		<thead id="head">
                     			
                     		</thead>
                     		<tbody id="body">
                     			
                     		</tbody>
-                    	</table> -->
+                    	</table>
                     </div>
             
                 </div>
@@ -137,7 +158,7 @@
                 $('#contentbody').fadeOut(500);
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
-                $('#divTable').addClass("hidden");
+                // $('#divTable').addClass("hidden");
             }
         }).done(function(data){
             if(data.response){
@@ -147,14 +168,17 @@
                 $('#contentbody').fadeIn(500);
                 $('#labelWarning').addClass("hidden");
                 $('#loading').addClass("hidden");
-                $('#divTable').removeClass("hidden");
+                // $('#divTable').removeClass("hidden");
 
-                $.each(data.header, function(i, val){
-                    tableHeaders += "<th>" + val + "</th>";
-                });
+                // $.each(data.header, function(i, val){
+                //     tableHeaders += "<th>" + val + "</th>";
+                // });
 
-                $('#divTable').empty();
-                $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead><tbody><tr>' + contents + '</tr></tbody></table>');
+                $('#head').append(data.header);
+                $('#body').append(data.data);
+
+                // $('#divTable').empty();
+                // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead><tbody><tr>' + contents + '</tr></tbody></table>');
 
                 $('#displayTable').DataTable({
                     destroy : true,
@@ -166,15 +190,15 @@
                     ],
                     buttons: [
                         'pageLength', 'csv'
-                    ],
-                    data : data.data,
-                    columns : [
-                    	{ "mDataProp" : "Key Product" },
-                    	{ "mDataProp" : "Frequency" },
-                    	{ "mDataProp" : "TxCount" },
-                    	{ "mDataProp" : "Volume" },
-                    	{ "mDataProp" : "Value" },
                     ]
+                    // data : data.data,
+                    // columns : [
+                    // 	{ "mDataProp" : "Key Product" },
+                    // 	{ "mDataProp" : "Frequency" },
+                    // 	{ "mDataProp" : "TxCount" },
+                    // 	{ "mDataProp" : "Volume" },
+                    // 	{ "mDataProp" : "Value" },
+                    // ]
                 });
                 
             }

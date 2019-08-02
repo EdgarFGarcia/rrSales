@@ -157,7 +157,7 @@ class rSalesModel extends Model
     // }
 
     public static function dataAnalysisQuery($data){
-
+        // return $data->row;
         $toGroup = $data->row;
         $toSelect = $data->row;
         $toColumns = $data->row;
@@ -185,10 +185,35 @@ class rSalesModel extends Model
         ->get()
         ->all();
 
+        $content = "";
+        $header = "";
+
+        foreach($query as $out){
+
+            $content .= "
+                <tr>
+                    <td>".$out->MD_Class."</td>
+                    <td>".$out->MD_Class."</td>
+                    <td>".$out->Specialty."</td>
+                    <td>".$out->TxCount."</td>
+                    <td>".$out->Value."</td>
+                    <td>".$out->Volume."</td>
+                </tr>
+            ";
+        }
+
+        for($i = 0; $i < count($toColumns); $i++){
+            $header .= "
+                <tr>
+                    <th>".$toColumns[$i]."</th>
+                </tr>
+            ";
+        }
+
         return [
             // $query,
-            'header' => $toColumns,
-            'data' => $query
+            'header' => $header,
+            'data' => $content
         ];
 
     }
