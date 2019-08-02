@@ -36,14 +36,15 @@ class rSalesModel extends Model
     public static function getSpecialtySales(){
 
         return $query = DB::connection('raging')
-        ->table('SalesByRep as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(b.Specialty, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(a.Qty) as Volume"),
-            DB::raw("SUM(a.Amount) as Value")
+            DB::raw("IFNULL(specialty, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Volume) as Volume"),
+            DB::raw("SUM(Volume) as Value")
         )
-        ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('b.Specialty')
+        // ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('specialty')
+        ->limit(1000)
         ->get();
 
     }
@@ -51,14 +52,15 @@ class rSalesModel extends Model
     public static function getSalesPerFrequency(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(a.Frequency, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("IFNULL(frequency, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Volume) as Volume"),
+            DB::raw("SUM(Value) as Value")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.Frequency')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('frequency')
+        ->limit(1000)
         ->get();
 
 
@@ -67,14 +69,15 @@ class rSalesModel extends Model
     public static function getSalesPerDoctorClass(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(a.MD_Class, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("IFNULL(`MD Class`, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Volume) as Volume"),
+            DB::raw("SUM(Value) as Value")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.MD_Class')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('`MD Class`')
+        ->limit(1000)
         ->get();
 
     }
@@ -82,13 +85,14 @@ class rSalesModel extends Model
     public static function getManager(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(a.Manager_Name, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume")
+            DB::raw("IFNULL(`Manager Name`, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Volume) as Volume")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.Manager_Name')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('Manager Name')
+        ->limit(1000)
         ->get();
 
     }
@@ -96,13 +100,14 @@ class rSalesModel extends Model
     public static function getManager2(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(a.Manager_Name, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("IFNULL(`Manager Name`, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Value) as Value")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.Manager_Name')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('Manager Name')
+        ->limit(1000)
         ->get();
 
     }
@@ -110,13 +115,14 @@ class rSalesModel extends Model
     public static function getResultOnClick($data){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
-            DB::raw("IFNULL(a.Medrep_Name, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume")
+            DB::raw("IFNULL(`Medrep Name`, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Volume) as Volume")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.Medrep_Name')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('Medrep Name')
+        ->limit(1000)
         ->get();
 
     }
@@ -124,14 +130,15 @@ class rSalesModel extends Model
     public static function getResultOnClick2($data){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('sales_all')
         ->select(
             // DB::raw("COUNT(*) as item_name"),
-            DB::raw("IFNULL(a.Medrep_Name, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("IFNULL(`Medrep Name`, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(Value) as Value")
         )
-        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
-        ->groupBy('a.Medrep_Name')
+        // ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('Medrep Name')
+        ->limit(1000)
         ->get();
 
     }
@@ -163,38 +170,79 @@ class rSalesModel extends Model
         $toColumns = $data->row;
 
         $count = DB::raw("COUNT('*') as TxCount");
-        $sumVolume = DB::raw("SUM(Qty) as Volume");
-        $sumValue = DB::raw("SUM(Amount) as Value");
+        $sumVolume = DB::raw("IFNULL(SUM(Volume), 0) as Volume");
+        $sumValue = DB::raw("IFNULL(SUM(Value), 0) as Value");
         $column = $data->column;
 
-        array_push($toGroup, 'Doctor.doctor_id', $column);
+        array_push($toGroup, $column);
         array_push($toSelect, $count, $sumVolume, $sumValue, $column);
         array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         // return count($toColumns);
 
         $query = DB::connection('raging')
-        ->table('Doctor')
+        ->table('sales_all')
         ->select(
             $toSelect
         )
-        ->join('SalesByRep', 'Doctor.doctor_id', '=', 'SalesByRep.doctor_id')
+        // ->join('SalesByRep', 'Doctor.doctor_id', '=', 'SalesByRep.doctor_id')
         ->groupBy($toGroup)
         ->limit(100)
         // ->paginate(50);
-        ->get()
-        ->all();
+        ->get();
 
         $content = "";
         $header = "";
-        $test = "Key Product";
+        $keyProduct = "Key Product";
+        $MDClass = "MD Class";
+        $MDNAME = "MD NAME";
+        $ManagerName = "Manager Name";
+        $MedrepName = "Medrep Name";
+        $contents = "";
+
         foreach($query as $out){
+            
+            // nasty code
+            if(!empty($out->$keyProduct)){
+                $contents .= "
+                    <td>".$out->$keyProduct."</td>
+                ";
+            }
+            if(!empty($out->Specialty)){
+                $contents .= "
+                    <td>".$out->Specialty."</td>
+                ";
+            }
+            if(!empty($out->Frequency)){
+                $contents .= "
+                    <td>".$out->Frequency."</td>
+                ";
+            }
+            if(!empty($out->MDClass)){
+                $contents .= "
+                    <td>".$out->MDClass."</td>
+                ";
+            }
+            if(!empty($out->MDNAME)){
+                $contents .= "
+                    <td>".$out->MDNAME."</td>
+                ";
+            }
+            if(!empty($out->ManagerName)){
+                $contents .= "
+                    <td>".$out->ManagerName."</td>
+                ";
+            }
+            if(!empty($out->MedrepName)){
+                $contents .= "
+                    <td>".$out->MedrepName."</td>
+                ";
+            }
+            // // end of nasty code
 
             $content .= "
                 <tr>
-                    <td>".$out->$test."</td>
-                    <td>".$out->MD_Class."</td>
-                    <td>".$out->Specialty."</td>
+                    ".$contents."
                     <td>".$out->TxCount."</td>
                     <td>".$out->Value."</td>
                     <td>".$out->Volume."</td>
@@ -202,11 +250,21 @@ class rSalesModel extends Model
             ";
         }
 
+        // for($i = 0; $i < 20; $i++){
+        //     $content .= "
+        //         <tr>
+        //             <td>Test</td>
+        //             <td>Test</td>
+        //             <td>Test</td>
+        //             <td>Test</td>
+        //             <td>Test</td>
+        //         </tr>
+        //     ";
+        // }
+
         for($i = 0; $i < count($toColumns); $i++){
             $header .= "
-                <tr>
-                    <th>".$toColumns[$i]."</th>
-                </tr>
+                <th>".$toColumns[$i]."</th>
             ";
         }
 
