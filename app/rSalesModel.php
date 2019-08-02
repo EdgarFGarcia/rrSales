@@ -293,83 +293,42 @@ class rSalesModel extends Model
 
     public static function dataAnalysisQuery($data){
 
-        $dataArray = array($data->valvol);
+        // $dataArray = array($data->valvol);
 
-        if(in_array(array("1", "2"), $dataArray)){
-            return static::ValVol($data);
-        }else{
-            if(in_array("1", $data->valvol)){
-                return static::volume($data);
-            }else if(in_array("2", $data->valvol)){
-                return static::value($data);
-            }
-        }
+        // if(in_array(array("1", "2"), $dataArray)){
+        //     return static::ValVol($data);
+        // }else{
+        //     if(in_array("1", $data->valvol)){
+        //         return static::volume($data);
+        //     }else if(in_array("2", $data->valvol)){
+        //         return static::value($data);
+        //     }
+        // }
 
     }
 
     public static function ValVol($data){
 
+        // return $data;
+        // $dataRowArray = array($data->row);
+
         $query = DB::connection('raging')
         ->table('sales_all')
-        ->limit(1000)
+        ->limit(100)
         ->get();
 
         $collection = collect($query);
 
-        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
-            // return $data->column;
+        return $final = $collection->groupBy($data->row)->map(function($row2) use ($data){
+
             return [
-                'toCount' => $row->count($data->column),
-                'key' => $row->unique($data->column),
-                'column' => $row->pluck($data->column),
-                'Volume' => $row->sum('Volume'),
-                'Value' => $row->sum('Value'),
-                'doctor' => $row->pluck('MD Name'),
+                'key' => $row2->unique($data->row[0]),
+                'count' => $row2->count($data->row)
             ];
+
         });
 
-        $dataToPassColumn = $data->column;
-        $dataToPassRow = $data->row;
 
-        $data2 = [];
-
-        foreach($final as $out){
-
-            // if($out['toCount'] > 0){
-
-            //     for($i = 0; $i < $out['toCount']; $i++){
-            //         $data2[] = [
-            //             // 'row'       => $out['row'][0]->$dataToPassRow,
-            //             // 'column'    => $out['key'][$i],
-            //             // // 'column'    => $out['row'][$i]->$dataToPassColumn,
-            //             // 'volume'    => $out['Volume'][$i],
-            //             // 'value'     => $out['Value'][$i],
-            //             // 'doctor'    => $out['Doctor'][$i]
-            //             'row'       => $out['key'][0]->$dataToPassRow,
-            //             'column'    => $out['column'][$i],
-            //             'volume'    => $out['Volume'],
-            //             'value'     => $out['Value']
-            //         ];
-            //     }
-
-            // }else{
-
-                $data2[] = [
-                    // 'row'       => $out['key'][0]->$dataToPassRow,
-                    // 'column'    => $out['key'][0]->$dataToPassColumn,
-                    'row'       => $out['key'][0]->$dataToPassRow,
-                    'column'    => $out['key'][0]->$dataToPassColumn,
-                    'volume'    => $out['Volume'],
-                    'value'     => $out['Value']
-                ];
-
-            // }
-
-            
-
-        }
-
-        return $data2;
 
     }
 
@@ -386,7 +345,7 @@ class rSalesModel extends Model
             return [
                 'key' => $row->unique($data->column),
                 'Volume' => $row->sum('Volume'),
-                'Value' => 0,
+                'Value' => $row->sum('Value'),
                 'column' => $row->pluck($data->column),
                 'doctor' => $row->pluck('MD Name'),
             ];
@@ -400,10 +359,6 @@ class rSalesModel extends Model
         foreach($final as $out){
 
             $data2[] = [
-                // 'row'       => $out['key'][0]->$dataToPassRow,
-                // 'column'    => $out['key'][0]->$dataToPassColumn,
-                // 'volume'    => $out['Volume'],
-                // 'value'     => $out['Value']
                 'row'       => $out['key'][0]->$dataToPassRow,
                 'column'    => $out['key'][0]->$dataToPassColumn,
                 'volume'    => $out['Volume'],
@@ -428,7 +383,7 @@ class rSalesModel extends Model
         $final = $collection->groupBy($data->row)->map(function($row) use ($data){
             return [
                 'key' => $row->unique($data->column),
-                'Volume' => 0,
+                'Volume' => $row->sum('Volume'),
                 'Value' => $row->sum('Value'),
                 'column' => $row->pluck($data->column),
                 'doctor' => $row->pluck('MD Name'),

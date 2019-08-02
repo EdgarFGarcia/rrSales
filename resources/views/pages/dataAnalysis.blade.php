@@ -42,19 +42,18 @@
 
                         <div class="row">
                             
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <label>Value</label>
                                 <select name="valvol" class="form-control" id="valvol" multiple="multiple">
                                     <option value="0">SELECT</option>
                                     <option value="1">Volume</option>
                                     <option value="2">Value</option>
                                 </select>
-                            </div>
+                            </div> -->
                             
                             <div class="col-md-4">
                                 <label for="row">Row</label>
-                                <select name="row" id="row" class="form-control">
-                                    <option value="0">SELECT</option>
+                                <select name="row" id="row" class="form-control" multiple="multiple">
                                     <option value="Product">Product SKU</option>
                                     <option value="TC">Therapeutic Category</option>
                                     <option value="specialty">Specialty Sales</option>
@@ -69,7 +68,7 @@
                             <div class="col-md-4">
                                 <label for="column">Column</label>
                                 <select name="column" id="column" class="form-control">
-                                    <option value="0">SELECT</option>
+                                    <option value="">SELECT</option>
                                     <option value="Product">Product SKU</option>
                                     <option value="TC">Therapeutic Category</option>
                                     <option value="specialty">Specialty Sales</option>
@@ -79,6 +78,11 @@
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                 </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label id="submit">Submit</label><br/>
+                                <button type="button" id="submit" class="btn btn-info form-control">Submit</button>
                             </div>
 
                         </div>
@@ -120,53 +124,59 @@
         $('#column').select2();
         $('#valvol').select2();
 
-        $(document).on('change', '#valvol', function(){
+        // $(document).on('change', '#valvol', function(){
 
-            var valvol = $('#valvol').val();
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((row != 0) && (column != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        // $(document).on('change', '#row', function(){
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((valvol != 0) && (column != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        // $(document).on('change', '#column', function(){
+        //     var valvol = $('#valvol').val();
+        //     var row = $('#row').val();
+        //     var column = $('#column').val();
+
+        //     if((valvol != 0) && (row != 0)){
+        //         // console.log(valvol + " " + row + " " + column);
+        //         toQuery(valvol, row, column);
+        //     }
+
+        // });
+
+        $(document).on('click', '#submit', function(){
             var row = $('#row').val();
             var column = $('#column').val();
-
-            if((row != 0) && (column != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
-        });
-
-        $(document).on('change', '#row', function(){
-            var valvol = $('#valvol').val();
-            var row = $('#row').val();
-            var column = $('#column').val();
-
-            if((valvol != 0) && (column != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
-        });
-
-        $(document).on('change', '#column', function(){
-            var valvol = $('#valvol').val();
-            var row = $('#row').val();
-            var column = $('#column').val();
-
-            if((valvol != 0) && (row != 0)){
-                // console.log(valvol + " " + row + " " + column);
-                toQuery(valvol, row, column);
-            }
-
+            toQuery(row, column);
         });
 
     });
 
     // event listeners
-    function toQuery(valvol, row, column){
-
+    // function toQuery(valvol, row, column){
+    function toQuery(row, column){
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
             data : {
-                valvol : valvol,
+                // valvol : valvol,
                 row : row,
                 column : column
             },
@@ -177,32 +187,33 @@
                 $('#divTable').addClass("hidden");
             }
         }).done(function(response){
-            if(response.response){
-                $('#contentbody').fadeIn(500);
-                $('#labelWarning').addClass("hidden");
-                $('#loading').addClass("hidden");
-                $('#divTable').removeClass("hidden");
-                $('#tableOut').DataTable({
-                    destroy : true,
-                    dom: 'Bfrtip',
-                    scrollX: true,
-                    lengthMenu: [
-                        [ 10, 25, 50, -1 ],
-                        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-                    ],
-                    buttons: [
-                        'pageLength', 'csv'
-                    ],
-                    data : response.data,
-                    aoColumns:[
-                        { "mDataProp": "row" },
-                        { "mDataProp": "column" },
-                        // { "mDataProp": "doctor" },
-                        { "mDataProp": "volume" },
-                        { "mDataProp": "value" }
-                    ]
-                });
-            }
+            console.log(response);
+            // if(response.response){
+            //     $('#contentbody').fadeIn(500);
+            //     $('#labelWarning').addClass("hidden");
+            //     $('#loading').addClass("hidden");
+            //     $('#divTable').removeClass("hidden");
+            //     $('#tableOut').DataTable({
+            //         destroy : true,
+            //         dom: 'Bfrtip',
+            //         scrollX: true,
+            //         lengthMenu: [
+            //             [ 10, 25, 50, -1 ],
+            //             [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            //         ],
+            //         buttons: [
+            //             'pageLength', 'csv'
+            //         ],
+            //         data : response.data,
+            //         aoColumns:[
+            //             { "mDataProp": "row" },
+            //             { "mDataProp": "column" },
+            //             // { "mDataProp": "doctor" },
+            //             { "mDataProp": "volume" },
+            //             { "mDataProp": "value" }
+            //         ]
+            //     });
+            // }
         });
 
     }
