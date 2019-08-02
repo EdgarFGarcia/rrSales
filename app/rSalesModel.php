@@ -291,7 +291,7 @@ class rSalesModel extends Model
         return "true";
     }
 
-    public static function dataAnalysisQuery($data){
+    // public static function dataAnalysisQuery($data){
 
         // $dataArray = array($data->valvol);
 
@@ -305,25 +305,42 @@ class rSalesModel extends Model
         //     }
         // }
 
-    }
+    // }
 
-    public static function ValVol($data){
-
-        // return $data;
-        // $dataRowArray = array($data->row);
-
+    public static function dataAnalysisQuery($data){
+        // return $data->row;
+        
         $query = DB::connection('raging')
-        ->table('sales_all')
-        ->limit(100)
+        ->table('doctor')
+        ->select(
+            $data->row,
+            $data->column
+        )
+        ->limit(1000)
+        ->groupBy($data->row)
+        ->distinct($data->row)
         ->get();
+
+        $data3[] = [];
+        return $toShow = $data->row;
+        // return count($data->row); // 4
+        foreach($query as $out){
+            $data3[] = [
+                'row' => $out->Specialty,
+                'row2' => $out->Frequency
+            ];
+        }
+
+        return $data3;
 
         $collection = collect($query);
 
-        return $final = $collection->groupBy($data->row)->map(function($row2) use ($data){
-
+        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
+            // return $row;
+            // return $data->column;
             return [
-                'key' => $row2->unique($data->row[0]),
-                'count' => $row2->count($data->row)
+                // 'key' => $row->unique($data->row)
+                'key'   => $row->where($data->row, 'like',  '%' . '$row' . '%')
             ];
 
         });

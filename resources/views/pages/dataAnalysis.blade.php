@@ -54,12 +54,20 @@
                             <div class="col-md-4">
                                 <label for="row">Row</label>
                                 <select name="row" id="row" class="form-control" multiple="multiple">
+<<<<<<< HEAD
                                     <option value="Product">Product SKU</option>
                                     <option value="TC">Therapeutic Category</option>
                                     <option value="specialty">Specialty Sales</option>
                                     <option value="frequency">Sales Per Frequency</option>
+=======
+                                    <option value="0">SELECT</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                 </select>
@@ -68,21 +76,34 @@
                             <div class="col-md-4">
                                 <label for="column">Column</label>
                                 <select name="column" id="column" class="form-control">
+<<<<<<< HEAD
                                     <option value="">SELECT</option>
                                     <option value="Product">Product SKU</option>
                                     <option value="TC">Therapeutic Category</option>
                                     <option value="specialty">Specialty Sales</option>
                                     <option value="frequency">Sales Per Frequency</option>
+=======
+                                    <option value="0">SELECT</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                 </select>
                             </div>
 
                             <div class="col-md-4">
+<<<<<<< HEAD
                                 <label id="submit">Submit</label><br/>
                                 <button type="button" id="submit" class="btn btn-info form-control">Submit</button>
+=======
+                                <label for="submit">Submit</label><br/>
+                                <button type="button" id="submit" class="form-control btn btn-info">Submit</button>
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
                             </div>
 
                         </div>
@@ -158,9 +179,15 @@
         //         // console.log(valvol + " " + row + " " + column);
         //         toQuery(valvol, row, column);
         //     }
+<<<<<<< HEAD
 
         // });
 
+=======
+
+        // });
+
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
         $(document).on('click', '#submit', function(){
             var row = $('#row').val();
             var column = $('#column').val();
@@ -172,6 +199,10 @@
     // event listeners
     // function toQuery(valvol, row, column){
     function toQuery(row, column){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
@@ -181,12 +212,13 @@
                 column : column
             },
             beforeSend : function(){
-                $('#contentbody').fadeOut(500);
-                $('#labelWarning').removeClass("hidden");
-                $('#loading').removeClass("hidden");
+                // $('#contentbody').fadeOut(500);
+                // $('#labelWarning').removeClass("hidden");
+                // $('#loading').removeClass("hidden");
                 $('#divTable').addClass("hidden");
             }
         }).done(function(response){
+<<<<<<< HEAD
             console.log(response);
             // if(response.response){
             //     $('#contentbody').fadeIn(500);
@@ -214,6 +246,34 @@
             //         ]
             //     });
             // }
+=======
+            if(response.response){
+                // $('#contentbody').fadeIn(500);
+                // $('#labelWarning').addClass("hidden");
+                // $('#loading').addClass("hidden");
+                $('#divTable').removeClass("hidden");
+                $('#tableOut').DataTable({
+                    destroy : true,
+                    dom: 'Bfrtip',
+                    scrollX: true,
+                    lengthMenu: [
+                        [ 10, 25, 50, -1 ],
+                        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    ],
+                    buttons: [
+                        'pageLength', 'csv'
+                    ],
+                    data : response.data,
+                    aoColumns:[
+                        { "mDataProp": "row" },
+                        { "mDataProp": "column" },
+                        // { "mDataProp": "doctor" },
+                        { "mDataProp": "volume" },
+                        { "mDataProp": "value" }
+                    ]
+                });
+            }
+>>>>>>> 87da048f1231fe5c3a252ba25de1806e65837f41
         });
 
     }
