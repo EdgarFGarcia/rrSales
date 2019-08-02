@@ -35,255 +35,104 @@ class rSalesModel extends Model
 
     public static function getSpecialtySales(){
 
-        // return $query = DB::connection('raging')
-        // ->table('SalesByRep as a')
-        // ->select(
-        //     DB::raw("IFNULL(Specialty, 'NOT MAPPED') as item_name"),
-        //     DB::raw("SUM(a.Qty) as Volume"),
-        //     DB::raw("SUM(a.Amount) as Value")
-        // )
-        // ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
-        // ->groupBy('b.Specialty')
-        // ->limit(3000)
-        // ->get();
-
-    	$query = DB::connection('raging')
-    	->table('sales_all')
-    	->select(
-    		'*'
-    	)
-    	->limit(3000)
-    	->get();
-
-    	$collection = collect($query);
-
-    	$final = $collection->groupBy('specialty')->map(function($row){
-    		return [
-    			'specialty' => $row->unique('specialty'),
-    			'Volume' => $row->sum('Volume'),
-    			'Value' => $row->sum('Value')
-    		];
-    	});
-
-    	$data = [];
-
-    	foreach($final as $out){
-    		// return $out;
-    		$data[] = [
-    			'item_name' => $out['specialty'][0]->specialty,
-    			'Volume' => $out['Volume'],
-    			'Value' => $out['Value']
-    		];
-    	}
-
-    	return $data;
+        return $query = DB::connection('raging')
+        ->table('SalesByRep as a')
+        ->select(
+            DB::raw("IFNULL(b.Specialty, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(a.Qty) as Volume"),
+            DB::raw("SUM(a.Amount) as Value")
+        )
+        ->join('Doctor as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('b.Specialty')
+        ->get();
 
     }
 
     public static function getSalesPerFrequency(){
 
-    	$query = DB::connection('raging')
-    	->table('sales_all')
-    	->select(
-    		'*'
-    	)
-    	->limit(1000)
-    	->get();
-    	
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            DB::raw("IFNULL(a.Frequency, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Qty) as Volume"),
+            DB::raw("SUM(b.Amount) as Value")
+        )
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.Frequency')
+        ->get();
 
-    	$collection = collect($query);
-
-    	$final = $collection->groupBy('frequency')->map(function($row){
-    		return [
-    			'frequency' => $row->unique('frequency'),
-    			'Volume' => $row->sum('Volume'),
-    			'Value' => $row->sum('Value')
-    		];
-    	});
-
-    	$data = [];
-
-    	foreach($final as $out){
-    		// return $out;
-    		$data[] = [
-    			'item_name' => $out['frequency'][0]->frequency,
-    			'Volume' => $out['Volume'],
-    			'Value' => $out['Value']
-    		];
-    	}
-
-    	return $data;
 
     }
 
     public static function getSalesPerDoctorClass(){
 
-    	$query = DB::connection('raging')
-    	->table('sales_all')
-    	->select(
-    		'*'
-    	)
-    	->limit(1000)
-    	->get();
-
-    	$collection = collect($query);
-
-    	$final = $collection->groupBy('MD Class')->map(function($row){
-    		return [
-    			'MD Class' => $row->unique('MD Class'),
-    			'Volume' => $row->sum('Volume'),
-    			'Value' => $row->sum('Value')
-    		];
-    	});
-
-    	$data = [];
-
-    	$test = "MD Class";
-
-    	foreach($final as $out){
-    		// return $out;
-    		$data[] = [
-    			'item_name' => $out['MD Class'][0]->$test,
-    			'Volume' => $out['Volume'],
-    			'Value' => $out['Value']
-    		];
-    	}
-
-    	return $data;
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            DB::raw("IFNULL(a.MD_Class, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Qty) as Volume"),
+            DB::raw("SUM(b.Amount) as Value")
+        )
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.MD_Class')
+        ->get();
 
     }
 
     public static function getManager(){
 
-    	$query = DB::connection('raging')
-    	->table('sales_all')
-    	->select(
-    		'*'
-    	)
-    	->limit(3000)
-    	->get();
-
-    	$collection = collect($query);
-
-    	$final = $collection->groupBy('Manager Name')->map(function($row){
-    		return [
-    			'Manager Name' => $row->unique('Manager Name'),
-    			'Volume' => $row->sum('Volume')
-    		];
-    	});
-
-    	$data = [];
-
-    	$test = "Manager Name";
-
-    	foreach($final as $out){
-    		// return $out;
-    		$data[] = [
-    			'item_name' => $out['Manager Name'][0]->$test,
-    			'Volume' => $out['Volume']
-    		];
-    	}
-
-    	return $data;
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            DB::raw("IFNULL(a.Manager_Name, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Qty) as Volume")
+        )
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.Manager_Name')
+        ->get();
 
     }
 
     public static function getManager2(){
 
-        $query = DB::connection('raging')
-        ->table('sales_all')
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
         ->select(
-            '*'
+            DB::raw("IFNULL(a.Manager_Name, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Amount) as Value")
         )
-        ->limit(3000)
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.Manager_Name')
         ->get();
-
-        $collection = collect($query);
-
-        $final = $collection->groupBy('Manager Name')->map(function($row){
-            return [
-                'Manager Name' => $row->unique('Manager Name'),
-                'Value' => $row->sum('Value')
-            ];
-        });
-
-        $data = [];
-
-        $test = "Manager Name";
-
-        foreach($final as $out){
-            // return $out;
-            $data[] = [
-                'item_name' => $out['Manager Name'][0]->$test,
-                'Value' => $out['Value']
-            ];
-        }
-
-        return $data;
 
     }
 
     public static function getResultOnClick($data){
 
-        $query = DB::connection('raging')
-        ->table('sales_all as a')
-        ->where('Manager Name', $data['name'])
-        ->limit(1000)
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            DB::raw("IFNULL(a.Medrep_Name, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Qty) as Volume")
+        )
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.Medrep_Name')
         ->get();
-
-        $collection = collect($query);
-
-        $final = $collection->groupBy('Medrep Name')->map(function($row){
-            return [
-                'medrepName' => $row->unique('MedRep Name'),
-                'Volume' => $row->sum('Volume')
-            ];
-        });
-
-        $test = "Medrep Name";
-
-        $data = [];
-
-        foreach($final as $out){
-            $data[] = [
-                'item_name' => $out['medrepName'][0]->$test,
-                'Volume'    => $out['Volume']
-            ];
-        }
-
-        return $data;
 
     }
 
     public static function getResultOnClick2($data){
 
-        $query = DB::connection('raging')
-        ->table('sales_all as a')
-        ->where('Manager Name', $data['name'])
-        ->limit(1000)
+        return $query = DB::connection('raging')
+        ->table('Doctor as a')
+        ->select(
+            // DB::raw("COUNT(*) as item_name"),
+            DB::raw("IFNULL(a.Medrep_Name, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(b.Amount) as Value")
+        )
+        ->join('SalesByRep as b', 'a.doctor_id', '=', 'b.doctor_id')
+        ->groupBy('a.Medrep_Name')
         ->get();
-
-        $collection = collect($query);
-
-        $final = $collection->groupBy('Medrep Name')->map(function($row){
-            return [
-                'medrepName' => $row->unique('MedRep Name'),
-                'Value' => $row->sum('Value')
-            ];
-        });
-
-        $test = "Medrep Name";
-
-        $data = [];
-
-        foreach($final as $out){
-            $data[] = [
-                'item_name' => $out['medrepName'][0]->$test,
-                'Volume'    => $out['Value']
-            ];
-        }
-
-        return $data;
 
     }
 
@@ -308,44 +157,39 @@ class rSalesModel extends Model
     // }
 
     public static function dataAnalysisQuery($data){
-        // return $data->row;
-        
+
+        $toGroup = $data->row;
+        $toSelect = $data->row;
+        $toColumns = $data->row;
+
+        $count = DB::raw("COUNT('*') as TxCount");
+        $sumVolume = DB::raw("SUM(Qty) as Volume");
+        $sumValue = DB::raw("SUM(Amount) as Value");
+        $column = $data->column;
+
+        array_push($toGroup, 'Doctor.doctor_id', $column);
+        array_push($toSelect, $count, $sumVolume, $sumValue, $column);
+        array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
+
+        // return count($toColumns);
+
         $query = DB::connection('raging')
-        ->table('doctor')
+        ->table('Doctor')
         ->select(
-            $data->row,
-            $data->column
+            $toSelect
         )
-        ->limit(1000)
-        ->groupBy($data->row)
-        ->distinct($data->row)
-        ->get();
+        ->join('SalesByRep', 'Doctor.doctor_id', '=', 'SalesByRep.doctor_id')
+        ->groupBy($toGroup)
+        ->limit(100)
+        // ->paginate(50);
+        ->get()
+        ->all();
 
-        $data3[] = [];
-        return $toShow = $data->row;
-        // return count($data->row); // 4
-        foreach($query as $out){
-            $data3[] = [
-                'row' => $out->Specialty,
-                'row2' => $out->Frequency
-            ];
-        }
-
-        return $data3;
-
-        $collection = collect($query);
-
-        $final = $collection->groupBy($data->row)->map(function($row) use ($data){
-            // return $row;
-            // return $data->column;
-            return [
-                // 'key' => $row->unique($data->row)
-                'key'   => $row->where($data->row, 'like',  '%' . '$row' . '%')
-            ];
-
-        });
-
-
+        return [
+            // $query,
+            'header' => $toColumns,
+            'data' => $query
+        ];
 
     }
 

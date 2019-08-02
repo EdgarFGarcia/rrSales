@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a6508dca1766ac403dcb515571454f6",
+    "content-hash": "36e8937ba8ac86735bf16e4cadfa0188",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3276,6 +3276,61 @@
                 "environment"
             ],
             "time": "2019-06-15T22:40:20+00:00"
+        },
+        {
+            "name": "volosyuk/simple-eloquent",
+            "version": "5.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andreyvolosyuk/simple-eloquent.git",
+                "reference": "e20b42662f71f5ac55d20c06d4b13eacf7f22d78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andreyvolosyuk/simple-eloquent/zipball/e20b42662f71f5ac55d20c06d4b13eacf7f22d78",
+                "reference": "e20b42662f71f5ac55d20c06d4b13eacf7f22d78",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.8.*",
+                "illuminate/pagination": "5.8.*",
+                "illuminate/support": "5.8.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.8.x-dev",
+                    "dev-five_seven": "5.7.x-dev",
+                    "dev-five_six": "5.6.x-dev",
+                    "dev-five_five": "5.5.x-dev",
+                    "dev-five_four": "5.4.x-dev",
+                    "dev-five_three": "5.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Volosyuk\\SimpleEloquent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Volosyuk",
+                    "email": "valasiuk.andrei@gmail.com"
+                }
+            ],
+            "description": "Adaptation of eloquent for retrieving its attributes",
+            "keywords": [
+                "eloquent",
+                "laravel"
+            ],
+            "time": "2019-04-30T15:32:41+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
