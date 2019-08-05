@@ -156,8 +156,8 @@ class rSalesModel extends Model
         $toColumns = $data->row;
 
         $count = DB::raw("COUNT('*') as TxCount");
-        $sumVolume = DB::raw("SUM(SalesByRep.Qty) as Volume");
-        $sumValue = DB::raw("SUM(SalesByRep.Amount) as Value");
+        $sumVolume = DB::raw("SUM(Volume) as Volume");
+        $sumValue = DB::raw("SUM(Value) as Value");
         $column = $data->column;
 
         array_push($toGroup, $column);
@@ -165,11 +165,11 @@ class rSalesModel extends Model
         array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
-        ->table('Doctor')
+        ->table('sales_all')
         ->select(
             $toSelect
         )
-        ->leftJoin('SalesByRep', 'Doctor.doctor_id', '=', 'SalesByRep.doctor_id')
+        // ->leftJoin('SalesByRep', 'Doctor.doctor_id', '=', 'SalesByRep.doctor_id')
         ->groupBy($toGroup)
         ->limit(100)
         // ->paginate(50);
@@ -178,11 +178,11 @@ class rSalesModel extends Model
 
         $content = "";
         $header = "";
-        $keyProduct = "Key Product";
-        $MDClass = "MD_Class";
-        $MDNAME = "Last_name";
-        $ManagerName = "Manager_Name";
-        $MedrepName = "Medrep_Name";
+        $keyProduct = "Product";
+        $MDClass = "MD Class";
+        $MDNAME = "MD Name";
+        $ManagerName = "Manager Name";
+        $MedrepName = "Medrep Name";
         $contents = "";
 
         for($i = 0; $i < count($toColumns); $i++){
@@ -203,42 +203,49 @@ class rSalesModel extends Model
                 $obj->one = "Empty";
             }
 
-            if(!empty($out->Specialty)){
-                $obj->two = $out->Specialty;
+            if(!empty($out->TC)){
+                $obj->eight = $out->TC;
+            }else{
+                $obj->eight = "Empty";
+            }
+
+            if(!empty($out->specialty)){
+                $obj->two = $out->specialty;
             }else {
                 $obj->two = "Empty";
             }
 
-            if(!empty($out->Frequency)){
-                $obj->three = $out->Frequency;
+            if(!empty($out->frequency)){
+                $obj->three = $out->frequency;
             }else {
                 $obj->three = "Empty";
             }
 
-            if(!empty($out->MD_Class)){
-                $obj->four = $out->MD_Class;
+            if(!empty($out->$MDNAME)){
+                $obj->four = $out->$MDNAME;
             }else {
                 $obj->four = "Empty";
             }
 
-            if(!empty($out->Last_Name)){
-                $obj->five = $out->Last_Name;
+            if(!empty($out->$MDNAME)){
+                $obj->five = $out->$MDNAME;
             }else {
                 $obj->five = "Empty";
             }
 
-            if(!empty($out->Manager_Name)){
-                $obj->six = $out->Manager_Name;
+            if(!empty($out->$ManagerName)){
+                $obj->six = $out->$ManagerName;
             }else {
                 $obj->six = "Empty";
             }
 
-            if(!empty($out->Medrep_Name)){
-                $obj->seven = $out->Medrep_Name;
+            if(!empty($out->$MedrepName)){
+                $obj->seven = $out->$MedrepName;
             }else {
                 $obj->seven = "Empty";
             }
-            $obj->column = $out->column;
+
+            $obj->column = $out->$column;
             $obj->TxCount = $out->TxCount;
             $obj->Value = $out->Value;
             $obj->Volume = $out->Volume;

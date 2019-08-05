@@ -46,14 +46,14 @@
                                 <label for="row">Row</label>
                                 <select name="row" id="row" class="form-control" multiple="multiple">
 
-                                    <option value="Key Product">Product SKU</option>
-                                    <option value="Key Product">Therapeutic Category</option>
-                                    <option value="Specialty">Specialty Sales</option>
-                                    <option value="Frequency">Sales Per Frequency</option>
-                                    <option value="MD_Class">Sales Per Doctor Class</option>
-                                    <option value="Last_Name">Doctor Name</option>
-                                    <option value="Manager_Name">Manager Name</option>
-                                    <option value="Medrep_Name">Medrep Name</option>
+                                    <option value="Product">Product SKU</option>
+                                    <option value="TC">Therapeutic Category</option>
+                                    <option value="specialty">Specialty Sales</option>
+                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Manager Name">Manager Name</option>
+                                    <option value="Medrep Name">Medrep Name</option>
 
                                 </select>
                             </div>
@@ -64,14 +64,14 @@
 
                                     <option value="0">SELECT</option>
 
-                                    <option value="Key Product">Product SKU</option>
-                                    <option value="Key Product">Therapeutic Category</option>
-                                    <option value="Specialty">Specialty Sales</option>
-                                    <option value="Frequency">Sales Per Frequency</option>
-                                    <option value="MD_Class">Sales Per Doctor Class</option>
-                                    <option value="Last_Name">Doctor Name</option>
-                                    <option value="Manager_Name">Manager Name</option>
-                                    <option value="Medrep_Name">Medrep Name</option>
+                                    <option value="Product">Product SKU</option>
+                                    <option value="TC">Therapeutic Category</option>
+                                    <option value="specialty">Specialty Sales</option>
+                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Manager Name">Manager Name</option>
+                                    <option value="Medrep Name">Medrep Name</option>
 
                                 </select>
                             </div>
@@ -144,16 +144,13 @@
     // event listeners
     // function toQuery(valvol, row, column){
     function toQuery(row, column){
-        console.log("clicked");
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
             data : {
-                // valvol : valvol,
                 row : row,
                 column : column
             },
-            // dataType : JSON,
             beforeSend : function(){
                 $('#contentbody').fadeOut(500);
                 $('#labelWarning').removeClass("hidden");
@@ -172,9 +169,8 @@
                 $('#loading').addClass("hidden");
                 $('#displayTable').removeClass("hidden");
 
-                var jsonData = JSON.parse(data.data);
-                console.log(jsonData);
-
+                // var jsonData = JSON.parse(data.data);
+                // console.log(jsonData);
 
                 // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + data.header + '</tr></thead></table>');
 
@@ -192,13 +188,14 @@
                     data: data.data,
                     columns : [
                         {data: "one", name: "one"},
+                        {data: "eight", name: "eight"},
                         {data: "two", name: "two"},
                         {data: "three", name: "three"},
                         {data: "four", name: "four"},
                         {data: "five", name: "five"},
                         {data: "six", name: "six"},
                         {data: "seven", name: "seven"},
-                        {data: "Column", name: "Column"},
+                        {data: "column", name: "column"},
                         {data: "TxCount", name: "TxCount"},
                         {data: "Volume", name: "Volume"},
                         {data: "Value", name: "Value"},
