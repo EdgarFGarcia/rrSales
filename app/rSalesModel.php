@@ -178,7 +178,6 @@ class rSalesModel extends Model
 
         $content = "";
         $header = "";
-        $keyProduct = "Product";
         $MDClass = "MD Class";
         $MDNAME = "MD Name";
         $ManagerName = "Manager Name";
@@ -197,52 +196,52 @@ class rSalesModel extends Model
 
             $obj = new \stdClass;
 
-            if(!empty($out->$keyProduct)){
-                $obj->one = $out->$keyProduct;
+            if(!empty($out->Product)){
+                $obj->product = $out->Product;
             }else {
-                $obj->one = "Empty";
+                $obj->product = "Empty";
             }
 
             if(!empty($out->TC)){
-                $obj->eight = $out->TC;
+                $obj->tc = $out->TC;
             }else{
-                $obj->eight = "Empty";
+                $obj->tc = "";
             }
 
             if(!empty($out->specialty)){
-                $obj->two = $out->specialty;
+                $obj->specialty = $out->specialty;
             }else {
-                $obj->two = "Empty";
+                $obj->specialty = "";
             }
 
             if(!empty($out->frequency)){
-                $obj->three = $out->frequency;
+                $obj->frequency = $out->frequency;
             }else {
-                $obj->three = "Empty";
+                $obj->frequency = "";
+            }
+
+            if(!empty($out->$MDClass)){
+                $obj->mdclass = $out->$MDClass;
+            }else{
+                $obj->mdclass = "";
             }
 
             if(!empty($out->$MDNAME)){
-                $obj->four = $out->$MDNAME;
+                $obj->mdname = $out->$MDNAME;
             }else {
-                $obj->four = "Empty";
-            }
-
-            if(!empty($out->$MDNAME)){
-                $obj->five = $out->$MDNAME;
-            }else {
-                $obj->five = "Empty";
+                $obj->mdname = "";
             }
 
             if(!empty($out->$ManagerName)){
-                $obj->six = $out->$ManagerName;
+                $obj->managername = $out->$ManagerName;
             }else {
-                $obj->six = "Empty";
+                $obj->managername = "";
             }
 
             if(!empty($out->$MedrepName)){
-                $obj->seven = $out->$MedrepName;
+                $obj->medrepname = $out->$MedrepName;
             }else {
-                $obj->seven = "Empty";
+                $obj->medrepname = "";
             }
 
             $obj->column = $out->$column;

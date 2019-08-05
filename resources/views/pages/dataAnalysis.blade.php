@@ -91,8 +91,9 @@
                     	<table id="displayTable" class="table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>Product SKU</th>
+                                    <th>Product</th>
                                     <th>TC</th>
+                                    <th>Specialty</th>
                                     <th>Sales Per Frequency</th>
                                     <th>Sales Per Doctor Class</th>
                                     <th>Doctor Name</th>
@@ -104,12 +105,6 @@
                                     <th>Value</th>
                                 </tr>
                             </thead>
-                    		<!-- <thead id="">
-
-                            </thead>
-                    		<tbody id="body">
-                                   
-                    		</tbody> -->
                     	</table>
                     </div>
             
@@ -187,14 +182,14 @@
                     ],
                     data: data.data,
                     columns : [
-                        {data: "one", name: "one"},
-                        {data: "eight", name: "eight"},
-                        {data: "two", name: "two"},
-                        {data: "three", name: "three"},
-                        {data: "four", name: "four"},
-                        {data: "five", name: "five"},
-                        {data: "six", name: "six"},
-                        {data: "seven", name: "seven"},
+                        {data: "product", name: "product"},
+                        {data: "tc", name: "tc"},
+                        {data: "frequency", name: "frequency"},
+                        {data: "specialty", name: "specialty"},
+                        {data: "mdclass", name: "mdclass"},
+                        {data: "mdname", name: "mdname"},
+                        {data: "managername", name: "managername"},
+                        {data: "medrepname", name: "medrepname"},
                         {data: "column", name: "column"},
                         {data: "TxCount", name: "TxCount"},
                         {data: "Volume", name: "Volume"},
