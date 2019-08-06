@@ -459,7 +459,6 @@
             });
 
             series.columns.template.events.on("hit", function(ev){
-                // console.log("clicked on", ev.target.dataItem.dataContext);
                 managerName = ev.target.dataItem.dataContext.item_name;
                 getResultOnClick(managerName);
             }, this);
