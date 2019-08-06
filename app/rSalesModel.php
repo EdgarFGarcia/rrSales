@@ -58,13 +58,13 @@ class rSalesModel extends Model
     public static function getSalesPerFrequency(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep as a')
         ->select(
-            DB::raw("ISNULL(frequency, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("ISNULL(b.frequency, 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(a.Qty) as Volume"),
+            DB::raw("SUM(a.Amount) as Value")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
+        ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
         ->groupBy('frequency')
         ->get();
 
@@ -150,20 +150,20 @@ class rSalesModel extends Model
         $toColumns = $data->row;
 
         $count = DB::raw("COUNT('*') as TxCount");
-        $sumVolume = DB::raw("ISNULL(SUM(Qty), 0) as Volume");
-        $sumValue = DB::raw("ISNULL(SUM(Amount), 0) as Value");
+        $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N2'), 0) as Volume");
+        $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
         $column = $data->column;
 
         array_push($toGroup, $column);
-        array_push($toSelect, $count, $sumVolume, $sumValue, $column);
+        array_push($toSelect, $column, $count, $sumVolume, $sumValue);
         array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
-        ->table('Doctor')
+        ->table('SalesByRep')
         ->select(
             $toSelect
         )
-        ->leftJoin('SalesByRep', 'Doctor.MD ID', '=', 'SalesByRep.MD ID')
+        ->leftJoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
         ->groupBy($toGroup)
         // ->limit(100)
         // ->paginate(50);
