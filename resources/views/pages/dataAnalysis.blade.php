@@ -3,7 +3,7 @@
 
 @section('content')
 <style type="text/css">
-    td:last-child{
+    td:nth-last-child(-n+3){
         text-align: right
     }
 </style>
@@ -131,7 +131,7 @@
     // event listeners
     // function toQuery(valvol, row, column){
     function toQuery(row, column){
-        // destoryTable();
+
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
@@ -144,13 +144,12 @@
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
                 $('#displayTable').addClass("hidden");
-                // destoryTable();
             },
             success: function(){
                 // console.log("success entered");
             }
         }).done(function(data){
-            // console.log(data);
+
             if(data.response){
 
                 $('#contentbody').fadeIn(500);
@@ -159,6 +158,8 @@
                 $('#displayTable').removeClass("hidden");
 
                 var my_columns = [];
+                var header;
+                var content;
 
                 $.each(data.data[0], function(key, value){
                     var my_items = {};
@@ -167,10 +168,7 @@
                     my_columns.push(my_items);
                 });
 
-                // var jsonData = JSON.parse(data.data);
-                // console.log(jsonData);
-
-                // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + data.header + '</tr></thead></table>');
+                // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + header + '</tr><tr>' +content+ '</tr></thead></table>');
 
                 table = $('#displayTable').DataTable({
                     destroy : true,
@@ -184,19 +182,12 @@
                         'pageLength', 'csv'
                     ],
                     data: data.data,
-                    "columns": my_columns
+                    columns: my_columns
                 });
-                
+
             }
         });
 
-    }
-
-    function destoryTable(){
-        if (table.Rows.Count > 0){
-            table = DataTable().clear();
-            table = DataTable().destroy();
-        }
     }
 
 </script>
