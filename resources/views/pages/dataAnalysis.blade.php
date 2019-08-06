@@ -53,9 +53,9 @@
 
                                     <option value="Key Product">Product SKU</option>
                                     <option value="Key Product">Therapeutic Category</option>
-                                    <option value="Specialty">Specialty Sales</option>
-                                    <option value="Frequency">Sales Per Frequency</option>
-                                    <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="Specialty">Specialty</option>
+                                    <option value="Frequency">Frequency</option>
+                                    <option value="MD Class">Doctor Class</option>
                                     <option value="Doctor.Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
@@ -71,9 +71,9 @@
 
                                     <option value="Key Product">Product SKU</option>
                                     <option value="Key Product">Therapeutic Category</option>
-                                    <option value="Specialty">Specialty Sales</option>
-                                    <option value="Frequency">Sales Per Frequency</option>
-                                    <option value="MD Class">Sales Per Doctor Class</option>
+                                    <option value="Specialty">Specialty</option>
+                                    <option value="Frequency">Frequency</option>
+                                    <option value="MD Class">Doctor Class</option>
                                     <option value="Doctor.Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
@@ -149,8 +149,10 @@
                 // console.log("success entered");
             }
         }).done(function(data){
-
+            
             if(data.response){
+
+                // $('#divTable').empty();
 
                 $('#contentbody').fadeIn(500);
                 $('#labelWarning').addClass("hidden");
@@ -158,8 +160,7 @@
                 $('#displayTable').removeClass("hidden");
 
                 var my_columns = [];
-                var header;
-                var content;
+                var contents = [];
 
                 $.each(data.data[0], function(key, value){
                     var my_items = {};
@@ -170,8 +171,20 @@
 
                 // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + header + '</tr><tr>' +content+ '</tr></thead></table>');
 
-                table = $('#displayTable').DataTable({
-                    destroy : true,
+                destroyTable(my_columns, data.data);
+
+            }
+        });
+
+    }
+
+    function destroyTable(my_columns, data){
+        if(table){
+            console.log("exist");
+            // table.clear().destroy();
+            $('#displayTable').DataTable().clear().destroy();
+            $('#displayTable').DataTable({
+                    // destroy : true,
                     dom: 'Bfrtip',
                     scrollX: true,
                     lengthMenu: [
@@ -181,13 +194,26 @@
                     buttons: [
                         'pageLength', 'csv'
                     ],
-                    data: data.data,
+                    data: data,
                     columns: my_columns
                 });
-
-            }
-        });
-
+        }else{
+            console.log("does not exist");
+            $('#displayTable').DataTable({
+                // destroy : true,
+                dom: 'Bfrtip',
+                scrollX: true,
+                lengthMenu: [
+                    [ 10, 25, 50, -1 ],
+                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                ],
+                buttons: [
+                    'pageLength', 'csv'
+                ],
+                data: data,
+                columns: my_columns
+            });
+        }
     }
 
 </script>
