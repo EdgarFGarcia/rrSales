@@ -46,12 +46,12 @@
                                 <label for="row">Row</label>
                                 <select name="row" id="row" class="form-control" multiple="multiple">
 
-                                    <option value="Product">Product SKU</option>
-                                    <option value="TC">Therapeutic Category</option>
-                                    <option value="specialty">Specialty Sales</option>
-                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Doctor.Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
 
@@ -64,12 +64,12 @@
 
                                     <option value="0">SELECT</option>
 
-                                    <option value="Product">Product SKU</option>
-                                    <option value="TC">Therapeutic Category</option>
-                                    <option value="specialty">Specialty Sales</option>
-                                    <option value="frequency">Sales Per Frequency</option>
+                                    <option value="Key Product">Product SKU</option>
+                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="Specialty">Specialty Sales</option>
+                                    <option value="Frequency">Sales Per Frequency</option>
                                     <option value="MD Class">Sales Per Doctor Class</option>
-                                    <option value="MD Name">Doctor Name</option>
+                                    <option value="Doctor.Last Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
 
@@ -89,22 +89,6 @@
                     
                     <div class="col-lg-12 col-md-12" id="divTable">
                     	<table id="displayTable" class="table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>TC</th>
-                                    <th>Specialty</th>
-                                    <th>Sales Per Frequency</th>
-                                    <th>Sales Per Doctor Class</th>
-                                    <th>Doctor Name</th>
-                                    <th>Manager Name</th>
-                                    <th>Medrep Name</th>
-                                    <th>Column</th>
-                                    <th>Count</th>
-                                    <th>Volume</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
                     	</table>
                     </div>
             
@@ -119,8 +103,10 @@
 
 @section('scripts')
 <script>
+
     var row;
     var column;
+
     $(document).ready(function(){
 
         // on load function
@@ -164,6 +150,15 @@
                 $('#loading').addClass("hidden");
                 $('#displayTable').removeClass("hidden");
 
+                var my_columns = [];
+
+                $.each(data.data[0], function(key, value){
+                    var my_items = {};
+                    my_items.data = key;
+                    my_items.title = key;
+                    my_columns.push(my_items);
+                });
+
                 // var jsonData = JSON.parse(data.data);
                 // console.log(jsonData);
 
@@ -181,20 +176,7 @@
                         'pageLength', 'csv'
                     ],
                     data: data.data,
-                    columns : [
-                        {data: "product", name: "product"},
-                        {data: "tc", name: "tc"},
-                        {data: "frequency", name: "frequency"},
-                        {data: "specialty", name: "specialty"},
-                        {data: "mdclass", name: "mdclass"},
-                        {data: "mdname", name: "mdname"},
-                        {data: "managername", name: "managername"},
-                        {data: "medrepname", name: "medrepname"},
-                        {data: "column", name: "column"},
-                        {data: "TxCount", name: "TxCount"},
-                        {data: "Volume", name: "Volume"},
-                        {data: "Value", name: "Value"},
-                    ]
+                    "columns": my_columns
                 });
                 
             }

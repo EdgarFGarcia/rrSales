@@ -39,6 +39,7 @@ Route::group(['middleware' => ['preventbackhistory']], function () {
     });
 
 });
+
 // Route::get('/main', 'pageController@index');
 // Route::get('/main2', 'pageController@home');
 // // Route::get('/dataManager', 'pageController@dataManager');
