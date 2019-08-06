@@ -21,7 +21,6 @@ class rSalesModel extends Model
     		'item_name'
     	)
     	->groupBy('item_name')
-        ->limit(10)
     	->get();
 
     }
@@ -97,7 +96,6 @@ class rSalesModel extends Model
         )
         ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
         ->groupBy('a.Manager Name')
-        ->limit(10)
         // ->limit(1000)
         ->get();
 
@@ -113,7 +111,6 @@ class rSalesModel extends Model
         )
         ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
         ->groupBy('a.Manager Name')
-        ->limit(10)
         ->get();
 
     }
