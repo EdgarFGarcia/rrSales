@@ -135,7 +135,7 @@ class rSalesModel extends Model
         ->table('SalesByRep as a')
         ->select(
             'b.Medrep Name as item_name',
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("SUM(a.Amount) as Value")
         )
         ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
         ->groupBy('b.Medrep Name')
