@@ -118,13 +118,13 @@ class rSalesModel extends Model
     public static function getResultOnClick($data){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep as a')
         ->select(
-            'a.Medrep Name as item_name',
-            DB::raw("SUM(b.Qty) as Volume")
+            'b.Medrep Name as item_name',
+            DB::raw("SUM(a.Qty) as Volume")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
-        ->groupBy('a.Medrep Name')
+        ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
+        ->groupBy('b.Medrep Name')
         ->get();
 
     }
@@ -132,13 +132,13 @@ class rSalesModel extends Model
     public static function getResultOnClick2($data){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep as a')
         ->select(
-            'a.Medrep Name as item_name',
+            'b.Medrep Name as item_name',
             DB::raw("SUM(b.Amount) as Value")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
-        ->groupBy('a.Medrep Name')
+        ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
+        ->groupBy('b.Medrep Name')
         ->get();
 
     }
@@ -151,7 +151,8 @@ class rSalesModel extends Model
 
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
-        $sumValue = DB::raw("ISNULL(Right(Replicate('',20)+FORMAT(SUM(Amount), 'N2'), 20), 0) as Value");
+        $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
+        // $sumValue = DB::raw("convert(varchar(13),space(13 - len(ISNULL(FORMAT(SUM(convert(float(10),Amount)), 'N0'), 0))) + convert(varchar(13),ISNULL(FORMAT(SUM(convert(float(10),Amount)), 'N0'), 0))) as Value");
         $column = $data->column;
 
         array_push($toGroup, $column);

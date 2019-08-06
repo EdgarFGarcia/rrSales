@@ -2,6 +2,11 @@
 @section('title', 'Data Analysis')
 
 @section('content')
+<style type="text/css">
+    td:last-child{
+        text-align: right
+    }
+</style>
 <section role="main" class="content-body">
     <header class="page-header">
         <h2>Data Analysis</h2>
@@ -106,6 +111,7 @@
 
     var row;
     var column;
+    var table;
 
     $(document).ready(function(){
 
@@ -125,6 +131,7 @@
     // event listeners
     // function toQuery(valvol, row, column){
     function toQuery(row, column){
+        // destoryTable();
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
@@ -137,9 +144,10 @@
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
                 $('#displayTable').addClass("hidden");
+                // destoryTable();
             },
             success: function(){
-                console.log("success entered");
+                // console.log("success entered");
             }
         }).done(function(data){
             // console.log(data);
@@ -164,7 +172,7 @@
 
                 // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + data.header + '</tr></thead></table>');
 
-                $('#displayTable').DataTable({
+                table = $('#displayTable').DataTable({
                     destroy : true,
                     dom: 'Bfrtip',
                     scrollX: true,
@@ -182,6 +190,13 @@
             }
         });
 
+    }
+
+    function destoryTable(){
+        if (table.Rows.Count > 0){
+            table = DataTable().clear();
+            table = DataTable().destroy();
+        }
     }
 
 </script>
