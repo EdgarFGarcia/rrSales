@@ -151,7 +151,7 @@ class rSalesModel extends Model
 
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
-        $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
+        $sumValue = DB::raw("ISNULL(Right(Replicate('',20)+FORMAT(SUM(Amount), 'N2'), 20), 0) as Value");
         $column = $data->column;
 
         array_push($toGroup, $column);
