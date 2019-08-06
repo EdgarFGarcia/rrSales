@@ -149,8 +149,8 @@ class rSalesModel extends Model
         $toSelect = $data->row;
         $toColumns = $data->row;
 
-        $count = DB::raw("COUNT('*') as TxCount");
-        $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N2'), 0) as Volume");
+        $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
+        $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
         $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
         $column = $data->column;
 
