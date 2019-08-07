@@ -166,13 +166,15 @@
         console.log(my_columns);
 
         if(table){
-            
+
+            /*
+                Destroy previous parent div of the table then build it in DOM
+                then feed datatable necessary values then initialize the datatables
+            */
+
             $('#divTable').html("");
             $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered table-hover'));
-            // $('#tableContainer').append($('<table/>').attr('id', 'featureTable').css('width','100%').addClass('display'));
 
-            // initialized
-            // table = $('#displayTable').DataTable().destroy();
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,

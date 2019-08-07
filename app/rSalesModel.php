@@ -150,6 +150,18 @@ class rSalesModel extends Model
         $toSelect = $data->row;
         $toColumns = $data->row;
 
+        $replacements = array(
+            'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
+            'class' => DB::raw("class as [TC]"),
+            'Name' => DB::raw("Name as [MD Name]")
+        );
+
+        foreach($toSelect as $key  => $value){
+            if(isset($replacements[$value])){
+                $toSelect[$key] = $replacements[$value];
+            }
+        }
+
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
         $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
@@ -158,7 +170,7 @@ class rSalesModel extends Model
 
         array_push($toGroup, $column);
         array_push($toSelect, $column, $count, $sumVolume, $sumValue);
-        array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
+        // array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
         ->table('SalesByRep')
@@ -170,24 +182,17 @@ class rSalesModel extends Model
         ->groupBy($toGroup)
         ->get();
 
-        $header = "";
-        $product = "Item Name";
-        $class = "TC";
-        $MDClass = "MD Class";
-        $MDNAME = "MD Name";
-        $ManagerName = "Manager Name";
-        $MedrepName = "Medrep Name";
-
-        for($i = 0; $i < count($toColumns); $i++){
-            $header .= "
-                <th>".$toColumns[$i]."</th>
-            ";
-        }
+        // $header = "";
+        // $product = "Item Name";
+        // $class = "TC";
+        // $MDClass = "MD Class";
+        // $MDNAME = "MD Name";
+        // $ManagerName = "Manager Name";
+        // $MedrepName = "Medrep Name";
 
         // $data = array();
 
         // foreach($query as $out){
-
         //     $obj = new \stdClass;
 
         //     if(!empty($out->item_name)){
@@ -227,13 +232,18 @@ class rSalesModel extends Model
         //     $obj->Value = $out->Value;
 
         //     $data[] = $obj;
-
         // }
 
         // $info = new Collection($data);
 
+        // for($i = 0; $i < count($toColumns); $i++){
+        //     $header .= "
+        //         <th>".$toColumns[$i]."</th>
+        //     ";
+        // }
+
         return [
-            'header' => $header,
+            // 'header' => $header,
             'data' => $query
         ];
 
