@@ -142,6 +142,7 @@
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
                 $('#displayTable').addClass("hidden");
+                $('#contentbody').addClass("hidden");
             }
         }).done(function(response){
             drawTable(response.data);
@@ -153,6 +154,7 @@
         $('#labelWarning').addClass("hidden");
         $('#loading').addClass("hidden");
         $('#displayTable').removeClass("hidden");
+        $('#contentbody').removeClass("hidden");
 
         var my_columns = [];
 
