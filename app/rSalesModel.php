@@ -145,6 +145,7 @@ class rSalesModel extends Model
 
     public static function dataAnalysisQuery($data){
         // return $data->row;
+
         $toGroup = $data->row;
         $toSelect = $data->row;
         $toColumns = $data->row;
@@ -152,7 +153,7 @@ class rSalesModel extends Model
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
         $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
-        // $sumValue = DB::raw("convert(varchar(13),space(13 - len(ISNULL(FORMAT(SUM(convert(float(10),Amount)), 'N0'), 0))) + convert(varchar(13),ISNULL(FORMAT(SUM(convert(float(10),Amount)), 'N0'), 0))) as Value");
+
         $column = $data->column;
 
         array_push($toGroup, $column);
@@ -164,12 +165,14 @@ class rSalesModel extends Model
         ->select(
             $toSelect
         )
-        ->leftJoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->leftjoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
         ->groupBy($toGroup)
         ->get();
 
         $header = "";
-        $product = "Key Product";
+        $product = "Item Name";
+        $class = "TC";
         $MDClass = "MD Class";
         $MDNAME = "MD Name";
         $ManagerName = "Manager Name";
@@ -187,13 +190,13 @@ class rSalesModel extends Model
 
         //     $obj = new \stdClass;
 
-        //     if(!empty($out->$product)){
-        //         $obj->$product = $out->$product;
+        //     if(!empty($out->item_name)){
+        //         $obj->$product = $out->item_name;
         //     }
 
-        //     // if(!empty($out->$product)){
-        //     //     $obj->$product = $out->$product;
-        //     // }
+        //     if(!empty($out->class)){
+        //         $obj->$class = $out->class;
+        //     }
 
         //     if(!empty($out->Specialty)){
         //         $obj->Specialty = $out->Specialty;
@@ -207,8 +210,8 @@ class rSalesModel extends Model
         //         $obj->$MDClass = $out->$MDClass;
         //     }
 
-        //     if(!empty($out->$MDNAME)){
-        //         $obj->$MDNAME = $out->$MDNAME;
+        //     if(!empty($out->Name)){
+        //         $obj->$MDNAME = $out->Name;
         //     }
 
         //     if(!empty($out->$ManagerName)){
@@ -219,10 +222,9 @@ class rSalesModel extends Model
         //         $obj->$MedrepName = $out->$MedrepName;
         //     }
 
-        //     $obj->Column = $out->$column;
         //     $obj->TxCount = $out->TxCount;
-        //     $obj->Value = $out->Value;
         //     $obj->Volume = $out->Volume;
+        //     $obj->Value = $out->Value;
 
         //     $data[] = $obj;
 

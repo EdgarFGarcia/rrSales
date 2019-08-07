@@ -49,32 +49,34 @@
                             
                             <div class="col-md-4">
                                 <label for="row">Row</label>
+
                                 <select name="row" id="row" class="form-control" multiple="multiple">
 
-                                    <option value="Key Product">Product SKU</option>
-                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="SalesByRep.item_name">Product SKU</option>
+                                    <option value="class">Therapeutic Category</option>
                                     <option value="Specialty">Specialty</option>
                                     <option value="Frequency">Frequency</option>
                                     <option value="MD Class">Doctor Class</option>
-                                    <option value="Doctor.Last Name">Doctor Name</option>
+                                    <option value="Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
 
                                 </select>
+
                             </div>
 
                             <div class="col-md-4">
                                 <label for="column">Column</label>
+
                                 <select name="column" id="column" class="form-control">
 
                                     <option value="0">SELECT</option>
-
-                                    <option value="Key Product">Product SKU</option>
-                                    <option value="Key Product">Therapeutic Category</option>
+                                    <option value="SalesByRep.item_name">Product SKU</option>
+                                    <option value="class">Therapeutic Category</option>
                                     <option value="Specialty">Specialty</option>
                                     <option value="Frequency">Frequency</option>
                                     <option value="MD Class">Doctor Class</option>
-                                    <option value="Doctor.Last Name">Doctor Name</option>
+                                    <option value="Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
 
@@ -93,7 +95,7 @@
                     </div>
                     
                     <div class="col-lg-12 col-md-12" id="divTable">
-                    	<table id="displayTable" class="table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
+                    	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
                     	</table>
                     </div>
             
@@ -156,119 +158,52 @@
 
         $.each(data[0], function(key, value){
             var my_items = {};
-            my_items.data = key;
-            my_items.title = key;
+            my_items.mData = key;
+            my_items.sTitle = key;
             my_columns.push(my_items);
         });
 
         console.log(my_columns);
 
-        table = $('#displayTable').DataTable({
-            dom: 'Bfrtip',
-            scrollX: true,
-            lengthMenu: [
-                [ 10, 25, 50, -1 ],
-                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-            ],
-            buttons: [
-                'pageLength', 'csv'
-            ],
-            data: data,
-            columns: my_columns
-        });
+        if(table){
+
+            // initialized
+            table = $('#displayTable').DataTable().destroy();
+            table = $('#displayTable').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                lengthMenu: [
+                    [ 10, 25, 50, -1 ],
+                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                ],
+                buttons: [
+                    'pageLength', 'csv'
+                ],
+                data: data,
+                columns: my_columns,
+                destroy : true
+            });
+
+        }else{
+            // not initialized
+            table = $('#displayTable').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                lengthMenu: [
+                    [ 10, 25, 50, -1 ],
+                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                ],
+                buttons: [
+                    'pageLength', 'csv'
+                ],
+                data: data,
+                columns: my_columns,
+                destroy : true
+            });
+
+        }
 
     }
-
-    // event listeners
-    // function toQuery(valvol, row, column){
-    // function toQuery(row, column){
-
-    //     $.ajax({
-    //         url : "{{ url('/dataAnalysisQuery') }}",
-    //         method : "GET",
-    //         data : {
-    //             row : row,
-    //             column : column
-    //         },
-    //         beforeSend : function(){
-    //             $('#contentbody').fadeOut(500);
-    //             $('#labelWarning').removeClass("hidden");
-    //             $('#loading').removeClass("hidden");
-    //             $('#displayTable').addClass("hidden");
-    //         },
-    //         success: function(){
-    //             // console.log("success entered");
-    //         }
-    //     }).done(function(data){
-            
-    //         if(data.response){
-
-    //             // $('#divTable').empty();
-
-    //             $('#contentbody').fadeIn(500);
-    //             $('#labelWarning').addClass("hidden");
-    //             $('#loading').addClass("hidden");
-    //             $('#displayTable').removeClass("hidden");
-
-    //             var my_columns = [];
-    //             var contents = [];
-
-    //             $.each(data.data[0], function(key, value){
-    //                 var my_items = {};
-    //                 my_items.data = key;
-    //                 my_items.title = key;
-    //                 my_columns.push(my_items);
-    //             });
-
-    //             // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + data.header + '</tr></thead><tbody><tr><td>' + my_columns + '</td></tr></tbody></table>');
-
-    //             destroyTable(my_columns, data.data, data.header);
-
-    //             // table = $('#displayTable').DataTable({
-    //             //     dom: 'Bfrtip',
-    //             //     scrollX: true,
-    //             //     lengthMenu: [
-    //             //         [ 10, 25, 50, -1 ],
-    //             //         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-    //             //     ],
-    //             //     buttons: [
-    //             //         'pageLength', 'csv'
-    //             //     ],
-    //             //     data: data,
-    //             //     columns: my_columns
-    //             // });
-
-    //         }
-    //     });
-
-    // }
-
-    // function destroyTable(my_columns, data){
-
-    //     if(table){
-
-    //         console.log("exist");
-    //         $('#displayTable').empty();
-
-    //     }else{
-
-    //         console.log("does not exist");
-    //         table = $('#displayTable').DataTable({
-    //             dom: 'Bfrtip',
-    //             scrollX: true,
-    //             lengthMenu: [
-    //                 [ 10, 25, 50, -1 ],
-    //                 [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-    //             ],
-    //             buttons: [
-    //                 'pageLength', 'csv'
-    //             ],
-    //             data: data,
-    //             columns: my_columns
-    //         });
-
-    //     }
-    // }
 
 </script>
 @endsection
