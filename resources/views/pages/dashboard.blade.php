@@ -490,7 +490,7 @@
     }
 
     function drawChart2(result){
-
+        $('#modalChart2').html('');
         am4core.ready(function() {
 
             // Themes begin
@@ -561,7 +561,7 @@
     }
 
     function drawChart(result){
-
+        $('#modalChart').html('');
         am4core.ready(function() {
 
             // Themes begin

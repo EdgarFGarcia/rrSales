@@ -72,16 +72,15 @@ class rSalesModel extends Model
     }
 
     public static function getSalesPerDoctorClass(){
-
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep')
         ->select(
-            DB::raw("ISNULL(a.MD Class, 'NOT MAPPED') as item_name"),
-            DB::raw("SUM(b.Qty) as Volume"),
-            DB::raw("SUM(b.Amount) as Value")
+            DB::raw("ISNULL('Doctor.MD Class', 'NOT MAPPED') as item_name"),
+            DB::raw("SUM(SalesByRep.Qty) as Volume"),
+            DB::raw("SUM(SalesByRep.Amount) as Value")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
-        ->groupBy('a.MD Class')
+        ->join('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->groupBy('Doctor.MD Class')
         ->get();
 
     }
@@ -89,13 +88,13 @@ class rSalesModel extends Model
     public static function getManager(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep as a')
         ->select(
-            'a.Manager Name as item_name',
-            DB::raw("SUM(b.Qty) as Volume")
+            'b.Manager Name as item_name',
+            DB::raw("SUM(a.Qty) as Volume")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
-        ->groupBy('a.Manager Name')
+        ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
+        ->groupBy('b.Manager Name')
         // ->limit(1000)
         ->get();
 
@@ -104,13 +103,13 @@ class rSalesModel extends Model
     public static function getManager2(){
 
         return $query = DB::connection('raging')
-        ->table('Doctor as a')
+        ->table('SalesByRep as a')
         ->select(
-            'a.Manager Name as item_name',
-            DB::raw("SUM(b.Amount) as Value")
+            'b.Manager Name as item_name',
+            DB::raw("SUM(a.Amount) as Value")
         )
-        ->join('SalesByRep as b', 'a.MD ID', '=', 'b.MD ID')
-        ->groupBy('a.Manager Name')
+        ->join('Doctor as b', 'a.MD ID', '=', 'b.MD ID')
+        ->groupBy('b.Manager Name')
         ->get();
 
     }
@@ -148,12 +147,13 @@ class rSalesModel extends Model
 
         $toGroup = $data->row;
         $toSelect = $data->row;
-        $toColumns = $data->row;
+        // $toColumns = $data->row;
 
         $replacements = array(
             'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
             'class' => DB::raw("class as [TC]"),
-            'Name' => DB::raw("Name as [MD Name]")
+            'Name' => DB::raw("Name as [MD Name]"),
+            'Date' => DB::raw("CONVERT(varchar, Date, 107) as Date")
         );
 
         foreach($toSelect as $key  => $value){
@@ -165,6 +165,10 @@ class rSalesModel extends Model
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
         $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
+        $datequarter = DB::raw("DATEPART(quarter,[date]) as [Quarter]");
+        $dateMonth = DB::raw("DATEPART(month, [date]) as [Month]");
+        $dateYear = DB::raw("DATEPART(year, [date]) as [Year]");
+        $dateWeek = DB::raw("DATEPART(week, [date]) as [Week]");
 
         $column = $data->column;
 

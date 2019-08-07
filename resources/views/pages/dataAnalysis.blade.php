@@ -60,6 +60,7 @@
                                     <option value="Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
+                                    <option value="Date">Date</option>
 
                                 </select>
 
@@ -79,6 +80,7 @@
                                     <option value="Name">Doctor Name</option>
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
+                                    <option value="Date">Date</option>
 
                                 </select>
                             </div>
@@ -179,9 +181,10 @@
                 dom: 'Bfrtip',
                 scrollX: true,
                 lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    [ 25, 50, 100, -1 ],
+                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
                 ],
+                pageLength : 25,
                 buttons: [
                     'pageLength', 'csv'
                 ],
@@ -196,10 +199,11 @@
                 dom: 'Bfrtip',
                 scrollX: true,
                 lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+                    [ 25, 50, 50, -1 ],
+                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
                 ],
-                buttons: [
+                pageLength : 25
+,                buttons: [
                     'pageLength', 'csv'
                 ],
                 data: data,
