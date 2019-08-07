@@ -35,7 +35,7 @@ Route::group(['middleware' => ['preventbackhistory']], function () {
         Route::get('/getResultOnClick2', 'rSalesController@getResultOnClick2');
         Route::get('/loadSelection', 'rSalesController@loadSelection');
         Route::get('/dataAnalysisQuery', 'rSalesController@dataAnalysisQuery');
-        Route::get('/test', 'rSalesController@test');
+        // Route::get('/test', 'rSalesController@test');
     });
 
 });

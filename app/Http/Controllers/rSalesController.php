@@ -116,26 +116,26 @@ class rSalesController extends Controller
         //     $test
         // );
 
-        $query = DB::connection('raging')
-        ->table('Doctor as a')
-        ->select(
-            'a.MD_ID as mdId',
-            'a.Specialty as specialty',
-            DB::raw("CONCAT(a.Last_Name, ', ', First_Name, ' ', Middle_Name) as doctorName"),
-            'a.Frequency as frequency',
-            'a.MD_Class as mdClass'
-        )
-        ->get();
+        // $query = DB::connection('raging')
+        // ->table('Doctor as a')
+        // ->select(
+        //     'a.MD_ID as mdId',
+        //     'a.Specialty as specialty',
+        //     DB::raw("CONCAT(a.Last_Name, ', ', First_Name, ' ', Middle_Name) as doctorName"),
+        //     'a.Frequency as frequency',
+        //     'a.MD_Class as mdClass'
+        // )
+        // ->get();
 
-        $test = $this->fixData($query);
+        // $test = $this->fixData($query);
 
-        DB::connection('raging')
-        ->table('doctorId')
-        ->insert(
-            $test
-        );        
+        // DB::connection('raging')
+        // ->table('doctorId')
+        // ->insert(
+        //     $test
+        // );        
 
-        return "vape on";
+        // return "vape on";
     }
 
     public function fixData($data){

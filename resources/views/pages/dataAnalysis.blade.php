@@ -165,8 +165,6 @@
             my_columns.push(my_items);
         });
 
-        console.log(my_columns);
-
         if(table){
 
             /*
