@@ -166,9 +166,13 @@
         console.log(my_columns);
 
         if(table){
+            
+            $('#divTable').html("");
+            $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered table-hover'));
+            // $('#tableContainer').append($('<table/>').attr('id', 'featureTable').css('width','100%').addClass('display'));
 
             // initialized
-            table = $('#displayTable').DataTable().destroy();
+            // table = $('#displayTable').DataTable().destroy();
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
