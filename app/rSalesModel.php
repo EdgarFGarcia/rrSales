@@ -143,11 +143,11 @@ class rSalesModel extends Model
     }
 
     public static function dataAnalysisQuery($data){
-        // return $data->row;
 
         $toGroup = $data->row;
         $toSelect = $data->row;
         // $toColumns = $data->row;
+        $column = $data->column;
 
         $replacements = array(
             'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
@@ -165,12 +165,11 @@ class rSalesModel extends Model
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
         $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
         $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
-        $datequarter = DB::raw("DATEPART(quarter,[date]) as [Quarter]");
-        $dateMonth = DB::raw("DATEPART(month, [date]) as [Month]");
-        $dateYear = DB::raw("DATEPART(year, [date]) as [Year]");
-        $dateWeek = DB::raw("DATEPART(week, [date]) as [Week]");
 
-        $column = $data->column;
+        // $datequarter = DB::raw("DATEPART(quarter,[date]) as [Quarter]");
+        // $dateMonth = DB::raw("DATEPART(month, [date]) as [Month]");
+        // $dateYear = DB::raw("DATEPART(year, [date]) as [Year]");
+        // $dateWeek = DB::raw("DATEPART(week, [date]) as [Week]");
 
         array_push($toGroup, $column);
         array_push($toSelect, $column, $count, $sumVolume, $sumValue);
@@ -185,6 +184,8 @@ class rSalesModel extends Model
         ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
         ->groupBy($toGroup)
         ->get();
+
+        $item_name = "Item Name";
 
         return [
             'data' => $query

@@ -6,6 +6,16 @@
     td:nth-last-child(-n+3){
         text-align: right
     }
+    #displayTable_filter input {
+        width: 300px;
+        position: relative;
+        right: 155px;
+    }
+    #subDataTableTable_filter input {
+        width: 300px;
+        position: relative;
+        right: 155px;
+    }
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -99,6 +109,7 @@
                     <div class="col-lg-12 col-md-12" id="divTable">
                     	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
                     	</table>
+
                     </div>
             
                 </div>
@@ -106,6 +117,7 @@
         </div>
     </div>
     <!-- end: page -->
+    @include('modals.subDataTable')
 </section>
 
 @endsection
@@ -116,6 +128,7 @@
     var row;
     var column;
     var table;
+    var subTable;
 
     $(document).ready(function(){
 
@@ -175,7 +188,7 @@
             */
 
             $('#divTable').html("");
-            $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered table-hover'));
+            $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered'));
 
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
@@ -186,8 +199,19 @@
                 ],
                 pageLength : 25,
                 buttons: [
-                    'pageLength', 'csv'
+                    'pageLength', 'csv', {
+                        text: "Search Selected",
+                        action: function(){
+                            // var data = table.rows({selected:true}).data();
+                            var data = table.rows('.selected').data().toArray();
+                            console.log(data);
+                            toOpenSubModal(data);
+                        }
+                    }
                 ],
+                select: {
+                    style : 'multi'
+                },
                 data: data,
                 columns: my_columns,
                 destroy : true
@@ -204,8 +228,20 @@
                 ],
                 pageLength : 25
 ,                buttons: [
-                    'pageLength', 'csv'
+                    'pageLength', 'csv', {
+                        text: "Search Selected",
+                        action: function(){
+                            // var data = table.rows({selected:true}).data();
+                            var data = table.rows('.selected').data().toArray();
+                            console.log(data);
+                            // $('#subDataTable').modal('open');
+                            toOpenSubModal(data)
+                        }
+                    }
                 ],
+                select: {
+                    style : 'multi'
+                },
                 data: data,
                 columns: my_columns,
                 destroy : true
@@ -213,6 +249,21 @@
 
         }
 
+    }
+
+    function toOpenSubModal(data){
+        // console.log("test");
+        $('#subDataTable').modal('toggle');
+        subTable = $('#subDataTableTable').DataTable({
+            dom: 'Bfrtip',
+            scrollX: true,
+            lengthMenu: [
+                [ 25, 50, 50, -1 ],
+                [ '25 rows', '50 rows', '100 rows', 'Show all' ]
+            ],
+            pageLength : 25,
+            destroy : true
+        });
     }
 
 </script>
