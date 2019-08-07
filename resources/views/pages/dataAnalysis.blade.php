@@ -128,10 +128,7 @@
 
     });
 
-    // event listeners
-    // function toQuery(valvol, row, column){
     function toQuery(row, column){
-
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
@@ -140,81 +137,138 @@
                 column : column
             },
             beforeSend : function(){
-                $('#contentbody').fadeOut(500);
                 $('#labelWarning').removeClass("hidden");
                 $('#loading').removeClass("hidden");
                 $('#displayTable').addClass("hidden");
-            },
-            success: function(){
-                // console.log("success entered");
             }
-        }).done(function(data){
-            
-            if(data.response){
+        }).done(function(response){
+            drawTable(response.data);
+        });
+    }
 
-                // $('#divTable').empty();
+    function drawTable(data){
 
-                $('#contentbody').fadeIn(500);
-                $('#labelWarning').addClass("hidden");
-                $('#loading').addClass("hidden");
-                $('#displayTable').removeClass("hidden");
+        $('#labelWarning').addClass("hidden");
+        $('#loading').addClass("hidden");
+        $('#displayTable').removeClass("hidden");
 
-                var my_columns = [];
-                var contents = [];
+        var my_columns = [];
 
-                $.each(data.data[0], function(key, value){
-                    var my_items = {};
-                    my_items.data = key;
-                    my_items.title = key;
-                    my_columns.push(my_items);
-                });
+        $.each(data[0], function(key, value){
+            var my_items = {};
+            my_items.data = key;
+            my_items.title = key;
+            my_columns.push(my_items);
+        });
 
-                // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + header + '</tr><tr>' +content+ '</tr></thead></table>');
+        console.log(my_columns);
 
-                destroyTable(my_columns, data.data);
-
-            }
+        table = $('#displayTable').DataTable({
+            dom: 'Bfrtip',
+            scrollX: true,
+            lengthMenu: [
+                [ 10, 25, 50, -1 ],
+                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            ],
+            buttons: [
+                'pageLength', 'csv'
+            ],
+            data: data,
+            columns: my_columns
         });
 
     }
 
-    function destroyTable(my_columns, data){
-        if(table){
-            console.log("exist");
-            // table.clear().destroy();
-            $('#displayTable').DataTable().clear().destroy();
-            $('#displayTable').DataTable({
-                    // destroy : true,
-                    dom: 'Bfrtip',
-                    scrollX: true,
-                    lengthMenu: [
-                        [ 10, 25, 50, -1 ],
-                        [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-                    ],
-                    buttons: [
-                        'pageLength', 'csv'
-                    ],
-                    data: data,
-                    columns: my_columns
-                });
-        }else{
-            console.log("does not exist");
-            $('#displayTable').DataTable({
-                // destroy : true,
-                dom: 'Bfrtip',
-                scrollX: true,
-                lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-                ],
-                buttons: [
-                    'pageLength', 'csv'
-                ],
-                data: data,
-                columns: my_columns
-            });
-        }
-    }
+    // event listeners
+    // function toQuery(valvol, row, column){
+    // function toQuery(row, column){
+
+    //     $.ajax({
+    //         url : "{{ url('/dataAnalysisQuery') }}",
+    //         method : "GET",
+    //         data : {
+    //             row : row,
+    //             column : column
+    //         },
+    //         beforeSend : function(){
+    //             $('#contentbody').fadeOut(500);
+    //             $('#labelWarning').removeClass("hidden");
+    //             $('#loading').removeClass("hidden");
+    //             $('#displayTable').addClass("hidden");
+    //         },
+    //         success: function(){
+    //             // console.log("success entered");
+    //         }
+    //     }).done(function(data){
+            
+    //         if(data.response){
+
+    //             // $('#divTable').empty();
+
+    //             $('#contentbody').fadeIn(500);
+    //             $('#labelWarning').addClass("hidden");
+    //             $('#loading').addClass("hidden");
+    //             $('#displayTable').removeClass("hidden");
+
+    //             var my_columns = [];
+    //             var contents = [];
+
+    //             $.each(data.data[0], function(key, value){
+    //                 var my_items = {};
+    //                 my_items.data = key;
+    //                 my_items.title = key;
+    //                 my_columns.push(my_items);
+    //             });
+
+    //             // $("#divTable").append('<table id="displayTable" class="display table table-bordered table-striped table-hover" cellspacing="0" width="100%"><thead><tr>' + data.header + '</tr></thead><tbody><tr><td>' + my_columns + '</td></tr></tbody></table>');
+
+    //             destroyTable(my_columns, data.data, data.header);
+
+    //             // table = $('#displayTable').DataTable({
+    //             //     dom: 'Bfrtip',
+    //             //     scrollX: true,
+    //             //     lengthMenu: [
+    //             //         [ 10, 25, 50, -1 ],
+    //             //         [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+    //             //     ],
+    //             //     buttons: [
+    //             //         'pageLength', 'csv'
+    //             //     ],
+    //             //     data: data,
+    //             //     columns: my_columns
+    //             // });
+
+    //         }
+    //     });
+
+    // }
+
+    // function destroyTable(my_columns, data){
+
+    //     if(table){
+
+    //         console.log("exist");
+    //         $('#displayTable').empty();
+
+    //     }else{
+
+    //         console.log("does not exist");
+    //         table = $('#displayTable').DataTable({
+    //             dom: 'Bfrtip',
+    //             scrollX: true,
+    //             lengthMenu: [
+    //                 [ 10, 25, 50, -1 ],
+    //                 [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+    //             ],
+    //             buttons: [
+    //                 'pageLength', 'csv'
+    //             ],
+    //             data: data,
+    //             columns: my_columns
+    //         });
+
+    //     }
+    // }
 
 </script>
 @endsection

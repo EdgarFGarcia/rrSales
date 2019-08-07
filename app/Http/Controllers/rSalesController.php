@@ -61,7 +61,7 @@ class rSalesController extends Controller
         if($query){
             return response()->json([
                 'response' => true,
-                'header' => $query['header'],
+                // 'header' => $query['header'],
                 'data'  => $query['data']
             ]);
         }

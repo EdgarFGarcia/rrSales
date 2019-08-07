@@ -166,10 +166,7 @@ class rSalesModel extends Model
         )
         ->leftJoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
         ->groupBy($toGroup)
-        // ->limit(100)
-        // ->paginate(50);
-        ->get()
-        ->all();
+        ->get();
 
         $header = "";
         $product = "Key Product";
