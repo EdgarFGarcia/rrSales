@@ -208,7 +208,7 @@
         totalFormatValue = numeral(totalValue).format('0,0.0');
         totalFormatTxCount = numeral(totalCount).format('0,0');
 
-        console.log(totalFormatVolume + " " + totalFormatValue + " " + totalFormatTxCount);
+        // console.log(totalFormatVolume + " " + totalFormatValue + " " + totalFormatTxCount);
 
         // $.each(data[0], function(key, value){
         //     tableFooter += "<th>" + key + "</th>";
@@ -240,9 +240,9 @@
             $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
             $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('#valueHeader').append(" " + totalFormatValue);
-            $('#volumeHeader').append(" " + totalFormatVolume);
-            $('#txcounHeader').append(" " + totalFormatTxCount);
+            $('#valueHeader').append("<br/>" + totalFormatValue);
+            $('#volumeHeader').append("<br/>" + totalFormatVolume);
+            $('#txcounHeader').append("<br/>" + totalFormatTxCount);
 
         }else{
             // not initialized
@@ -275,9 +275,9 @@
             $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
             $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('#valueHeader').append(" " + totalFormatValue);
-            $('#volumeHeader').append(" " + totalFormatVolume);
-            $('#txcounHeader').append(" " + totalFormatTxCount);
+            $('#valueHeader').append("<br/>" + totalFormatValue);
+            $('#volumeHeader').append("<br/>" + totalFormatVolume);
+            $('#txcounHeader').append("<br/>" + totalFormatTxCount);
 
         }
 
