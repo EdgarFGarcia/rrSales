@@ -196,6 +196,8 @@ class rSalesModel extends Model
         ->select(
             $toSelect2
         )
+        ->leftjoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
         ->groupBy($toGroup)
         ->get();
 
