@@ -9,12 +9,7 @@
     #displayTable_filter input {
         width: 300px;
         position: relative;
-        right: 155px;
-    }
-    #subDataTableTable_filter input {
-        width: 300px;
-        position: relative;
-        right: 155px;
+        right: 153px;
     }
 </style>
 <section role="main" class="content-body">
@@ -71,6 +66,10 @@
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                     <option value="Date">Date</option>
+                                    <option value="SalesByRep.Date">Year</option>
+                                    <option value="SalesByRep.date">Quarter</option>
+                                    <option value="SalesByRep.dAte">Month</option>
+                                    <option value="SalesByRep.daTe">Week</option>
 
                                 </select>
 
@@ -91,6 +90,10 @@
                                     <option value="Manager Name">Manager Name</option>
                                     <option value="Medrep Name">Medrep Name</option>
                                     <option value="Date">Date</option>
+                                    <option value="SalesByRep.Date">Year</option>
+                                    <option value="SalesByRep.date">Quarter</option>
+                                    <option value="SalesByRep.dAte">Month</option>
+                                    <option value="SalesByRep.daTe">Week</option>
 
                                 </select>
                             </div>
@@ -107,9 +110,13 @@
                     </div>
                     
                     <div class="col-lg-12 col-md-12" id="divTable">
+
+                        <!-- <label id="txcount"></label><br/>
+                        <label id="volume"></label><br/>
+                        <label id="value"></label> -->
+
                     	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
                     	</table>
-
                     </div>
             
                 </div>
@@ -117,7 +124,6 @@
         </div>
     </div>
     <!-- end: page -->
-    @include('modals.subDataTable')
 </section>
 
 @endsection
@@ -129,6 +135,9 @@
     var column;
     var table;
     var subTable;
+    var totalFormatVolume;
+    var totalFormatValue;
+    var totalFormatTxCount;
 
     $(document).ready(function(){
 
@@ -160,11 +169,11 @@
                 $('#contentbody').addClass("hidden");
             }
         }).done(function(response){
-            drawTable(response.data);
+            drawTable(response.data, response.data2, response.totalTxCount, response.totalVolume, response.totalValue);
         });
     }
 
-    function drawTable(data){
+    function drawTable(data, data2, txcounttotal, volumetotal, valuetotal){
 
         $('#labelWarning').addClass("hidden");
         $('#loading').addClass("hidden");
@@ -172,6 +181,7 @@
         $('#contentbody').removeClass("hidden");
 
         var my_columns = [];
+        var tableFooter;
 
         $.each(data[0], function(key, value){
             var my_items = {};
@@ -179,6 +189,30 @@
             my_items.sTitle = key;
             my_columns.push(my_items);
         });
+
+        var totalVolume = 0;
+        var totalValue = 0;
+        var totalCount = 0;
+        for(var i = 0; i < data2.length; i++){
+            // console.log(data[i].Volume);
+            totalVolume += parseInt(data2[i].Volume2);
+            totalValue += parseInt(data2[i].Value2);
+            totalCount += parseInt(data2[i].TxCount2);
+        }
+
+        // var totalFormatVolume;
+        // var totalFormatValue;
+        // var totalFormatTxCount;
+
+        totalFormatVolume = numeral(totalVolume).format('0,0');
+        totalFormatValue = numeral(totalValue).format('0,0.0');
+        totalFormatTxCount = numeral(totalCount).format('0,0');
+
+        console.log(totalFormatVolume + " " + totalFormatValue + " " + totalFormatTxCount);
+
+        // $.each(data[0], function(key, value){
+        //     tableFooter += "<th>" + key + "</th>";
+        // });
 
         if(table){
 
@@ -193,33 +227,27 @@
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
-                lengthMenu: [
-                    [ 25, 50, 100, -1 ],
-                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
-                ],
                 pageLength : 25,
                 buttons: [
-                    'pageLength', 'csv', {
-                        text: "Search Selected",
-                        action: function(){
-                            // var data = table.rows({selected:true}).data();
-                            var data = table.rows('.selected').data().toArray();
-                            console.log(data);
-                            toOpenSubModal(data);
-                        }
-                    }
+                    'pageLength', 'csv'
                 ],
-                select: {
-                    style : 'multi'
-                },
                 data: data,
                 columns: my_columns,
-                destroy : true
+                destroy : true,
             });
+
+            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+
+            $('#valueHeader').append(" " + totalFormatValue);
+            $('#volumeHeader').append(" " + totalFormatVolume);
+            $('#txcounHeader').append(" " + totalFormatTxCount);
 
         }else{
             // not initialized
             table = $('#displayTable').DataTable({
+                
                 dom: 'Bfrtip',
                 scrollX: true,
                 lengthMenu: [
@@ -228,43 +256,47 @@
                 ],
                 pageLength : 25
 ,                buttons: [
-                    'pageLength', 'csv', {
-                        text: "Search Selected",
-                        action: function(){
-                            // var data = table.rows({selected:true}).data();
-                            var data = table.rows('.selected').data().toArray();
-                            console.log(data);
-                            // $('#subDataTable').modal('open');
-                            toOpenSubModal(data)
+                    'pageLength', 'csv'
+                ],
+                data: data,
+                columns: my_columns,
+                columnDefs: [
+                    {
+                        "targets": -1,
+                        "createdCell": function(td, cellData, rowData, row, col){
+                            $(td).attr('id', 'valueHeader');
                         }
                     }
                 ],
-                select: {
-                    style : 'multi'
-                },
-                data: data,
-                columns: my_columns,
-                destroy : true
+                destroy : true,
             });
+
+            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+
+            $('#valueHeader').append(" " + totalFormatValue);
+            $('#volumeHeader').append(" " + totalFormatVolume);
+            $('#txcounHeader').append(" " + totalFormatTxCount);
 
         }
 
     }
 
-    function toOpenSubModal(data){
-        // console.log("test");
-        $('#subDataTable').modal('toggle');
-        subTable = $('#subDataTableTable').DataTable({
-            dom: 'Bfrtip',
-            scrollX: true,
-            lengthMenu: [
-                [ 25, 50, 50, -1 ],
-                [ '25 rows', '50 rows', '100 rows', 'Show all' ]
-            ],
-            pageLength : 25,
-            destroy : true
-        });
-    }
+    // function toOpenSubModal(data){
+    //     // console.log("test");
+    //     $('#subDataTable').modal('toggle');
+    //     subTable = $('#subDataTableTable').DataTable({
+    //         dom: 'Bfrtip',
+    //         scrollX: true,
+    //         lengthMenu: [
+    //             [ 25, 50, 50, -1 ],
+    //             [ '25 rows', '50 rows', '100 rows', 'Show all' ]
+    //         ],
+    //         pageLength : 25,
+    //         destroy : true
+    //     });
+    // }
 
 </script>
 @endsection

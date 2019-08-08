@@ -58,13 +58,13 @@ class rSalesController extends Controller
     public function dataAnalysisQuery(Request $request){
         // return $request->all();
         return $query = rSalesModel::dataAnalysisQuery($request);
-        if($query){
-            return response()->json([
-                'response' => true,
-                // 'header' => $query['header'],
-                'data'  => $query['data']
-            ]);
-        }
+        // if($query){
+        //     return response()->json([
+        //         'response' => true,
+        //         // 'header' => $query['header'],
+        //         'data'  => $query['data']
+        //     ]);
+        // }
     }
 
     public function test(){

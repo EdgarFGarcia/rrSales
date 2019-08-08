@@ -414,6 +414,7 @@
 		<script src="{{ asset('js/datatables.html5.min.js') }}"></script>
 		<script src="{{ asset('js/datatables.buttons.print.min.js') }}"></script>
 		<script src="{{ asset('js/selectdatatable.min.js') }}"></script>
+		<script src="{{ asset('js/numerals.min.js') }}"></script>
 
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
     	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

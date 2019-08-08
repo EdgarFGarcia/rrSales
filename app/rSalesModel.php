@@ -145,15 +145,22 @@ class rSalesModel extends Model
     public static function dataAnalysisQuery($data){
 
         $toGroup = $data->row;
+
         $toSelect = $data->row;
-        // $toColumns = $data->row;
+        $toSelect2 = $data->row;
+
+        $toColumns = $data->row;
         $column = $data->column;
 
         $replacements = array(
             'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
             'class' => DB::raw("class as [TC]"),
             'Name' => DB::raw("Name as [MD Name]"),
-            'Date' => DB::raw("CONVERT(varchar, Date, 107) as Date")
+            'Date' => DB::raw("CONVERT(varchar, [Date], 107) as [Date]"),
+            'SalesByRep.Date' => DB::raw("DATEPART(year, [Date]) as [Year]"),
+            'SalesByRep.date' => DB::raw("DATEPART(quarter, [Date]) as [Quarter]"),
+            'SalesByRep.dAte' => DB::raw("DATEPART(month, [Date]) as [Month]"),
+            'SalesByRep.daTe' => DB::raw("DATEPART(week, [Date]) as [Week]")
         );
 
         foreach($toSelect as $key  => $value){
@@ -163,17 +170,16 @@ class rSalesModel extends Model
         }
 
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
-        $sumVolume = DB::raw("ISNULL(FORMAT(SUM(Qty), 'N0'), 0) as Volume");
-        $sumValue = DB::raw("ISNULL(FORMAT(SUM(Amount), 'N2'), 0) as Value");
-
-        // $datequarter = DB::raw("DATEPART(quarter,[date]) as [Quarter]");
-        // $dateMonth = DB::raw("DATEPART(month, [date]) as [Month]");
-        // $dateYear = DB::raw("DATEPART(year, [date]) as [Year]");
-        // $dateWeek = DB::raw("DATEPART(week, [date]) as [Week]");
+        $count2 = DB::raw("COUNT('*') as TxCount2");
+        $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
+        $sumVolume2 = DB::raw("SUM(Qty) as Volume2");
+        $sumValue = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+        $sumValue2 = DB::raw("SUM(Amount) as Value2");
 
         array_push($toGroup, $column);
         array_push($toSelect, $column, $count, $sumVolume, $sumValue);
-        // array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
+        array_push($toSelect2, $column, $count2, $sumVolume2, $sumValue2);
+        array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
         ->table('SalesByRep')
@@ -185,10 +191,17 @@ class rSalesModel extends Model
         ->groupBy($toGroup)
         ->get();
 
-        $item_name = "Item Name";
+        $query2 = DB::connection('raging')
+        ->table('SalesByRep')
+        ->select(
+            $toSelect2
+        )
+        ->groupBy($toGroup)
+        ->get();
 
         return [
-            'data' => $query
+            'data' => $query,
+            'data2' => $query2
         ];
 
     }
