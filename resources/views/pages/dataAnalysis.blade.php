@@ -240,9 +240,9 @@
             $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
             $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('#valueHeader').append("<br/>" + totalFormatValue);
-            $('#volumeHeader').append("<br/>" + totalFormatVolume);
-            $('#txcounHeader').append("<br/>" + totalFormatTxCount);
+            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }else{
             // not initialized
@@ -275,9 +275,9 @@
             $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
             $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('#valueHeader').append("<br/>" + totalFormatValue);
-            $('#volumeHeader').append("<br/>" + totalFormatVolume);
-            $('#txcounHeader').append("<br/>" + totalFormatTxCount);
+            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }
 
