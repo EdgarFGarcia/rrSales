@@ -124,6 +124,7 @@
         </div>
     </div>
     <!-- end: page -->
+    @include('modals.subDataTable')
 </section>
 
 @endsection
@@ -138,6 +139,8 @@
     var totalFormatVolume;
     var totalFormatValue;
     var totalFormatTxCount;
+    var dataToSortUnique;
+    var sortUniqueValue;
 
     $(document).ready(function(){
 
@@ -170,6 +173,7 @@
             }
         }).done(function(response){
             drawTable(response.data, response.data2, response.totalTxCount, response.totalVolume, response.totalValue);
+            sortUniqueValue = response.toColumn;
         });
     }
 
@@ -182,6 +186,8 @@
 
         var my_columns = [];
         var tableFooter;
+        dataToSortUnique = data;
+
 
         $.each(data[0], function(key, value){
             var my_items = {};
@@ -193,6 +199,7 @@
         var totalVolume = 0;
         var totalValue = 0;
         var totalCount = 0;
+
         for(var i = 0; i < data2.length; i++){
             // console.log(data[i].Volume);
             totalVolume += parseInt(data2[i].Volume2);
@@ -200,19 +207,9 @@
             totalCount += parseInt(data2[i].TxCount2);
         }
 
-        // var totalFormatVolume;
-        // var totalFormatValue;
-        // var totalFormatTxCount;
-
         totalFormatVolume = numeral(totalVolume).format('0,0');
         totalFormatValue = numeral(totalValue).format('0,0.0');
         totalFormatTxCount = numeral(totalCount).format('0,0');
-
-        // console.log(totalFormatVolume + " " + totalFormatValue + " " + totalFormatTxCount);
-
-        // $.each(data[0], function(key, value){
-        //     tableFooter += "<th>" + key + "</th>";
-        // });
 
         if(table){
 
@@ -236,13 +233,16 @@
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+            $('tr th:nth-last-child(1)').attr('class', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('class', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('class', 'txcounHeader');
 
-            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('tr th').attr('id', 'sortAll');
+            $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+
+            $('.valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('.volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('.txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }else{
             // not initialized
@@ -271,32 +271,46 @@
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+            $('tr th:nth-last-child(1)').attr('class', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('class', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('class', 'txcounHeader');
 
-            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('tr th').attr('id', 'sortAll');
+            $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+
+            $('.valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('.volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('.txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }
 
     }
 
-    // function toOpenSubModal(data){
-    //     // console.log("test");
-    //     $('#subDataTable').modal('toggle');
-    //     subTable = $('#subDataTableTable').DataTable({
-    //         dom: 'Bfrtip',
-    //         scrollX: true,
-    //         lengthMenu: [
-    //             [ 25, 50, 50, -1 ],
-    //             [ '25 rows', '50 rows', '100 rows', 'Show all' ]
-    //         ],
-    //         pageLength : 25,
-    //         destroy : true
-    //     });
-    // }
+    function sortAll(){
+        // $('#subDataTable').modal('toggle');
+
+        var data = _.uniq(dataToSortUnique, "Item Name");
+        console.log(data);
+
+        if(jQuery.inArray("Item Name", sortUniqueValue) != -1){
+            getItem();
+        }
+
+        // console.log(sortUniqueValue);
+        // var test = _.uniq(dataToSortUnique, sortUniqueValue);
+        // console.log(test);
+    }
+
+    function getItem(){
+        $.ajax({
+            url : "{{ url('/getProduct') }}",
+            method : "GET"
+        }).done(function(response){
+            $.each(response, function(i, items){
+
+            });
+        });
+    }
 
 </script>
 @endsection

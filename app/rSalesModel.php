@@ -150,7 +150,14 @@ class rSalesModel extends Model
         $toSelect2 = $data->row;
 
         $toColumns = $data->row;
+        $toColumn = $data->row;
         $column = $data->column;
+
+        $replacementsColumn = array(
+            'SalesByRep.item_name' => "Item Name",
+            'class' => "TC",
+            'name' => "MD Name",
+        );
 
         $replacements = array(
             'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
@@ -166,6 +173,12 @@ class rSalesModel extends Model
         foreach($toSelect as $key  => $value){
             if(isset($replacements[$value])){
                 $toSelect[$key] = $replacements[$value];
+            }
+        }
+
+        foreach($toColumn as $key  => $value){
+            if(isset($replacements[$value])){
+                $toColumn[$key] = $replacementsColumn[$value];
             }
         }
 
@@ -203,9 +216,18 @@ class rSalesModel extends Model
 
         return [
             'data' => $query,
-            'data2' => $query2
+            'data2' => $query2,
+            'toColumn' => $toColumn
         ];
 
+    }
+
+    public static function getProduct(){
+        $query = DB::connection('raging')
+        ->table('PRODUCT_TC')
+        ->select(
+            'item_name'
+        )->get();
     }
 
     // public static function volume($data){
