@@ -156,7 +156,13 @@ class rSalesModel extends Model
         $replacementsColumn = array(
             'SalesByRep.item_name' => "Item Name",
             'class' => "TC",
-            'name' => "MD Name",
+            'Name' => "MD Name",
+            'item_name' => "Item Name",
+            'Date' => "Date",
+            'SalesByRep.Date' => "Year",
+            'SalesByRep.date' => "Quarter",
+            'SalesByRep.dAte' => "Month",
+            'SalesByRep.daTe' => "Week"
         );
 
         $replacements = array(
@@ -226,91 +232,187 @@ class rSalesModel extends Model
         $query = DB::connection('raging')
         ->table('PRODUCT_TC')
         ->select(
-            'item_name'
+            DB::raw("DISTINCT(item_name)")
         )->get();
+
+        $content = "";
+
+        foreach($query as $out){
+            $content .= "
+
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input itemName' value='".$out->item_name."'>".$out->item_name."
+                    </label>
+                </div>
+
+            ";
+        }
+
+        return $content;
+
     }
 
-    // public static function volume($data){
+    public static function getTc(){
+        $query = DB::connection('raging')
+        ->table('PRODUCT_TC')
+        ->select(
+            DB::raw("DISTINCT(class)")
+        )->get();
 
-    //     $query = DB::connection('raging')
-    //     ->table('sales_all')
-    //     ->limit(100)
-    //     ->get();
+        $content = "";
 
-    //     $collection = collect($query);
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input className' value='".$out->class."'>".$out->class."
+                    </label>
+                </div>
+            ";
+        }
 
-    //     $final = $collection->groupBy($data->row)->map(function($row) use ($data){
-    //         return [
-    //             'key' => $row->unique($data->column),
-    //             'Volume' => $row->sum('Volume'),
-    //             'Value' => $row->sum('Value'),
-    //             'column' => $row->pluck($data->column),
-    //             'doctor' => $row->pluck('MD Name'),
-    //         ];
-    //     });
+        return $content;
 
-    //     $dataToPassColumn = $data->column;
-    //     $dataToPassRow = $data->row;
+    }
 
-    //     $data2 = [];
+    public static function getSpecialty(){
+        $query = DB::connection('raging')
+        ->table('Doctor')
+        ->select(
+            DB::raw("DISTINCT(Specialty)")
+        )->get();
 
-    //     foreach($final as $out){
+        $content = "";
 
-    //         $data2[] = [
-    //             'row'       => $out['key'][0]->$dataToPassRow,
-    //             'column'    => $out['key'][0]->$dataToPassColumn,
-    //             'volume'    => $out['Volume'],
-    //             'value'     => $out['Value']
-    //         ];
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input Specialty' value='".$out->Specialty."'>".$out->Specialty."
+                    </label>
+                </div>
+            ";
+        }
 
-    //     }
+        return $content;
 
-    //     return $data2;
+    }
 
-    // } 
+    public static function getFrequency(){
+        $query = DB::connection('raging')
+        ->table('Doctor')
+        ->select(
+            DB::raw("DISTINCT(Frequency)")
+        )
+        ->get();
 
-    // public static function value($data){
+        $content = "";
 
-    //     $query = DB::connection('raging')
-    //     ->table('sales_all')
-    //     ->limit(100)
-    //     ->get();
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input Frequency' value='".$out->Frequency."'>".$out->Frequency."
+                    </label>
+                </div>
+            ";
+        }
 
-    //     $collection = collect($query);
+        return $content;
 
-    //     $final = $collection->groupBy($data->row)->map(function($row) use ($data){
-    //         return [
-    //             'key' => $row->unique($data->column),
-    //             'Volume' => $row->sum('Volume'),
-    //             'Value' => $row->sum('Value'),
-    //             'column' => $row->pluck($data->column),
-    //             'doctor' => $row->pluck('MD Name'),
-    //         ];
-    //     });
+    }
 
-    //     $dataToPassColumn = $data->column;
-    //     $dataToPassRow = $data->row;
+    public static function getMdClass(){
+        $query = DB::connection('raging')
+        ->table('Doctor')
+        ->select(
+            DB::raw("DISTINCT([MD Class]) as mdClass")
+        )->get();
 
-    //     $data2 = [];
+        $content = "";
 
-    //     foreach($final as $out){
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input mdClass' value='".$out->mdClass."'>".$out->mdClass."
+                    </label>
+                </div>
+            ";
+        }
 
-    //         $data2[] = [
-    //             'row'       => $out['key'][0]->$dataToPassRow,
-    //             'column'    => $out['key'][0]->$dataToPassColumn,
-    //             'volume'    => $out['Volume'],
-    //             'value'     => $out['Value']
-    //             // 'row'       => $out['key'][0]->$dataToPassRow,
-    //             // 'column'    => $out['column'],
-    //             // 'volume'    => $out['Volume'],
-    //             // 'value'     => $out['Value'],
-    //             // 'doctor'    => $out['doctor']
-    //         ];
+        return $content;
 
-    //     }
+    }
 
-    //     return $data2;
+    public static function getMDName(){
+        $query = DB::connection('raging')
+        ->table('SalesByRep')
+        ->select(
+            DB::raw("DISTINCT(Name)")
+        )->get();
 
-    // }
+        $content = "";
+
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input Name' value='".$out->Name."'>".$out->Name."
+                    </label>
+                </div>
+            ";
+        }
+
+        return $content;
+
+    }
+
+    public static function getManagerName(){
+        $query = DB::connection('raging')
+        ->table('Doctor')
+        ->select(
+            DB::raw("DISTINCT([Manager Name]) as managerName")
+        )->get();
+
+        $content = "";
+
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input managerName' value='".$out->managerName."'>".$out->managerName."
+                    </label>
+                </div>
+            ";
+        }
+
+        return $content;
+
+    }
+
+    public static function getMedrepName(){
+        $query = DB::connection('raging')
+        ->table('Doctor')
+        ->select(
+            DB::raw("DISTINCT([Medrep Name]) as medrepName")
+        )->get();
+
+        $content = "";
+
+        foreach($query as $out){
+            $content .= "
+                <div class='form-check'>
+                    <label class='form-check-label'>
+                        <input type='checkbox' class='form-check-input medrepName' value='".$out->medrepName."'>".$out->medrepName."
+                    </label>
+                </div>
+            ";
+        }
+
+        return $content;
+
+    }
 
 }

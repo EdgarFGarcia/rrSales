@@ -11,6 +11,9 @@
         position: relative;
         right: 153px;
     }
+    .dataTables_filter {
+		display: none; 
+	}
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -155,6 +158,126 @@
             toQuery(row, column);
         });
 
+        $(document).on('click', '#closeModalSort', function(){
+        	$('#toDivide').html('');
+        });
+
+        $(document).on('click', '#sortData', function(){
+
+        	var itemName = $('.itemName').is(':checked');
+        	if(itemName){
+        		var itemNames = [];
+        		$.each($(".itemName:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                itemNames.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	itemNames.join('|'), true, false, true
+	            ).draw();
+	            // console.log(itemNames);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var tc = $('.className').is(':checked');
+        	if(tc){
+        		var tcArr = [];
+        		$.each($(".className:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                tcArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	tcArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(tcArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var Specialty = $('.Specialty').is(':checked');
+        	if(Specialty){
+        		var specArr = [];
+        		$.each($(".Specialty:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                specArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	specArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(specArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var Frequency = $('.Frequency').is(':checked');
+        	if(Frequency){
+        		var frequencyArr = [];
+        		$.each($(".Frequency:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                frequencyArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	frequencyArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(frequencyArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var mdClass = $('.mdClass').is(':checked');
+        	if(mdClass){
+        		var mdClassArr = [];
+        		$.each($(".mdClass:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                mdClassArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	mdClassArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(mdClassArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var Name = $('.Name').is(':checked');
+        	if(Name){
+        		var NameArr = [];
+        		$.each($(".mdClass:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                NameArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	NameArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(NameArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var managerName = $('.managerName').is(':checked');
+        	if(managerName){
+        		var managerNameArr = [];
+        		$.each($(".mdClass:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                managerNameArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	managerNameArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(managerNameArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        	var medrepName = $('.medrepName').is(':checked');
+        	if(medrepName){
+        		var medrepNameArr = [];
+        		$.each($(".mdClass:checked"), function(){            
+	                // itemNames.push($(this).val());
+	                medrepNameArr.push('(?=.*' + $(this).val() + ')');
+	            });
+	            $('#displayTable').DataTable().search(
+	            	medrepNameArr.join('|'), true, false, true
+	            ).draw();
+	            // console.log(medrepNameArr);
+	            $('#subDataTable').modal("toggle");
+        	}
+
+        });
+
     });
 
     function toQuery(row, column){
@@ -233,16 +356,31 @@
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('class', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('class', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('class', 'txcounHeader');
+            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('tr th').attr('id', 'sortAll');
-            $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+            // $('tr th').attr('id', 'sortAll');
+            // $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
 
-            $('.valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            $('.volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('.txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('tr th').attr('class', 'sortAll');
+
+            $('#valueHeader').removeClass('sortAll');
+            $('#volumeHeader').removeClass('sortAll');
+            $('#txcounHeader').removeClass('sortAll');
+           	
+           	var idIndex = 0;
+           	
+           	$('.sortAll').each(function(){
+           		idIndex ++;
+
+           		$(this).append("<button type='button' class='btn btn-link pull-right shadow-none' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+
+           	});
+
+            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }else{
             // not initialized
@@ -260,56 +398,241 @@
                 ],
                 data: data,
                 columns: my_columns,
-                columnDefs: [
-                    {
-                        "targets": -1,
-                        "createdCell": function(td, cellData, rowData, row, col){
-                            $(td).attr('id', 'valueHeader');
-                        }
-                    }
-                ],
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('class', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('class', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('class', 'txcounHeader');
+            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('tr th').attr('id', 'sortAll');
-            $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+            $('tr th').attr('class', 'sortAll');
 
-            $('.valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            $('.volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('.txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('#valueHeader').removeClass('sortAll');
+            $('#volumeHeader').removeClass('sortAll');
+            $('#txcounHeader').removeClass('sortAll');
+
+            var idIndex = 0;
+           	
+           	$('.sortAll').each(function(){
+
+           		idIndex ++;
+
+           		$(this).append("<button type='button' class='btn btn-link pull-right shadow-none' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+
+           	});
+
+            $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
         }
 
     }
 
-    function sortAll(){
-        // $('#subDataTable').modal('toggle');
+    function sortAll(id){
 
-        var data = _.uniq(dataToSortUnique, "Item Name");
-        console.log(data);
+    	$('#toDivide').html('');
+    	var newId = id - 1;
+		var headerText = table.column( newId ).title();
 
-        if(jQuery.inArray("Item Name", sortUniqueValue) != -1){
-            getItem();
-        }
+		if(headerText == "Item Name'"){
+			getItemName();
+		}
 
-        // console.log(sortUniqueValue);
-        // var test = _.uniq(dataToSortUnique, sortUniqueValue);
-        // console.log(test);
+		if(headerText == "TC'"){
+			getTc();
+		}
+
+		if(headerText == "Specialty'"){
+			getSpecialty();
+		}
+
+		if(headerText == "Frequency'"){
+			getFrequency();
+		}
+
+		if(headerText == "MD Class'"){
+			getMdClass();
+		}
+
+		if(headerText == "MD Name'"){
+			getMDName();
+		}
+
+		if(headerText == "Manager Name'"){
+			getManagerName();
+		}
+
+		if(headerText == "Medrep Name'"){
+			getMedrepName();
+		}
+
+        // if(jQuery.inArray("Item Name", sortUniqueValue) != -1){
+        //     getItemName();
+        // }
+
+        // if(jQuery.inArray("TC", sortUniqueValue) != -1){
+        // 	getTc();
+        // }
+
+        // if(jQuery.inArray("Specialty", sortUniqueValue) != -1){
+        // 	getSpecialty();
+        // }
+
+        // if(jQuery.inArray("Frequency", sortUniqueValue) != -1){
+        // 	getFrequency();
+        // }
+
+        // if(jQuery.inArray("MD Class", sortUniqueValue) != -1){
+        // 	getMdClass();
+        // }
+
+        // if(jQuery.inArray("MD Name", sortUniqueValue) != -1){
+        // 	getMDName();
+        // }
+
+        // if(jQuery.inArray("Manager Name", sortUniqueValue) != -1){
+        // 	getManagerName();
+        // }
+
+        // if(jQuery.inArray("Medrep Name", sortUniqueValue) != -1){
+        // 	getMedrepName();
+        // }
+
+        $('#subDataTable').modal("toggle");
+
     }
 
-    function getItem(){
+    function getItemName(){
         $.ajax({
             url : "{{ url('/getProduct') }}",
-            method : "GET"
+            method : "GET",
         }).done(function(response){
-            $.each(response, function(i, items){
-
-            });
+        	$('#toDivide').append(response);
+        	$('.itemName').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.itemName').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.itemName').prop('checked', false);
+        	});
         });
+    }
+
+    function getTc(){
+    	$.ajax({
+    		url : "{{ url('/getTc') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.className').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.className').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.className').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getSpecialty(){
+    	$.ajax({
+    		url : "{{ url('/getSpecialty') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.Specialty').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.Specialty').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.Specialty').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getFrequency(){
+    	$.ajax({
+    		url : "{{ url('/getFrequency') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.Frequency').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.Frequency').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.Frequency').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getMdClass(){
+    	$.ajax({
+    		url : "{{ url('/getMdClass') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.mdClass').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.mdClass').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.mdClass').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getMDName(){
+    	$.ajax({
+    		url : "{{ url('/getMDName') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.Name').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.Name').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.Name').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getManagerName(){
+    	$.ajax({
+    		url : "{{ url('/getManagerName') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.managerName').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.managerName').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.managerName').prop('checked', false);
+        	});
+    	});
+    }
+
+    function getMedrepName(){
+    	$.ajax({
+    		url : "{{ url('/getMedrepName') }}",
+    		method : "GET"
+    	}).done(function(response){
+    		$('#toDivide').append(response);
+    		$('.medrepName').prop('checked', 'true');
+        	$(document).on('click', '#check', function(){
+        		$('.medrepName').prop('checked', true);
+        	});
+        	$(document).on('click', '#uncheck', function(){
+        		$('.medrepName').prop('checked', false);
+        	});
+    	});
+    }
+
+    function toBuildDD(response){
+    	// $('#subDataTable').modal("toggle");
     }
 
 </script>

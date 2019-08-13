@@ -406,6 +406,7 @@
 		<script src="{{ asset('js/amcharts-animation.js') }}"></script>
 
 		<script src="{{ asset('js/datatables.min.js') }}"></script>
+		<script src="{{ asset('js/datatabletitle.js') }}"></script>
 		<script src="{{ asset('js/datatables.buttons.min.js') }}"></script>
 		<script src="{{ asset('js/datatables.buttons.flash.min.js') }}"></script>
 		<script src="{{ asset('js/datatables.jszip.min.js') }}"></script>

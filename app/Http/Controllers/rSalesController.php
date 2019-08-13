@@ -59,6 +59,34 @@ class rSalesController extends Controller
         return $query = rSalesModel::getProduct();
     }
 
+    public function getTc(){
+        return $query = rSalesModel::getTc();
+    }
+
+    public function getSpecialty(){
+        return $query = rSalesModel::getSpecialty();
+    }
+
+    public function getFrequency(){
+        return $query = rSalesModel::getFrequency();
+    }
+
+    public function getMdClass(){
+        return $query = rSalesModel::getMdClass();
+    }
+
+    public function getMDName(){
+        return $query = rSalesModel::getMDName();
+    }
+
+    public function getManagerName(){
+        return $query = rSalesModel::getManagerName();
+    }
+
+    public function getMedrepName(){
+        return $query = rSalesModel::getMedrepName();
+    }
+
     public function dataAnalysisQuery(Request $request){
         // return $request->all();
         return $query = rSalesModel::dataAnalysisQuery($request);
@@ -71,19 +99,19 @@ class rSalesController extends Controller
         // }
     }
 
-    public function fixData($data){
-        // return $data;
-        $fix = array();
-        foreach($data as $out){
-            array_push($fix, array(
-                'MD_ID' => $out->mdId,
-                // 'doctorName' => $out->doctorName,
-                'specialty' => $out->specialty,
-                // 'frequency' => $out->frequency,
-                // 'md_class' => $out->mdClass
-            ));
-        }
+    // public function fixData($data){
+    //     // return $data;
+    //     $fix = array();
+    //     foreach($data as $out){
+    //         array_push($fix, array(
+    //             'MD_ID' => $out->mdId,
+    //             // 'doctorName' => $out->doctorName,
+    //             'specialty' => $out->specialty,
+    //             // 'frequency' => $out->frequency,
+    //             // 'md_class' => $out->mdClass
+    //         ));
+    //     }
 
-        return $fix;
-    }
+    //     return $fix;
+    // }
 }
