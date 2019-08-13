@@ -12,21 +12,21 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Filter<br/>
-          <button type="button" class="btn btn-default" id="check">Check All</button>
-          <button type="button" class="btn btn-default" id="uncheck">Uncheck All</button></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-        <div class="container-fluid" id="toDivide">
+        <button type="button" class="btn btn-default" id="check">Check All</button>
+        <button type="button" class="btn btn-default" id="uncheck">Uncheck All</button></h5>
+        <button type="button" class="btn btn-primary" id="sortData">Filter</button>
+        <div class="container-fluid" id="toDivide" style="width: 100%; height: 450px; overflow-y: scroll; overflow-x: hidden">
           
         </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="sortData">Filter</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeModalSort">Close</button>
       </div>
     </div>
