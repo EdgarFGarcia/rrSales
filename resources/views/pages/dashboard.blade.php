@@ -107,7 +107,6 @@
     <!-- end: page -->
     @include('modals.dm')
     @include('modals.dm2')
-    @include('modals.selectionTable')
 </section>
 
 @endsection
