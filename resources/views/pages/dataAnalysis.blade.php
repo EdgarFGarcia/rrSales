@@ -372,6 +372,7 @@
            	var idIndex = 0;
            	
            	$('.sortAll').each(function(){
+
            		idIndex ++;
 
            		$(this).append("<button type='button' class='btn btn-link pull-right shadow-none' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
@@ -392,9 +393,16 @@
                     [ 25, 50, 50, -1 ],
                     [ '25 rows', '50 rows', '100 rows', 'Show all' ]
                 ],
-                pageLength : 25
-,                buttons: [
-                    'pageLength', 'csv'
+                pageLength : 25,
+                buttons: [
+                    'pageLength',{
+                        extend: 'csv',
+                        exportOptions: {
+                            modifier: {
+                              page: 'all'
+                            }
+                        },
+                    }
                 ],
                 data: data,
                 columns: my_columns,
@@ -629,10 +637,6 @@
         		$('.medrepName').prop('checked', false);
         	});
     	});
-    }
-
-    function toBuildDD(response){
-    	// $('#subDataTable').modal("toggle");
     }
 
 </script>
