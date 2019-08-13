@@ -349,8 +349,15 @@
                 scrollX: true,
                 pageLength : 25,
                 buttons: [
-                    'pageLength', 'csv'
-                ],
+                    'pageLength',{
+                        extend: 'csv',
+                        exportOptions: {
+                            modifier: {
+                              page: 'all'
+                            }
+                        },
+                    }
+                ],    
                 data: data,
                 columns: my_columns,
                 destroy : true,
