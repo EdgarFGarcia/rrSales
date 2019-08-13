@@ -347,6 +347,10 @@
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
+                lengthMenu: [
+                    [ 25, 50, 50, -1 ],
+                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
+                ],
                 pageLength : 25,
                 buttons: [
                     'pageLength',{
