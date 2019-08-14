@@ -21,6 +21,7 @@
         <button type="button" class="btn btn-default" id="check">Check All</button>
         <button type="button" class="btn btn-default" id="uncheck">Uncheck All</button></h5>
         <button type="button" class="btn btn-primary" id="sortData">Filter</button>
+        <center><img src="{{ asset('images/loading.gif') }}" id="loadingModal" class="hidden"/></center>
         <div class="container-fluid" id="toDivide" style="width: 100%; height: 450px; overflow-y: scroll; overflow-x: hidden">
           
         </div>

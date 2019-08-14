@@ -23,27 +23,27 @@
 					<ul class="nav nav-children">
 						<li>
 							<a href="{{ url('/updateMDC') }}">
-								 Update MDC Branch Table
+								<i class="fa fa-cog"></i> Update MDC Branch Table
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								 Update Territory Table
+								<i class="fa fa-code-fork"></i> Update Territory Table
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								 Update Doctor Table
+								<i class="fa fa-codepen"></i> Update Doctor Table
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								 Update Product Table
+								<i class="fa fa-columns"></i> Update Product Table
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								 Upload Monthly Data
+								<i class="fa fa-cogs"></i> Upload Monthly Data
 							</a>
 						</li>
 					</ul>

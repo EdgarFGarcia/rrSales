@@ -19,6 +19,7 @@
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.css') }}" />
 		<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/font-awesome.css') }}" />
+		<!-- <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}" /> -->
 		<link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}" />
 		<link rel="stylesheet" href="{{ asset('vendor/bootstrap-datepicker/css/datepicker3.css') }}" />
 
@@ -73,7 +74,7 @@
 			
 					<span class="separator"></span>
 			
-					<!-- <ul class="notifications">
+					<ul class="notifications">
 						<li>
 							<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
 								<i class="fa fa-tasks"></i>
@@ -138,7 +139,7 @@
 										<li>
 											<a href="#" class="clearfix">
 												<figure class="image">
-													<img src="assets/images/!sample-user.jpg" alt="Joseph Doe Junior" class="img-circle" />
+													<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Doe Junior" class="img-circle" />
 												</figure>
 												<span class="title">Joseph Doe</span>
 												<span class="message">Lorem ipsum dolor sit.</span>
@@ -147,7 +148,7 @@
 										<li>
 											<a href="#" class="clearfix">
 												<figure class="image">
-													<img src="assets/images/!sample-user.jpg" alt="Joseph Junior" class="img-circle" />
+													<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Junior" class="img-circle" />
 												</figure>
 												<span class="title">Joseph Junior</span>
 												<span class="message truncate">Truncated message. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac tincidunt. Quisque eget convallis diam, nec venenatis risus. Vestibulum blandit faucibus est et malesuada. Sed interdum cursus dui nec venenatis. Pellentesque non nisi lobortis, rutrum eros ut, convallis nisi. Sed tellus turpis, dignissim sit amet tristique quis, pretium id est. Sed aliquam diam diam, sit amet faucibus tellus ultricies eu. Aliquam lacinia nibh a metus bibendum, eu commodo eros commodo. Sed commodo molestie elit, a molestie lacus porttitor id. Donec facilisis varius sapien, ac fringilla velit porttitor et. Nam tincidunt gravida dui, sed pharetra odio pharetra nec. Duis consectetur venenatis pharetra. Vestibulum egestas nisi quis elementum elementum.</span>
@@ -156,7 +157,7 @@
 										<li>
 											<a href="#" class="clearfix">
 												<figure class="image">
-													<img src="assets/images/!sample-user.jpg" alt="Joe Junior" class="img-circle" />
+													<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joe Junior" class="img-circle" />
 												</figure>
 												<span class="title">Joe Junior</span>
 												<span class="message">Lorem ipsum dolor sit.</span>
@@ -165,7 +166,7 @@
 										<li>
 											<a href="#" class="clearfix">
 												<figure class="image">
-													<img src="assets/images/!sample-user.jpg" alt="Joseph Junior" class="img-circle" />
+													<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Junior" class="img-circle" />
 												</figure>
 												<span class="title">Joseph Junior</span>
 												<span class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet lacinia orci. Proin vestibulum eget risus non luctus. Nunc cursus lacinia lacinia. Nulla molestie malesuada est ac tincidunt. Quisque eget convallis diam.</span>
@@ -218,7 +219,7 @@
 												<div class="image">
 													<i class="fa fa-signal bg-success"></i>
 												</div>
-												<span class="title">Connection Restaured</span>
+												<span class="title">Connection</span>
 												<span class="message">10/10/2014</span>
 											</a>
 										</li>
@@ -232,14 +233,14 @@
 								</div>
 							</div>
 						</li>
-					</ul> -->
+					</ul>
 			
 					<span class="separator"></span>
 			
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
 							<figure class="profile-picture">
-								<!-- <img src="assets/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle" data-lock-picture="assets/images/!logged-user.jpg" /> -->
+								<img src="{{ asset('images/user.png') }}" alt="{{ Auth::user()->username }}" class="img-circle" data-lock-picture="{{ asset('images/user.png') }}" />
 							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="">
 								{{ Auth::user()->fullname }}
@@ -252,12 +253,12 @@
 						<div class="dropdown-menu">
 							<ul class="list-unstyled">
 								<li class="divider"></li>
-								<!-- <li>
-									<a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i> My Profile</a>
+								<li>
+									<a role="menuitem" tabindex="-1" href="#"><i class="fa fa-user"></i> My Profile</a>
 								</li>
 								<li>
 									<a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Lock Screen</a>
-								</li> -->
+								</li>
 								<li>
 									<a role="menuitem" tabindex="-1" href="{{ url('api/logout') }}"><i class="fa fa-power-off"></i> Logout</a>
 								</li>
@@ -318,7 +319,7 @@
 								<ul>
 									<li class="status-online">
 										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+											<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Doe" class="img-circle">
 										</figure>
 										<div class="profile-info">
 											<span class="name">Joseph Doe Junior</span>
@@ -327,7 +328,7 @@
 									</li>
 									<li class="status-online">
 										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+											<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Doe" class="img-circle">
 										</figure>
 										<div class="profile-info">
 											<span class="name">Joseph Doe Junior</span>
@@ -336,7 +337,7 @@
 									</li>
 									<li class="status-offline">
 										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+											<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Doe" class="img-circle">
 										</figure>
 										<div class="profile-info">
 											<span class="name">Joseph Doe Junior</span>
@@ -345,7 +346,7 @@
 									</li>
 									<li class="status-offline">
 										<figure class="profile-picture">
-											<img src="assets/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+											<img src="{{ asset('images/!sample-user.jpg') }}" alt="Joseph Doe" class="img-circle">
 										</figure>
 										<div class="profile-info">
 											<span class="name">Joseph Doe Junior</span>
@@ -365,6 +366,7 @@
 		<script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
 		<script src="{{ asset('vendor/jquery-browser-mobile/jquery.browser.mobile.js') }}"></script>
 		<script src="{{ asset('vendor/bootstrap/js/bootstrap.js') }}"></script>
+		<script src="{{ asset('js/fontawesome.min.js') }}"></script>
 		<script src="{{ asset('vendor/nanoscroller/nanoscroller.js') }}"></script>
 		<script src="{{ asset('vendor/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
 		<script src="{{ asset('vendor/magnific-popup/magnific-popup.js') }}"></script>
@@ -418,8 +420,8 @@
 		<script src="{{ asset('js/numerals.min.js') }}"></script>
 		<script src="{{ asset('js/underscore.min.js') }}"></script>
 
-		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
+    	<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 		
 		<!-- Theme Base, Components and Settings -->
 		<script src="{{ asset('javascripts/theme.js') }}"></script>

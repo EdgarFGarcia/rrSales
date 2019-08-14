@@ -83,7 +83,7 @@
 
                                 <select name="column" id="column" class="form-control">
 
-                                    <option value="0">SELECT</option>
+                                    <option value="">SELECT</option>
                                     <option value="SalesByRep.item_name">Product SKU</option>
                                     <option value="class">Therapeutic Category</option>
                                     <option value="Specialty">Specialty</option>
@@ -114,12 +114,9 @@
                     
                     <div class="col-lg-12 col-md-12" id="divTable">
 
-                        <!-- <label id="txcount"></label><br/>
-                        <label id="volume"></label><br/>
-                        <label id="value"></label> -->
-
                     	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
                     	</table>
+
                     </div>
             
                 </div>
@@ -155,7 +152,11 @@
         $(document).on('click', '#submit', function(){
             row = $('#row').val();
             column = $('#column').val();
-            toQuery(row, column);
+            if(row !== "" && column !== ""){
+                toQuery(row, column);
+            }else{
+                toastr.error("Row And Column should not be empty!");
+            }
         });
 
         $(document).on('click', '#closeModalSort', function(){
@@ -168,13 +169,11 @@
         	if(itemName){
         		var itemNames = [];
         		$.each($(".itemName:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                itemNames.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	itemNames.join('|'), true, false, true
 	            ).draw();
-	            // console.log(itemNames);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -182,13 +181,11 @@
         	if(tc){
         		var tcArr = [];
         		$.each($(".className:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                tcArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	tcArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(tcArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -196,13 +193,11 @@
         	if(Specialty){
         		var specArr = [];
         		$.each($(".Specialty:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                specArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	specArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(specArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -210,13 +205,11 @@
         	if(Frequency){
         		var frequencyArr = [];
         		$.each($(".Frequency:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                frequencyArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	frequencyArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(frequencyArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -224,13 +217,11 @@
         	if(mdClass){
         		var mdClassArr = [];
         		$.each($(".mdClass:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                mdClassArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	mdClassArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(mdClassArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -238,13 +229,11 @@
         	if(Name){
         		var NameArr = [];
         		$.each($(".mdClass:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                NameArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	NameArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(NameArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -258,7 +247,6 @@
 	            $('#displayTable').DataTable().search(
 	            	managerNameArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(managerNameArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -266,13 +254,11 @@
         	if(medrepName){
         		var medrepNameArr = [];
         		$.each($(".mdClass:checked"), function(){            
-	                // itemNames.push($(this).val());
 	                medrepNameArr.push('(?=.*' + $(this).val() + ')');
 	            });
 	            $('#displayTable').DataTable().search(
 	            	medrepNameArr.join('|'), true, false, true
 	            ).draw();
-	            // console.log(medrepNameArr);
 	            $('#subDataTable').modal("toggle");
         	}
 
@@ -311,7 +297,6 @@
         var tableFooter;
         dataToSortUnique = data;
 
-
         $.each(data[0], function(key, value){
             var my_items = {};
             my_items.mData = key;
@@ -324,7 +309,6 @@
         var totalCount = 0;
 
         for(var i = 0; i < data2.length; i++){
-            // console.log(data[i].Volume);
             totalVolume += parseInt(data2[i].Volume2);
             totalValue += parseInt(data2[i].Value2);
             totalCount += parseInt(data2[i].TxCount2);
@@ -382,11 +366,11 @@
            	
            	var idIndex = 0;
            	
-           	$('.sortAll').each(function(){
+           	$('.sortAll').each(function(index, item){
 
            		idIndex ++;
 
-           		$(this).append("<button type='button' class='btn btn-link pull-right shadow-none' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+           		$(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
 
            	});
 
@@ -431,18 +415,19 @@
             $('#txcounHeader').removeClass('sortAll');
 
             var idIndex = 0;
-           	
-           	$('.sortAll').each(function(){
+
+           	$('.sortAll').each(function(index, item){
 
            		idIndex ++;
 
-           		$(this).append("<button type='button' class='btn btn-link pull-right shadow-none' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+                $(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
 
            	});
 
             $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
             $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+
 
         }
 
@@ -454,35 +439,35 @@
     	var newId = id - 1;
 		var headerText = table.column( newId ).title();
 
-		if(headerText == "Item Name'"){
+		if(headerText == "Item Name"){
 			getItemName();
 		}
 
-		if(headerText == "TC'"){
+		if(headerText == "TC"){
 			getTc();
 		}
 
-		if(headerText == "Specialty'"){
+		if(headerText == "Specialty"){
 			getSpecialty();
 		}
 
-		if(headerText == "Frequency'"){
+		if(headerText == "Frequency"){
 			getFrequency();
 		}
 
-		if(headerText == "MD Class'"){
+		if(headerText == "MD Class"){
 			getMdClass();
 		}
 
-		if(headerText == "MD Name'"){
+		if(headerText == "MD Name"){
 			getMDName();
 		}
 
-		if(headerText == "Manager Name'"){
+		if(headerText == "Manager Name"){
 			getManagerName();
 		}
 
-		if(headerText == "Medrep Name'"){
+		if(headerText == "Medrep Name"){
 			getMedrepName();
 		}
 
@@ -526,7 +511,11 @@
         $.ajax({
             url : "{{ url('/getProduct') }}",
             method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
         }).done(function(response){
+            $('#loadingModal').addClass('hidden');
         	$('#toDivide').append(response);
         	$('.itemName').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -541,8 +530,12 @@
     function getTc(){
     	$.ajax({
     		url : "{{ url('/getTc') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.className').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -557,8 +550,12 @@
     function getSpecialty(){
     	$.ajax({
     		url : "{{ url('/getSpecialty') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.Specialty').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -573,8 +570,12 @@
     function getFrequency(){
     	$.ajax({
     		url : "{{ url('/getFrequency') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.Frequency').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -589,8 +590,12 @@
     function getMdClass(){
     	$.ajax({
     		url : "{{ url('/getMdClass') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.mdClass').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -605,8 +610,12 @@
     function getMDName(){
     	$.ajax({
     		url : "{{ url('/getMDName') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.Name').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -621,8 +630,12 @@
     function getManagerName(){
     	$.ajax({
     		url : "{{ url('/getManagerName') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.managerName').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
@@ -637,8 +650,12 @@
     function getMedrepName(){
     	$.ajax({
     		url : "{{ url('/getMedrepName') }}",
-    		method : "GET"
+    		method : "GET",
+            beforeSend : function(){
+                $('#loadingModal').removeClass('hidden');
+            }
     	}).done(function(response){
+            $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.medrepName').prop('checked', 'true');
         	$(document).on('click', '#check', function(){
