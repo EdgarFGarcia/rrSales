@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\rSalesModel;
-use DB;
 
 class rSalesController extends Controller
 {
@@ -88,30 +87,7 @@ class rSalesController extends Controller
     }
 
     public function dataAnalysisQuery(Request $request){
-        // return $request->all();
         return $query = rSalesModel::dataAnalysisQuery($request);
-        // if($query){
-        //     return response()->json([
-        //         'response' => true,
-        //         // 'header' => $query['header'],
-        //         'data'  => $query['data']
-        //     ]);
-        // }
     }
 
-    // public function fixData($data){
-    //     // return $data;
-    //     $fix = array();
-    //     foreach($data as $out){
-    //         array_push($fix, array(
-    //             'MD_ID' => $out->mdId,
-    //             // 'doctorName' => $out->doctorName,
-    //             'specialty' => $out->specialty,
-    //             // 'frequency' => $out->frequency,
-    //             // 'md_class' => $out->mdClass
-    //         ));
-    //     }
-
-    //     return $fix;
-    // }
 }

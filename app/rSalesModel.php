@@ -75,12 +75,12 @@ class rSalesModel extends Model
         return $query = DB::connection('raging')
         ->table('SalesByRep')
         ->select(
-            DB::raw("ISNULL('Doctor.MD Class', 'NOT MAPPED') as item_name"),
+            DB::raw("ISNULL([MD Class], 'NOT MAPPED') as item_name"),
             DB::raw("SUM(SalesByRep.Qty) as Volume"),
             DB::raw("SUM(SalesByRep.Amount) as Value")
         )
         ->join('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
-        ->groupBy('Doctor.MD Class')
+        ->groupBy('MD Class')
         ->get();
 
     }
