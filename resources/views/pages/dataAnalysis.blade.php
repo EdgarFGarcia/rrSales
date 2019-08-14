@@ -378,7 +378,10 @@
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
             $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
+            table.columns.adjust().draw();
+
         }else{
+
             // not initialized
             table = $('#displayTable').DataTable({
                 
@@ -409,7 +412,7 @@
             $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
             $('tr th').attr('class', 'sortAll');
-
+ 
             $('#valueHeader').removeClass('sortAll');
             $('#volumeHeader').removeClass('sortAll');
             $('#txcounHeader').removeClass('sortAll');
@@ -428,6 +431,7 @@
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
             $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
+            table.columns.adjust().draw();
 
         }
 
