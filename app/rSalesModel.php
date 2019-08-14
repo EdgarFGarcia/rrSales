@@ -233,7 +233,9 @@ class rSalesModel extends Model
         ->table('PRODUCT_TC')
         ->select(
             DB::raw("DISTINCT(item_name)")
-        )->get();
+        )
+        ->orderBy('item_name', 'asc')
+        ->get();
 
         $content = "";
 
@@ -242,7 +244,7 @@ class rSalesModel extends Model
 
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input itemName' value='".$out->item_name."'>".$out->item_name."
+                        <input type='checkbox' class='form-check-input itemName' value='".$out->item_name."'> ".$out->item_name."
                     </label>
                 </div>
 
@@ -258,7 +260,9 @@ class rSalesModel extends Model
         ->table('PRODUCT_TC')
         ->select(
             DB::raw("DISTINCT(class)")
-        )->get();
+        )
+        ->orderBy('class', 'asc')
+        ->get();
 
         $content = "";
 
@@ -266,7 +270,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input className' value='".$out->class."'>".$out->class."
+                        <input type='checkbox' class='form-check-input className' value='".$out->class."'> ".$out->class."
                     </label>
                 </div>
             ";
@@ -281,7 +285,9 @@ class rSalesModel extends Model
         ->table('Doctor')
         ->select(
             DB::raw("DISTINCT(Specialty)")
-        )->get();
+        )
+        ->orderBy('Specialty', 'asc')
+        ->get();
 
         $content = "";
 
@@ -289,7 +295,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input Specialty' value='".$out->Specialty."'>".$out->Specialty."
+                        <input type='checkbox' class='form-check-input Specialty' value='".$out->Specialty."'> ".$out->Specialty."
                     </label>
                 </div>
             ";
@@ -305,6 +311,7 @@ class rSalesModel extends Model
         ->select(
             DB::raw("DISTINCT(Frequency)")
         )
+        ->orderBy('Frequency', 'asc')
         ->get();
 
         $content = "";
@@ -313,7 +320,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input Frequency' value='".$out->Frequency."'>".$out->Frequency."
+                        <input type='checkbox' class='form-check-input Frequency' value='".$out->Frequency."'> ".$out->Frequency."
                     </label>
                 </div>
             ";
@@ -328,7 +335,9 @@ class rSalesModel extends Model
         ->table('Doctor')
         ->select(
             DB::raw("DISTINCT([MD Class]) as mdClass")
-        )->get();
+        )
+        ->orderBy('mdClass', 'asc')
+        ->get();
 
         $content = "";
 
@@ -336,7 +345,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input mdClass' value='".$out->mdClass."'>".$out->mdClass."
+                        <input type='checkbox' class='form-check-input mdClass' value='".$out->mdClass."'> ".$out->mdClass."
                     </label>
                 </div>
             ";
@@ -351,7 +360,9 @@ class rSalesModel extends Model
         ->table('SalesByRep')
         ->select(
             DB::raw("DISTINCT(Name)")
-        )->get();
+        )
+        ->orderBy('Name', 'asc')
+        ->get();
 
         $content = "";
 
@@ -359,7 +370,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input Name' value='".$out->Name."'>".$out->Name."
+                        <input type='checkbox' class='form-check-input Name' value='".$out->Name."'> ".$out->Name."
                     </label>
                 </div>
             ";
@@ -374,7 +385,9 @@ class rSalesModel extends Model
         ->table('Doctor')
         ->select(
             DB::raw("DISTINCT([Manager Name]) as managerName")
-        )->get();
+        )
+        ->orderBy('managerName', 'asc')
+        ->get();
 
         $content = "";
 
@@ -382,7 +395,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input managerName' value='".$out->managerName."'>".$out->managerName."
+                        <input type='checkbox' class='form-check-input managerName' value='".$out->managerName."'> ".$out->managerName."
                     </label>
                 </div>
             ";
@@ -397,7 +410,9 @@ class rSalesModel extends Model
         ->table('Doctor')
         ->select(
             DB::raw("DISTINCT([Medrep Name]) as medrepName")
-        )->get();
+        )
+        ->orderBy('medrepName', 'asc')
+        ->get();
 
         $content = "";
 
@@ -405,7 +420,7 @@ class rSalesModel extends Model
             $content .= "
                 <div class='form-check'>
                     <label class='form-check-label'>
-                        <input type='checkbox' class='form-check-input medrepName' value='".$out->medrepName."'>".$out->medrepName."
+                        <input type='checkbox' class='form-check-input medrepName' value='".$out->medrepName."'> ".$out->medrepName."
                     </label>
                 </div>
             ";
