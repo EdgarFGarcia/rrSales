@@ -63,7 +63,7 @@
 				<!-- start: search & user box -->
 				<div class="header-right">
 			
-					<form action="pages-search-results.html" class="search nav-form">
+					<form action="#" class="search nav-form">
 						<div class="input-group input-search">
 							<input type="text" class="form-control" name="q" id="q" placeholder="Search...">
 							<span class="input-group-btn">
@@ -308,7 +308,7 @@
 			
 								<ul>
 									<li>
-										<time datetime="2014-04-19T00:00+00:00">04/19/2014</time>
+										<time datetime=""><?php echo date('m-d-Y H:i:s');?></time>
 										<span>Company Meeting</span>
 									</li>
 								</ul>
