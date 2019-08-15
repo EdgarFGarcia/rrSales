@@ -166,6 +166,18 @@
         	$('#toDivide').html('');
         });
 
+        // $(document).on('click', '.sorting_desc', function(){
+        //     table.order.listener( '.sorting_desc', 0 );
+        // });
+
+        // $(document).on('click', '.sorting_asc', function(){
+        //     table.order.listener( '.sorting_asc', 0 );
+        // });
+
+        // $(document).on('click', '.sorting', function(){
+        //     table.order.listener( '.sorting', 0 );
+        // });
+
         $(document).on('click', '#sortData', function(){
 
         	var itemName = $('.itemName').is(':checked');
@@ -270,6 +282,7 @@
     });
 
     function toQuery(row, column){
+
         $.ajax({
             url : "{{ url('/dataAnalysisQuery') }}",
             method : "GET",
@@ -287,9 +300,10 @@
             drawTable(response.data, response.data2);
             // sortUniqueValue = response.toColumn;
         });
+
     }
 
-    function drawTable(data, data2){
+    function drawTable(data){
 
         $('#labelWarning').addClass("hidden");
         $('#loading').addClass("hidden");
@@ -312,9 +326,9 @@
         var totalCount = 0;
 
         for(var i = 0; i < data.length; i++){
-            totalVolume += parseInt(data[i].Volume);
-            totalValue += parseInt(data[i].Value);
-            totalCount += parseInt(data[i].TxCount);
+            totalVolume += parseInt(data[i].Volume.replace(",", ""));
+            totalValue += parseInt(data[i].Value.replace(",", ""));
+            totalCount += parseInt(data[i].TxCount.replace(",", ""));
         }
 
         totalFormatVolume = numeral(totalVolume).format('0,0');
@@ -346,20 +360,11 @@
                             csvmodal();
                         }
                     }
-                ],
-                // buttons: [
-                //     'pageLength',{
-                //         extend: 'csv',
-                //         exportOptions: {
-                //             modifier: {
-                //               page: 'all'
-                //             }
-                //         },
-                //     }
-                // ],    
+                ],   
                 data: data,
                 columns: my_columns,
-                destroy : true,
+                destroy : true
+
             });
 
             $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
@@ -374,7 +379,7 @@
             $('#valueHeader').removeClass('sortAll');
             $('#volumeHeader').removeClass('sortAll');
             $('#txcounHeader').removeClass('sortAll');
-           	
+
            	var idIndex = 0;
            	
            	$('.sortAll').each(function(index, item){
@@ -387,7 +392,7 @@
 
             $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");  
 
             table.columns.adjust().draw();
 
@@ -411,19 +416,10 @@
                         }
                     }
                 ],
-                // buttons: [
-                //     'pageLength',{
-                //         extend: 'csv',
-                //         exportOptions: {
-                //             modifier: {
-                //               page: 'all'
-                //             }
-                //         },
-                //     }
-                // ],
                 data: data,
                 columns: my_columns,
-                destroy : true,
+                destroy : true
+
             });
 
             $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
@@ -449,6 +445,8 @@
             $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
             $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+
+            // $('.mainTable').find('th').unbind('click.DT');
 
             table.columns.adjust().draw();
 
@@ -499,6 +497,7 @@
     }
 
     function getItemName(){
+
         $.ajax({
             url : "{{ url('/getProduct') }}",
             method : "GET",
@@ -516,9 +515,11 @@
         		$('.itemName').prop('checked', false);
         	});
         });
+
     }
 
     function getTc(){
+
     	$.ajax({
     		url : "{{ url('/getTc') }}",
     		method : "GET",
@@ -536,9 +537,11 @@
         		$('.className').prop('checked', false);
         	});
     	});
+
     }
 
     function getSpecialty(){
+
     	$.ajax({
     		url : "{{ url('/getSpecialty') }}",
     		method : "GET",
@@ -556,9 +559,11 @@
         		$('.Specialty').prop('checked', false);
         	});
     	});
+
     }
 
     function getFrequency(){
+
     	$.ajax({
     		url : "{{ url('/getFrequency') }}",
     		method : "GET",
@@ -576,9 +581,11 @@
         		$('.Frequency').prop('checked', false);
         	});
     	});
+
     }
 
     function getMdClass(){
+
     	$.ajax({
     		url : "{{ url('/getMdClass') }}",
     		method : "GET",
@@ -596,9 +603,11 @@
         		$('.mdClass').prop('checked', false);
         	});
     	});
+
     }
 
     function getMDName(){
+
     	$.ajax({
     		url : "{{ url('/getMDName') }}",
     		method : "GET",
@@ -616,9 +625,11 @@
         		$('.Name').prop('checked', false);
         	});
     	});
+
     }
 
     function getManagerName(){
+
     	$.ajax({
     		url : "{{ url('/getManagerName') }}",
     		method : "GET",
@@ -636,9 +647,11 @@
         		$('.managerName').prop('checked', false);
         	});
     	});
+
     }
 
     function getMedrepName(){
+
     	$.ajax({
     		url : "{{ url('/getMedrepName') }}",
     		method : "GET",
@@ -656,14 +669,18 @@
         		$('.medrepName').prop('checked', false);
         	});
     	});
+
     }
 
     function csvmodal(){
+
         $('#modalTableHolder').modal('toggle');
         toQueryModal(row, column);
+
     }
 
     function toQueryModal(row, column){
+
         $.ajax({
             url : "{{ url('/dataAnlaysisModal') }}",
             method : "GET",
@@ -680,9 +697,10 @@
             $('#modalDivTable').removeClass("hidden");
             drawTableModal(response.data, response.data2);
         });
+
     }
 
-    function drawTableModal(data, data2){
+    function drawTableModal(data){
 
         $('#modalTable').removeClass('hidden');
 
@@ -697,19 +715,19 @@
             my_columns.push(my_items);
         });
 
-        // var totalVolume = 0;
-        // var totalValue = 0;
-        // var totalCount = 0;
+        var totalVolume2 = 0;
+        var totalValue2 = 0;
+        var totalCount2 = 0;
 
-        // for(var i = 0; i < data2.length; i++){
-        //     totalVolume += parseInt(data2[i].Volume2);
-        //     totalValue += parseInt(data2[i].Value2);
-        //     totalCount += parseInt(data2[i].TxCount2);
-        // }
+        for(var i = 0; i < data.length; i++){
+            totalVolume2 += parseInt(data[i].Volume.replace(",", ""));
+            totalValue2 += parseInt(data[i].Value.replace(",", ""));
+            totalCount2 += parseInt(data[i].TxCount.replace(",", ""));
+        }
 
-        // totalFormatVolume = numeral(totalVolume).format('0,0');
-        // totalFormatValue = numeral(totalValue).format('0,0.0');
-        // totalFormatTxCount = numeral(totalCount).format('0,0');
+        totalFormatVolume2 = numeral(totalVolume2).format('0,0');
+        totalFormatValue2 = numeral(totalValue2).format('0,0.0');
+        totalFormatTxCount2 = numeral(totalCount2).format('0,0')
 
         if(table){
 
@@ -719,7 +737,7 @@
             */
 
             $('#modalDivTable').html("");
-            $('#modalDivTable').append($('<table>').attr('id', 'modalTable').css('width', '100%').addClass('display table table-striped table-bordered'));
+            $('#modalDivTable').append($('<table>').attr('id', 'modalTable').css('width', '100%').addClass('display table table-striped table-bordered modalTableTable'));
 
             tableModal = $('#modalTable').DataTable({
                 dom: 'Bfrtip',
@@ -729,14 +747,6 @@
                     [ '25 rows', '50 rows', '100 rows', 'Show all' ]
                 ],
                 pageLength : 25,
-                // buttons: [
-                //     'pageLength', {
-                //         text: 'CSV',
-                //         action : function(e, dt, node, config){
-                //             csvmodal();
-                //         }
-                //     }
-                // ],
                 buttons: [
                     'pageLength',{
                         text: 'Download',
@@ -753,32 +763,16 @@
                 destroy : true,
             });
 
-            // $('.modalTableTable tr th:nth-last-child(1)').attr('id', 'valueHeader2');
-            // $('.modalTableTable tr th:nth-last-child(2)').attr('id', 'volumeHeader2');
-            // $('.modalTableTable tr th:nth-last-child(3)').attr('id', 'txcounHeader2');
+            $('.modalTableTable tr th:nth-last-child(1)').attr('id', 'valueHeader2');
+            $('.modalTableTable tr th:nth-last-child(2)').attr('id', 'volumeHeader2');
+            $('.modalTableTable tr th:nth-last-child(3)').attr('id', 'txcounHeader2');
 
             // $('tr th').attr('id', 'sortAll');
             // $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
 
-            // $('.modalTableTable tr th').attr('class', 'sortAll');
-
-            // $('#valueHeader2').removeClass('sortAll');
-            // $('#volumeHeader2').removeClass('sortAll');
-            // $('#txcounHeader2').removeClass('sortAll');
-            
-            // var idIndex = 0;
-            
-            // $('.sortAll').each(function(index, item){
-
-            //     idIndex ++;
-
-            //     $(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
-
-            // });
-
-            // $('#valueHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            // $('#volumeHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            // $('#txcounHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('#valueHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatValue2 + "</span>");
+            $('#volumeHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume2 + "</span>");
+            $('#txcounHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount2 + "</span>");
 
             tableModal.columns.adjust().draw();
 
@@ -794,14 +788,6 @@
                     [ '25 rows', '50 rows', '100 rows', 'Show all' ]
                 ],
                 pageLength : 25,
-                // buttons: [
-                //     'pageLength', {
-                //         text: 'CSV',
-                //         action : function(e, dt, node, config){
-                //             csvmodal();
-                //         }
-                //     }
-                // ],
                 buttons: [
                     'pageLength', {
                         text: 'Download',
@@ -818,29 +804,16 @@
                 destroy : true,
             });
 
-            // $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
-            // $('.mainTable tr th:nth-last-child(2)').attr('id', 'volumeHeader');
-            // $('.mainTable tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+            $('.modalTableTable tr th:nth-last-child(1)').attr('id', 'valueHeader2');
+            $('.modalTableTable tr th:nth-last-child(2)').attr('id', 'volumeHeader2');
+            $('.modalTableTable tr th:nth-last-child(3)').attr('id', 'txcounHeader2');
 
-            // $('.mainTable tr th').attr('class', 'sortAll');
- 
-            // $('#valueHeader').removeClass('sortAll');
-            // $('#volumeHeader').removeClass('sortAll');
-            // $('#txcounHeader').removeClass('sortAll');
+            // $('tr th').attr('id', 'sortAll');
+            // $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
 
-            // var idIndex = 0;
-
-            // $('.sortAll').each(function(index, item){
-
-            //     idIndex ++;
-
-            //     $(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
-
-            // });
-
-            // $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
-            // $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            // $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+            $('#valueHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatValue2 + "</span>");
+            $('#volumeHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume2 + "</span>");
+            $('#txcounHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount2 + "</span>");
 
             tableModal.columns.adjust().draw();
 

@@ -147,7 +147,7 @@ class rSalesModel extends Model
         $toGroup = $data->row;
 
         $toSelect = $data->row;
-        $toSelect2 = $data->row;
+        // $toSelect2 = $data->row;
 
         $toColumns = $data->row;
         $toColumn = $data->row;
@@ -188,21 +188,19 @@ class rSalesModel extends Model
             }
         }
 
-        // $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
-        $count = DB::raw("CONVERT(INT, COUNT(*)) as TxCount");
-        $count2 = DB::raw("COUNT('*') as TxCount2");
+        $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
+        // $count = DB::raw("CONVERT(INT, COUNT(*)) as TxCount");
 
-        // $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
-        $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
-        $sumVolume2 = DB::raw("SUM(Qty) as Volume2");
+        $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
+        // $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
 
-        // $sumValue = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
-        $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
-        $sumValue2 = DB::raw("SUM(Amount) as Value2");
+        $sumValue2 = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+        // $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
+        $sumValue = DB::raw("convert(varchar, convert(money, SUM(Amount)), 1) as Value");
 
         array_push($toGroup, $column);
         array_push($toSelect, $column, $count, $sumVolume, $sumValue);
-        array_push($toSelect2, $column, $count2, $sumVolume2, $sumValue2);
+        // array_push($toSelect2, $column, $count2, $sumVolume2, $sumValue2);
         array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
@@ -223,6 +221,7 @@ class rSalesModel extends Model
     }
 
     public static function getProduct(){
+        
         $query = DB::connection('raging')
         ->table('PRODUCT_TC')
         ->select(
@@ -275,6 +274,7 @@ class rSalesModel extends Model
     }
 
     public static function getSpecialty(){
+
         $query = DB::connection('raging')
         ->table('Doctor')
         ->select(
@@ -300,6 +300,7 @@ class rSalesModel extends Model
     }
 
     public static function getFrequency(){
+
         $query = DB::connection('raging')
         ->table('Doctor')
         ->select(
@@ -325,6 +326,7 @@ class rSalesModel extends Model
     }
 
     public static function getMdClass(){
+
         $query = DB::connection('raging')
         ->table('Doctor')
         ->select(
@@ -350,6 +352,7 @@ class rSalesModel extends Model
     }
 
     public static function getMDName(){
+
         $query = DB::connection('raging')
         ->table('SalesByRep')
         ->select(
@@ -375,6 +378,7 @@ class rSalesModel extends Model
     }
 
     public static function getManagerName(){
+
         $query = DB::connection('raging')
         ->table('Doctor')
         ->select(
@@ -400,6 +404,7 @@ class rSalesModel extends Model
     }
 
     public static function getMedrepName(){
+
         $query = DB::connection('raging')
         ->table('Doctor')
         ->select(
