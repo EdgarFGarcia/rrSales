@@ -43,6 +43,7 @@ Route::group(['middleware' => ['preventbackhistory']], function () {
         Route::get('/getMDName', 'rSalesController@getMDName');
         Route::get('/getManagerName', 'rSalesController@getManagerName');
         Route::get('/getMedrepName', 'rSalesController@getMedrepName');
+        Route::get('/dataAnlaysisModal', 'rSalesController@dataAnlaysisModal');
         // Route::get('/test', 'rSalesController@test');
     });
 

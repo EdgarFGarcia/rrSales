@@ -90,4 +90,8 @@ class rSalesController extends Controller
         return $query = rSalesModel::dataAnalysisQuery($request);
     }
 
+    public function dataAnlaysisModal(Request $request){
+        return $query = rSalesModel::dataAnlaysisModal($request);
+    }
+
 }

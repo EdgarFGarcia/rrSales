@@ -114,7 +114,7 @@
                     
                     <div class="col-lg-12 col-md-12" id="divTable">
 
-                    	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden" cellspacing="0" width="100%">
+                    	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden mainTable" cellspacing="0" width="100%">
                     	</table>
 
                     </div>
@@ -125,6 +125,7 @@
     </div>
     <!-- end: page -->
     @include('modals.subDataTable')
+    @include('modals.csvdownload')
 </section>
 
 @endsection
@@ -141,6 +142,8 @@
     var totalFormatTxCount;
     var dataToSortUnique;
     var sortUniqueValue;
+
+    var tableModal;
 
     $(document).ready(function(){
 
@@ -281,12 +284,12 @@
                 $('#contentbody').addClass("hidden");
             }
         }).done(function(response){
-            drawTable(response.data, response.data2, response.totalTxCount, response.totalVolume, response.totalValue);
-            sortUniqueValue = response.toColumn;
+            drawTable(response.data, response.data2);
+            // sortUniqueValue = response.toColumn;
         });
     }
 
-    function drawTable(data, data2, txcounttotal, volumetotal, valuetotal){
+    function drawTable(data, data2){
 
         $('#labelWarning').addClass("hidden");
         $('#loading').addClass("hidden");
@@ -308,10 +311,10 @@
         var totalValue = 0;
         var totalCount = 0;
 
-        for(var i = 0; i < data2.length; i++){
-            totalVolume += parseInt(data2[i].Volume2);
-            totalValue += parseInt(data2[i].Value2);
-            totalCount += parseInt(data2[i].TxCount2);
+        for(var i = 0; i < data.length; i++){
+            totalVolume += parseInt(data[i].Volume);
+            totalValue += parseInt(data[i].Value);
+            totalCount += parseInt(data[i].TxCount);
         }
 
         totalFormatVolume = numeral(totalVolume).format('0,0');
@@ -326,7 +329,7 @@
             */
 
             $('#divTable').html("");
-            $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered'));
+            $('#divTable').append($('<table>').attr('id', 'displayTable').css('width', '100%').addClass('display table table-striped table-bordered mainTable'));
 
             table = $('#displayTable').DataTable({
                 dom: 'Bfrtip',
@@ -337,28 +340,36 @@
                 ],
                 pageLength : 25,
                 buttons: [
-                    'pageLength',{
-                        extend: 'csv',
-                        exportOptions: {
-                            modifier: {
-                              page: 'all'
-                            }
-                        },
+                    'pageLength', {
+                        text: 'CSV',
+                        action : function(e, dt, node, config){
+                            csvmodal();
+                        }
                     }
-                ],    
+                ],
+                // buttons: [
+                //     'pageLength',{
+                //         extend: 'csv',
+                //         exportOptions: {
+                //             modifier: {
+                //               page: 'all'
+                //             }
+                //         },
+                //     }
+                // ],    
                 data: data,
                 columns: my_columns,
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+            $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('.mainTable tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('.mainTable tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
             // $('tr th').attr('id', 'sortAll');
             // $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
 
-            $('tr th').attr('class', 'sortAll');
+            $('.mainTable tr th').attr('class', 'sortAll');
 
             $('#valueHeader').removeClass('sortAll');
             $('#volumeHeader').removeClass('sortAll');
@@ -393,25 +404,33 @@
                 ],
                 pageLength : 25,
                 buttons: [
-                    'pageLength',{
-                        extend: 'csv',
-                        exportOptions: {
-                            modifier: {
-                              page: 'all'
-                            }
-                        },
+                    'pageLength', {
+                        text: 'CSV',
+                        action : function(e, dt, node, config){
+                            csvmodal();
+                        }
                     }
                 ],
+                // buttons: [
+                //     'pageLength',{
+                //         extend: 'csv',
+                //         exportOptions: {
+                //             modifier: {
+                //               page: 'all'
+                //             }
+                //         },
+                //     }
+                // ],
                 data: data,
                 columns: my_columns,
                 destroy : true,
             });
 
-            $('tr th:nth-last-child(1)').attr('id', 'valueHeader');
-            $('tr th:nth-last-child(2)').attr('id', 'volumeHeader');
-            $('tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+            $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            $('.mainTable tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            $('.mainTable tr th:nth-last-child(3)').attr('id', 'txcounHeader');
 
-            $('tr th').attr('class', 'sortAll');
+            $('.mainTable tr th').attr('class', 'sortAll');
  
             $('#valueHeader').removeClass('sortAll');
             $('#volumeHeader').removeClass('sortAll');
@@ -474,38 +493,6 @@
 		if(headerText == "Medrep Name"){
 			getMedrepName();
 		}
-
-        // if(jQuery.inArray("Item Name", sortUniqueValue) != -1){
-        //     getItemName();
-        // }
-
-        // if(jQuery.inArray("TC", sortUniqueValue) != -1){
-        // 	getTc();
-        // }
-
-        // if(jQuery.inArray("Specialty", sortUniqueValue) != -1){
-        // 	getSpecialty();
-        // }
-
-        // if(jQuery.inArray("Frequency", sortUniqueValue) != -1){
-        // 	getFrequency();
-        // }
-
-        // if(jQuery.inArray("MD Class", sortUniqueValue) != -1){
-        // 	getMdClass();
-        // }
-
-        // if(jQuery.inArray("MD Name", sortUniqueValue) != -1){
-        // 	getMDName();
-        // }
-
-        // if(jQuery.inArray("Manager Name", sortUniqueValue) != -1){
-        // 	getManagerName();
-        // }
-
-        // if(jQuery.inArray("Medrep Name", sortUniqueValue) != -1){
-        // 	getMedrepName();
-        // }
 
         $('#subDataTable').modal("toggle");
 
@@ -669,6 +656,197 @@
         		$('.medrepName').prop('checked', false);
         	});
     	});
+    }
+
+    function csvmodal(){
+        $('#modalTableHolder').modal('toggle');
+        toQueryModal(row, column);
+    }
+
+    function toQueryModal(row, column){
+        $.ajax({
+            url : "{{ url('/dataAnlaysisModal') }}",
+            method : "GET",
+            data : {
+                row : row,
+                column : column
+            },
+            beforeSend : function(){
+                $('#modalLoading').removeClass("hidden");
+                $('#modalDivTable').addClass("hidden");
+            }
+        }).done(function(response){
+            $('#modalLoading').addClass("hidden");
+            $('#modalDivTable').removeClass("hidden");
+            drawTableModal(response.data, response.data2);
+        });
+    }
+
+    function drawTableModal(data, data2){
+
+        $('#modalTable').removeClass('hidden');
+
+        var my_columns = [];
+        var tableFooter;
+        dataToSortUnique = data;
+
+        $.each(data[0], function(key, value){
+            var my_items = {};
+            my_items.mData = key;
+            my_items.sTitle = key;
+            my_columns.push(my_items);
+        });
+
+        // var totalVolume = 0;
+        // var totalValue = 0;
+        // var totalCount = 0;
+
+        // for(var i = 0; i < data2.length; i++){
+        //     totalVolume += parseInt(data2[i].Volume2);
+        //     totalValue += parseInt(data2[i].Value2);
+        //     totalCount += parseInt(data2[i].TxCount2);
+        // }
+
+        // totalFormatVolume = numeral(totalVolume).format('0,0');
+        // totalFormatValue = numeral(totalValue).format('0,0.0');
+        // totalFormatTxCount = numeral(totalCount).format('0,0');
+
+        if(table){
+
+            /*
+                Destroy previous parent div of the table then build it in DOM
+                then feed datatable necessary values then initialize the datatables
+            */
+
+            $('#modalDivTable').html("");
+            $('#modalDivTable').append($('<table>').attr('id', 'modalTable').css('width', '100%').addClass('display table table-striped table-bordered'));
+
+            tableModal = $('#modalTable').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                lengthMenu: [
+                    [ 25, 50, 50, -1 ],
+                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
+                ],
+                pageLength : 25,
+                // buttons: [
+                //     'pageLength', {
+                //         text: 'CSV',
+                //         action : function(e, dt, node, config){
+                //             csvmodal();
+                //         }
+                //     }
+                // ],
+                buttons: [
+                    'pageLength',{
+                        text: 'Download',
+                        extend: 'csv',
+                        exportOptions: {
+                            modifier: {
+                              page: 'all'
+                            }
+                        },
+                    }
+                ],    
+                data: data,
+                columns: my_columns,
+                destroy : true,
+            });
+
+            // $('.modalTableTable tr th:nth-last-child(1)').attr('id', 'valueHeader2');
+            // $('.modalTableTable tr th:nth-last-child(2)').attr('id', 'volumeHeader2');
+            // $('.modalTableTable tr th:nth-last-child(3)').attr('id', 'txcounHeader2');
+
+            // $('tr th').attr('id', 'sortAll');
+            // $('#sortAll').append("<button type='button' class='btn btn-default pull-right' onclick='sortAll();'><i class='fa fa-search-plus' aria-hidden='true'></i></button>'");
+
+            // $('.modalTableTable tr th').attr('class', 'sortAll');
+
+            // $('#valueHeader2').removeClass('sortAll');
+            // $('#volumeHeader2').removeClass('sortAll');
+            // $('#txcounHeader2').removeClass('sortAll');
+            
+            // var idIndex = 0;
+            
+            // $('.sortAll').each(function(index, item){
+
+            //     idIndex ++;
+
+            //     $(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
+
+            // });
+
+            // $('#valueHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            // $('#volumeHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            // $('#txcounHeader2').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+
+            tableModal.columns.adjust().draw();
+
+        }else{
+
+            // not initialized
+            tableModal = $('#modalTable').DataTable({
+                
+                dom: 'Bfrtip',
+                scrollX: true,
+                lengthMenu: [
+                    [ 25, 50, 50, -1 ],
+                    [ '25 rows', '50 rows', '100 rows', 'Show all' ]
+                ],
+                pageLength : 25,
+                // buttons: [
+                //     'pageLength', {
+                //         text: 'CSV',
+                //         action : function(e, dt, node, config){
+                //             csvmodal();
+                //         }
+                //     }
+                // ],
+                buttons: [
+                    'pageLength', {
+                        text: 'Download',
+                        extend: 'csv',
+                        exportOptions: {
+                            modifier: {
+                              page: 'all'
+                            }
+                        },
+                    }
+                ],
+                data: data,
+                columns: my_columns,
+                destroy : true,
+            });
+
+            // $('.mainTable tr th:nth-last-child(1)').attr('id', 'valueHeader');
+            // $('.mainTable tr th:nth-last-child(2)').attr('id', 'volumeHeader');
+            // $('.mainTable tr th:nth-last-child(3)').attr('id', 'txcounHeader');
+
+            // $('.mainTable tr th').attr('class', 'sortAll');
+ 
+            // $('#valueHeader').removeClass('sortAll');
+            // $('#volumeHeader').removeClass('sortAll');
+            // $('#txcounHeader').removeClass('sortAll');
+
+            // var idIndex = 0;
+
+            // $('.sortAll').each(function(index, item){
+
+            //     idIndex ++;
+
+            //     $(item).append("<button type='button' class='btn btn-link pull-right' onclick='sortAll("+idIndex+");'><i class='fa fa-search-plus' aria-hidden='true'></i></button>");
+
+            // });
+
+            // $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
+            // $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
+            // $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+
+            tableModal.columns.adjust().draw();
+
+        }
+
+        
     }
 
 </script>

@@ -188,11 +188,16 @@ class rSalesModel extends Model
             }
         }
 
-        $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
+        // $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
+        $count = DB::raw("CONVERT(INT, COUNT(*)) as TxCount");
         $count2 = DB::raw("COUNT('*') as TxCount2");
-        $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
+
+        // $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
+        $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
         $sumVolume2 = DB::raw("SUM(Qty) as Volume2");
-        $sumValue = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+
+        // $sumValue = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+        $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
         $sumValue2 = DB::raw("SUM(Amount) as Value2");
 
         array_push($toGroup, $column);
@@ -210,19 +215,8 @@ class rSalesModel extends Model
         ->groupBy($toGroup)
         ->get();
 
-        $query2 = DB::connection('raging')
-        ->table('SalesByRep')
-        ->select(
-            $toSelect2
-        )
-        ->leftjoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
-        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
-        ->groupBy($toGroup)
-        ->get();
-
         return [
             'data' => $query,
-            'data2' => $query2,
             'toColumn' => $toColumn
         ];
 
@@ -428,6 +422,86 @@ class rSalesModel extends Model
 
         return $content;
 
+    }
+
+    public static function dataAnlaysisModal($data){
+
+        $toGroup = $data->row;
+
+        $toSelect = $data->row;
+        $toSelect2 = $data->row;
+
+        $toColumns = $data->row;
+        $toColumn = $data->row;
+        $column = $data->column;
+
+        $replacementsColumn = array(
+            'SalesByRep.item_name' => "Item Name",
+            'class' => "TC",
+            'Name' => "MD Name",
+            'item_name' => "Item Name",
+            'Date' => "Date",
+            'SalesByRep.Date' => "Year",
+            'SalesByRep.date' => "Quarter",
+            'SalesByRep.dAte' => "Month",
+            'SalesByRep.daTe' => "Week"
+        );
+
+        $replacements = array(
+            'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
+            'class' => DB::raw("class as [TC]"),
+            'Name' => DB::raw("Name as [MD Name]"),
+            'Date' => DB::raw("CONVERT(varchar, [Date], 107) as [Date]"),
+            'SalesByRep.Date' => DB::raw("DATEPART(year, [Date]) as [Year]"),
+            'SalesByRep.date' => DB::raw("DATEPART(quarter, [Date]) as [Quarter]"),
+            'SalesByRep.dAte' => DB::raw("DATEPART(month, [Date]) as [Month]"),
+            'SalesByRep.daTe' => DB::raw("DATEPART(week, [Date]) as [Week]")
+        );
+
+        foreach($toSelect as $key  => $value){
+            if(isset($replacements[$value])){
+                $toSelect[$key] = $replacements[$value];
+            }
+        }
+
+        foreach($toColumn as $key  => $value){
+            if(isset($replacements[$value])){
+                $toColumn[$key] = $replacementsColumn[$value];
+            }
+        }
+
+        // $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
+        $count = DB::raw("CONVERT(INT, COUNT(*)) as TxCount");
+        $count2 = DB::raw("COUNT('*') as TxCount2");
+
+        // $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
+        $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
+        $sumVolume2 = DB::raw("SUM(Qty) as Volume2");
+
+        // $sumValue = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+        $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
+        $sumValue2 = DB::raw("SUM(Amount) as Value2");
+
+        array_push($toGroup, $column);
+        array_push($toSelect, $column, $count, $sumVolume, $sumValue);
+        array_push($toSelect2, $column, $count2, $sumVolume2, $sumValue2);
+        array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
+
+        $query = DB::connection('raging')
+        ->table('SalesByRep')
+        ->select(
+            $toSelect
+        )
+        ->leftjoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
+        ->groupBy($toGroup)
+        ->get();
+
+        return [
+            'data' => $query,
+            'toColumn' => $toColumn
+        ];
+        
     }
 
 }

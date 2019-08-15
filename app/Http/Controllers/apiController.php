@@ -52,7 +52,7 @@ class apiController extends Controller
         ]);
 
         if(Auth::check()){
-            return redirect()->intended('/main');
+            return redirect()->intended('/dataAnalysis');
         }else{
             return redirect('/');
         }
