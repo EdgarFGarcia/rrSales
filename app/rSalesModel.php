@@ -194,7 +194,7 @@ class rSalesModel extends Model
         $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
         // $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
 
-        $sumValue2 = DB::raw("FORMAT(SUM(Amount), 'N2') as Value");
+        $sumValue2 = DB::raw("SUM(Amount) as Value2");
         // $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
         $sumValue = DB::raw("convert(varchar, convert(money, SUM(Amount)), 1) as Value");
 

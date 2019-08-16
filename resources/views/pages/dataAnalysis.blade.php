@@ -166,17 +166,17 @@
         	$('#toDivide').html('');
         });
 
-        // $(document).on('click', '.sorting_desc', function(){
-        //     table.order.listener( '.sorting_desc', 0 );
-        // });
+        $(document).on('click', '.sorting_desc', function(){
+            table.order.listener( '.sorting_desc', 0 );
+        });
 
-        // $(document).on('click', '.sorting_asc', function(){
-        //     table.order.listener( '.sorting_asc', 0 );
-        // });
+        $(document).on('click', '.sorting_asc', function(){
+            table.order.listener( '.sorting_asc', 0 );
+        });
 
-        // $(document).on('click', '.sorting', function(){
-        //     table.order.listener( '.sorting', 0 );
-        // });
+        $(document).on('click', '.sorting', function(){
+            table.order.listener( '.sorting', 0 );
+        });
 
         $(document).on('click', '#sortData', function(){
 
@@ -297,6 +297,7 @@
                 $('#contentbody').addClass("hidden");
             }
         }).done(function(response){
+            console.log(response);
             drawTable(response.data, response.data2);
             // sortUniqueValue = response.toColumn;
         });
@@ -392,7 +393,9 @@
 
             $('#valueHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatValue + "</span>");
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
-            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");  
+            $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
+
+            $('.mainTable').find('th').unbind('click.DT');
 
             table.columns.adjust().draw();
 
@@ -446,7 +449,7 @@
             $('#volumeHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatVolume + "</span>");
             $('#txcounHeader').append("<br/>" + "<span class='pull-right'>" + totalFormatTxCount + "</span>");
 
-            // $('.mainTable').find('th').unbind('click.DT');
+            $('.mainTable').find('th').unbind('click.DT');
 
             table.columns.adjust().draw();
 
