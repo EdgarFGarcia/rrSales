@@ -174,9 +174,9 @@
             table.order.listener( '.sorting_asc', 0 );
         });
 
-        $(document).on('click', '.sorting', function(){
-            table.order.listener( '.sorting', 0 );
-        });
+        // $(document).on('click', '.sorting', function(){
+        //     table.order.listener( '.sorting', 0 );
+        // });
 
         $(document).on('click', '#sortData', function(){
 
