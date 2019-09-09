@@ -434,16 +434,16 @@
 
 
 		<!-- Examples -->
-		<script src="{{ asset('javascripts/dashboard/examples.dashboard.js') }}"></script>
+		<!-- <script src="{{ asset('javascripts/dashboard/examples.dashboard.js') }}"></script> -->
 
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			$(document).on("load", function(){
 				$('#loadingMain').removeClass("hidden");
 			});
 			$(document).ready(function(){
 				$('#loadingMain').addClass("hidden");
 			});
-		</script>
+		</script> -->
 
 		@yield('scripts')
 	</body>

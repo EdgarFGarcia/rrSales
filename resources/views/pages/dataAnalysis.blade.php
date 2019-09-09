@@ -14,6 +14,11 @@
     .dataTables_filter {
 		display: none; 
 	}
+    #chartdiv {
+      width: 100%;
+      height: 400px;
+    }
+
 </style>
 <section role="main" class="content-body">
     <header class="page-header">
@@ -107,20 +112,36 @@
                                 <button type="button" id="submit" class="btn btn-info form-control">Submit</button>
 
                             </div>
-
                         </div>
-
                     </div>
-                    
+                </div>
+
+                <div class="panel-body">
                     <div class="col-lg-12 col-md-12" id="divTable">
 
-                    	<table id="displayTable" class="display table table-bordered table-striped table-hover hidden mainTable" cellspacing="0" width="100%">
-                    	</table>
+                        <ul class="nav nav-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home">Table</a></li>
+                          <li><a data-toggle="tab" href="#menu1">Graph</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div id="home" class="tab-pane fade in active">
+                            <table id="displayTable" class="display table table-bordered table-striped table-hover hidden mainTable" cellspacing="0" width="100%">
+                            </table>
+                          </div>
+                          <div id="menu1" class="tab-pane fade">
+                            <div id="chartdiv"></div>
+                          </div>
+                        </div>
+
+                        <!-- <table id="displayTable" class="display table table-bordered table-striped table-hover hidden mainTable" cellspacing="0" width="100%">
+                        </table> -->
 
                     </div>
-            
                 </div>
+
             </section>
+
         </div>
     </div>
     <!-- end: page -->
@@ -147,10 +168,61 @@
 
     $(document).ready(function(){
 
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+        // Add data
+        chart.data = [{
+          "country": "Lithuania",
+          "litres": 501.9
+        }, {
+          "country": "Czech Republic",
+          "litres": 301.9
+        }, {
+          "country": "Ireland",
+          "litres": 201.1
+        }, {
+          "country": "Germany",
+          "litres": 165.8
+        }, {
+          "country": "Australia",
+          "litres": 139.9
+        }, {
+          "country": "Austria",
+          "litres": 128.3
+        }, {
+          "country": "UK",
+          "litres": 99
+        }, {
+          "country": "Belgium",
+          "litres": 60
+        }, {
+          "country": "The Netherlands",
+          "litres": 50
+        }];
+
+        // Add and configure Series
+        var pieSeries = chart.series.push(new am4charts.PieSeries());
+        pieSeries.dataFields.value = "litres";
+        pieSeries.dataFields.category = "country";
+
+        // Let's cut a hole in our Pie chart the size of 40% the radius
+        chart.innerRadius = am4core.percent(40);
+
+        // Put a thick white border around each Slice
+        pieSeries.slices.template.stroke = am4core.color("#4a2abb");
+        pieSeries.slices.template.strokeWidth = 2;
+        pieSeries.slices.template.strokeOpacity = 1;
+
+
+        // Add a legend
+        chart.legend = new am4charts.Legend();
+
         // on load function
         $('#row').select2();
         $('#column').select2();
         $('#valvol').select2();
+        // $('#divTable').addClass("hidden");
 
         $(document).on('click', '#submit', function(){
             row = $('#row').val();
@@ -297,7 +369,6 @@
                 $('#contentbody').addClass("hidden");
             }
         }).done(function(response){
-            console.log(response);
             drawTable(response.data, response.data2);
             // sortUniqueValue = response.toColumn;
         });
@@ -316,10 +387,12 @@
         dataToSortUnique = data;
 
         $.each(data[0], function(key, value){
+
             var my_items = {};
             my_items.mData = key;
             my_items.sTitle = key;
             my_columns.push(my_items);
+
         });
 
         var totalVolume = 0;
@@ -327,9 +400,11 @@
         var totalCount = 0;
 
         for(var i = 0; i < data.length; i++){
+
             totalVolume += parseInt(data[i].Volume.replace(",", ""));
             totalValue += parseInt(data[i].Value.replace(",", ""));
             totalCount += parseInt(data[i].TxCount.replace(",", ""));
+
         }
 
         totalFormatVolume = numeral(totalVolume).format('0,0');
@@ -402,6 +477,7 @@
         }else{
 
             // not initialized
+            // first draw of table
             table = $('#displayTable').DataTable({
                 
                 dom: 'Bfrtip',
@@ -612,12 +688,15 @@
     function getMDName(){
 
     	$.ajax({
+
     		url : "{{ url('/getMDName') }}",
     		method : "GET",
             beforeSend : function(){
                 $('#loadingModal').removeClass('hidden');
             }
+
     	}).done(function(response){
+
             $('#loadingModal').addClass('hidden');
     		$('#toDivide').append(response);
     		$('.Name').prop('checked', 'true');
@@ -627,6 +706,7 @@
         	$(document).on('click', '#uncheck', function(){
         		$('.Name').prop('checked', false);
         	});
+
     	});
 
     }
@@ -712,10 +792,12 @@
         dataToSortUnique = data;
 
         $.each(data[0], function(key, value){
+
             var my_items = {};
             my_items.mData = key;
             my_items.sTitle = key;
             my_columns.push(my_items);
+
         });
 
         var totalVolume2 = 0;
@@ -723,9 +805,11 @@
         var totalCount2 = 0;
 
         for(var i = 0; i < data.length; i++){
+
             totalVolume2 += parseInt(data[i].Volume.replace(",", ""));
             totalValue2 += parseInt(data[i].Value.replace(",", ""));
             totalCount2 += parseInt(data[i].TxCount.replace(",", ""));
+
         }
 
         totalFormatVolume2 = numeral(totalVolume2).format('0,0');
@@ -753,6 +837,11 @@
                 buttons: [
                     'pageLength',{
                         text: 'Download',
+                        filename: function(){
+                            var d = new Date();
+                            var n = d.getTime();
+                            return 'DataAnalytics' + n;
+                        },
                         extend: 'csv',
                         exportOptions: {
                             modifier: {
@@ -782,6 +871,7 @@
         }else{
 
             // not initialized
+            // first draw of table
             tableModal = $('#modalTable').DataTable({
                 
                 dom: 'Bfrtip',
@@ -794,6 +884,11 @@
                 buttons: [
                     'pageLength', {
                         text: 'Download',
+                        filename: function(){
+                            var d = new Date();
+                            var n = d.getTime();
+                            return 'DataAnalytics' + n;
+                        },
                         extend: 'csv',
                         exportOptions: {
                             modifier: {

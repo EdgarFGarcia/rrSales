@@ -147,33 +147,32 @@ class rSalesModel extends Model
         $toGroup = $data->row;
 
         $toSelect = $data->row;
-        // $toSelect2 = $data->row;
 
         $toColumns = $data->row;
         $toColumn = $data->row;
         $column = $data->column;
 
         $replacementsColumn = array(
-            'SalesByRep.item_name' => "Item Name",
-            'class' => "TC",
-            'Name' => "MD Name",
-            'item_name' => "Item Name",
-            'Date' => "Date",
-            'SalesByRep.Date' => "Year",
-            'SalesByRep.date' => "Quarter",
-            'SalesByRep.dAte' => "Month",
-            'SalesByRep.daTe' => "Week"
+            'SalesByRep.item_name'      => "Item Name",
+            'class'                     => "TC",
+            'Name'                      => "MD Name",
+            'item_name'                 => "Item Name",
+            'Date'                      => "Date",
+            'SalesByRep.Date'           => "Year",
+            'SalesByRep.date'           => "Quarter",
+            'SalesByRep.dAte'           => "Month",
+            'SalesByRep.daTe'           => "Week"
         );
 
         $replacements = array(
-            'SalesByRep.item_name' => DB::raw("SalesByRep.item_name as [Item Name]"),
-            'class' => DB::raw("class as [TC]"),
-            'Name' => DB::raw("Name as [MD Name]"),
-            'Date' => DB::raw("CONVERT(varchar, [Date], 107) as [Date]"),
-            'SalesByRep.Date' => DB::raw("DATEPART(year, [Date]) as [Year]"),
-            'SalesByRep.date' => DB::raw("DATEPART(quarter, [Date]) as [Quarter]"),
-            'SalesByRep.dAte' => DB::raw("DATEPART(month, [Date]) as [Month]"),
-            'SalesByRep.daTe' => DB::raw("DATEPART(week, [Date]) as [Week]")
+            'SalesByRep.item_name'      => DB::raw("SalesByRep.item_name as [Item Name]"),
+            'class'                     => DB::raw("class as [TC]"),
+            'Name'                      => DB::raw("Name as [MD Name]"),
+            'Date'                      => DB::raw("CONVERT(varchar, [Date], 107) as [Date]"),
+            'SalesByRep.Date'           => DB::raw("DATEPART(year, [Date]) as [Year]"),
+            'SalesByRep.date'           => DB::raw("DATEPART(quarter, [Date]) as [Quarter]"),
+            'SalesByRep.dAte'           => DB::raw("DATEPART(month, [Date]) as [Month]"),
+            'SalesByRep.daTe'           => DB::raw("DATEPART(week, [Date]) as [Week]")
         );
 
         foreach($toSelect as $key  => $value){
@@ -189,19 +188,11 @@ class rSalesModel extends Model
         }
 
         $count = DB::raw("FORMAT(COUNT('*'), 'N0') as TxCount");
-        // $count = DB::raw("CONVERT(INT, COUNT(*)) as TxCount");
-
         $sumVolume = DB::raw("FORMAT(SUM(Qty), 'N0') as Volume");
-        // $sumVolume = DB::raw("CONVERT(INT, SUM(Qty)) as Volume");
-
-        $sumValue2 = DB::raw("SUM(Amount) as Value2");
-        // $sumValue = DB::raw("CONVERT(DECIMAL(16,2), SUM(Amount)) as Value");
         $sumValue = DB::raw("convert(varchar, convert(money, SUM(Amount)), 1) as Value");
 
         array_push($toGroup, $column);
         array_push($toSelect, $column, $count, $sumVolume, $sumValue);
-        // array_push($toSelect2, $column, $count2, $sumVolume2, $sumValue2);
-        array_push($toColumns, 'Column', 'Count', 'Volume', 'Value');
 
         $query = DB::connection('raging')
         ->table('SalesByRep')
@@ -209,13 +200,23 @@ class rSalesModel extends Model
             $toSelect
         )
         ->leftjoin('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
-        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
+        ->leftjoin('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
         ->groupBy($toGroup)
         ->get();
 
+        $columnQuery = DB::connection('raging')
+        ->table('SalesByRep')
+        ->select($column)
+        ->distinct($column)
+        ->join('Doctor', 'SalesByRep.MD ID', '=', 'Doctor.MD ID')
+        ->join('PRODUCT_TC', 'SalesByRep.item_code', '=', 'PRODUCT_TC.item_code')
+        ->groupBy($column)
+        ->get();
+        
         return [
             'data' => $query,
-            'toColumn' => $toColumn
+            'toColumn' => $toColumn,
+            'newColumn' => $columnQuery
         ];
 
     }
@@ -245,10 +246,10 @@ class rSalesModel extends Model
         }
 
         return $content;
-
     }
 
     public static function getTc(){
+        
         $query = DB::connection('raging')
         ->table('PRODUCT_TC')
         ->select(
